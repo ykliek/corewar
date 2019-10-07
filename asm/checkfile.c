@@ -3,19 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   checkfile.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/06 13:33:59 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/06 13:33:59 by marvin           ###   ########.fr       */
+/*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
+/*   Updated: 2019/10/07 18:26:10 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int		labcor(char c)
+void	ft_listadd(t_lab **lab, t_lab *page, t_asm *asem)
+{
+	if (!(*lab))
+	{
+		(*lab) = page;
+		asem->lab = (*lab);
+	}
+	else
+	{
+		while ((*lab)->next)
+			(*lab) = (*lab)->next;
+		(*lab)->next = page;
+		page->prev = (*lab);
+		page->next = NULL;
+	}
+}
+
+int		labcor(char c, char *s)
 {
 	int		i;
-	char	s[] = LABEL_CHARS;
 
 	i = 0;
 	while (s[i])
@@ -24,7 +40,7 @@ int		labcor(char c)
 			return (1);
 		i++;
 	}
-	retru (0);
+	return (0);
 }
 
 int		ft_comment(char *file, int i)
@@ -39,19 +55,19 @@ int		ft_comment(char *file, int i)
 
 void	initlab(t_lab *page)
 {
-	char		*label = NULL;
-	char		*oper = NULL;
-	int			arg1 = 0;
-	int			ar1t = 0;
-	int			arg2 = 0;
-	int			ar2t = 0;
-	int			arg3 = 0;
-	int			ar3t = 0;
-	void		*next  = NULL;
-	void		*prev = NULL;
+	page->label = NULL;
+	page->oper = NULL;
+	page->arg1 = 0;
+	page->ar1t = 0;
+	page->arg2 = 0;
+	page->ar2t = 0;
+	page->arg3 = 0;
+	page->ar3t = 0;
+	page->next = NULL;
+	page->prev = NULL;
 }
 
-void	checkfile(char *file, t_asm *asm, t_lab *lab)
+void	checkfile(char *file, t_asm *asem, t_lab *lab)
 {
 	int		i;
 	int		ln;
@@ -69,30 +85,30 @@ void	checkfile(char *file, t_asm *asm, t_lab *lab)
 		if (file[i] == '.')
 		{
 			if (file[i + 1] == 'n')
-				i = comcheck_name(asm, ln, file, i);
+				i = comcheck_name(asem, ln, file, i);
 			else if (file[i + 1] == 'c')
-				i = comcheck_com(asm, ln, file, i);
+				i = comcheck_com(asem, ln, file, i);
 			else
-				 errors(4, ln, asm);
+				errors(4, ln, asem);
 			f++;
 		}
 		else
 		{
 			if (f < 2)
-				errors(9, 0, asm);
+				errors(9, 0, asem);
 			j = i;
-			while(file[i] == ' ' || file[i] == '	')
+			while (file[i] == ' ' || file[i] == '	')
 				i++;
 			j = i;
-			while (labcor(file[j]) == 1)
+			while (labcor(file[j], LABEL_CHARS) == 1)
 				j++;
 			page = ft_memalloc(sizeof(t_lab));
 			initlab(page);
-			if(file[j] == LABEL_CHAR)
-				i = labcheck(file, i, asm, page);
+			if (file[j] == LABEL_CHAR)
+				i = labcheck(file, i, asem, page);
 			else
-				i = opercheck(file, i, asm, page);
-			ft_lstadd(lab, page);
+				i = opercheck(file, i, asem, page);
+			ft_listadd(&lab, page, asem);
 		}
 		if (file[i] == '\n')
 			ln++;

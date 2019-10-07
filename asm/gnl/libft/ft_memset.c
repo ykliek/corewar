@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   labelch.c                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:37:15 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:45:30 by ddodukal         ###   ########.fr       */
+/*   Created: 2018/10/25 18:05:55 by akhobta           #+#    #+#             */
+/*   Updated: 2019/10/07 16:11:52 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "Includes/libft.h"
 
-int		opercheck(char *file, int i, t_asm *asem, t_lab *page)
+void		*ft_memset(void *s, int c, size_t n)
 {
-	(void)file;
-	(void)asem;
-	(void)page;
-	return (i);
-}
+	size_t			i;
 
-int		labcheck(char *file, int i, t_asm *asem, t_lab *page)
-{
-	int		j;
-
-	j = 0;
-	while (file[i + j] != LABEL_CHAR)
-		j++;
-	ft_strncpy(page->label, &file[i], j);
-	i += (j + 1);
-	while (file[i] == ' ' || file[i] == '	')
-		i++;
-	i = opercheck(file, i, asem, page);
-	return (i);
+	i = 0;
+	if (n != 0)
+	{
+		while (i < n)
+		{
+			((unsigned char *)s)[i] = (unsigned char)c;
+			i++;
+		}
+	}
+	return (s);
 }

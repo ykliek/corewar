@@ -1,36 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   labelch.c                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:37:15 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:45:30 by ddodukal         ###   ########.fr       */
+/*   Created: 2018/10/25 17:40:47 by akhobta           #+#    #+#             */
+/*   Updated: 2019/10/07 16:12:11 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "Includes/libft.h"
 
-int		opercheck(char *file, int i, t_asm *asem, t_lab *page)
+void		ft_bzero(void *s, size_t n)
 {
-	(void)file;
-	(void)asem;
-	(void)page;
-	return (i);
-}
-
-int		labcheck(char *file, int i, t_asm *asem, t_lab *page)
-{
-	int		j;
-
-	j = 0;
-	while (file[i + j] != LABEL_CHAR)
-		j++;
-	ft_strncpy(page->label, &file[i], j);
-	i += (j + 1);
-	while (file[i] == ' ' || file[i] == '	')
-		i++;
-	i = opercheck(file, i, asem, page);
-	return (i);
+	ft_memset(s, '\0', n);
 }

@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   labelch.c                                          :+:      :+:    :+:   */
+/*   printf.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:37:15 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:45:30 by ddodukal         ###   ########.fr       */
+/*   Created: 2019/04/24 19:01:59 by ddodukal          #+#    #+#             */
+/*   Updated: 2019/10/07 16:15:08 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int		opercheck(char *file, int i, t_asm *asem, t_lab *page)
+int		ft_printf(const char *format, ...)
 {
-	(void)file;
-	(void)asem;
-	(void)page;
-	return (i);
-}
+	t_printf	*list;
+	va_list		ap;
+	int			n;
 
-int		labcheck(char *file, int i, t_asm *asem, t_lab *page)
-{
-	int		j;
-
-	j = 0;
-	while (file[i + j] != LABEL_CHAR)
-		j++;
-	ft_strncpy(page->label, &file[i], j);
-	i += (j + 1);
-	while (file[i] == ' ' || file[i] == '	')
-		i++;
-	i = opercheck(file, i, asem, page);
-	return (i);
+	list = (t_printf *)malloc(sizeof(t_printf));
+	va_start(ap, format);
+	n = ft_pf(&list, format, ap);
+	va_end(ap);
+	free(list);
+	return (n);
 }

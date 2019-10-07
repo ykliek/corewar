@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/06 12:22:36 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/06 12:22:36 by marvin           ###   ########.fr       */
+/*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
+/*   Updated: 2019/10/07 18:16:36 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char	*getfile(int fd, t_asm *asm)
+char	*getfile(int fd, t_asm *asem)
 {
 	int		r;
 	int		f;
@@ -22,52 +22,58 @@ char	*getfile(int fd, t_asm *asm)
 
 	f = 0;
 	l = 0;
+	file = NULL;
 	buff = ft_strnew(4);
 	while ((r = read(fd, buff, 4)))
 	{
 		if (r < 0)
-			errors(2, 0, asm);
-		if (f == 0)
-		{
-			file = ft_memalloc(sizeof(char) * l + 1);
-			file[l + 1] = '\0';
-			f = 1;
-		}
+			errors(2, 0, asem);
+		if (file)
+			file = ft_strjoin(file, buff);
 		else
-		{
-			file = ft_memalloc(sizeof(char) * l + 1);
-			file[l + 1] = '\0';
-		}
-		ft_stradd(file, buff);
-		ft_strclr(buff); //!!!
+			file = ft_strdup(buff);
+		ft_strclr(buff);
 	}
 	if (ft_strlen(file) == 0)
-		errors(3, 0, asm);
+		errors(3, 0, asem);
 	return (file);
 }
 
-void	checknen(char *s, t_asm *asm)
+void	checknen(char *s, t_asm *asem)
 {
 	int		i;
 
 	i = 0;
 	while (s[i])
 		i++;
-	if (s[i - 1] != '\n') //uchest comment? marker:\n# Конец файла(\n?)
-		errors(2, 0, asm);
+	if (s[i - 1] != '\n')
+	{
+		i--;
+		while (s[i] != '\n' && i >= 0)
+			i--;
+		if (i == 0)
+			errors(2, 0, asem);
+		i++;
+		while (s[i] && s[i] == ' ' | s[i] == '	' && s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR)
+			i++;
+		if (!s[i])
+			errors(2, 0, asem);
+		if (s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR)
+			errors(2, 0, asem);
+	}
 }
 
-void    valid(t_asm *asm, t_lab *lab)
+void	valid(t_asm *asem, t_lab *lab)
 {
 	int		fd;
 	char	*file;
 
-	fd = open(asm->name_s, O_RDONLY);
+	fd = open(asem->name_s, O_RDONLY);
 	if (fd <= 0)
-		errors(2, 0, asm);
-	file = getfile(fd, asm);
+		errors(2, 0, asem);
+	file = getfile(fd, asem);
 	if (close(fd) < 0)
-		errors(2, 0, asm);
-	checknen(file, asm);
-	 checkfile(file, asm, lab);
+		errors(2, 0, asem);
+	checknen(file, asem);
+	checkfile(file, asem, lab);
 }

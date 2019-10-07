@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   labelch.c                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:37:15 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:45:30 by ddodukal         ###   ########.fr       */
+/*   Created: 2018/11/13 13:35:34 by ddodukal          #+#    #+#             */
+/*   Updated: 2019/07/30 13:57:40 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int		opercheck(char *file, int i, t_asm *asem, t_lab *page)
-{
-	(void)file;
-	(void)asem;
-	(void)page;
-	return (i);
-}
+# define BUFF_SIZE 1
 
-int		labcheck(char *file, int i, t_asm *asem, t_lab *page)
-{
-	int		j;
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include "libft/Includes/libft.h"
 
-	j = 0;
-	while (file[i + j] != LABEL_CHAR)
-		j++;
-	ft_strncpy(page->label, &file[i], j);
-	i += (j + 1);
-	while (file[i] == ' ' || file[i] == '	')
-		i++;
-	i = opercheck(file, i, asem, page);
-	return (i);
-}
+int		get_next_line(const int fd, char **line);
+
+#endif
