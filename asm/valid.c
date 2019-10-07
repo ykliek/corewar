@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 18:16:36 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/07 19:26:14 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	checknen(char *s, t_asm *asem)
 		if (i == 0)
 			errors(2, 0, asem);
 		i++;
-		while (s[i] && s[i] == ' ' | s[i] == '	' && s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR)
+		while (s[i] && s[i] == ' ' | s[i] == '	'
+		&& s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR)
 			i++;
 		if (!s[i])
 			errors(2, 0, asem);

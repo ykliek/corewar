@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:47:43 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/07 19:46:22 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void			valid(t_asm *asem, t_lab *lab);
 int				labcheck(char *file, int i, t_asm *asem, t_lab *page);
 int				opercheck(char *file, int i, t_asm *asem, t_lab *page);
 void			chistim(t_asm *asem);
+void			ft_listadd(t_lab **lab, t_lab *page, t_asm *asem);
 
 #endif

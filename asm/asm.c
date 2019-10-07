@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 17:53:44 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/07 19:38:27 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,23 @@ void	init(t_asm *asem)
 	i = 0;
 	asem->champ_name = ft_strnew(PROG_NAME_LENGTH);
 	asem->champ_com = ft_strnew(COMMENT_LENGTH);
-	asem->opers = ft_memalloc(sizeof(char) * 16);
-	while (i < 16)
-	{
-		i++;
-	}
+	asem->opers = ft_memalloc(sizeof(char*) * 16);
+	asem->opers[0] = "live";
+	asem->opers[1] = "ld";
+	asem->opers[2] = "st";
+	asem->opers[3] = "add";
+	asem->opers[4] = "sub";
+	asem->opers[5] = "and";
+	asem->opers[6] = "or";
+	asem->opers[7] = "xor";
+	asem->opers[8] = "zjmp";
+	asem->opers[9] = "ldi";
+	asem->opers[10] = "sti";
+	asem->opers[11] = "fork";
+	asem->opers[12] = "lld";
+	asem->opers[13] = "lldi";
+	asem->opers[14] = "lfork";
+	asem->opers[15] = "aff";
 }
 
 void	chistim(t_asm *asem)
