@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 19:44:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:45:17 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:40:30 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_comment(char *file, int i)
 {
 	if (file[i] == COMMENT_CHAR || file[i] == ALT_COMMENT_CHAR)
 	{
-		while (file[i] != '\n')
+		while (file[i] && file[i] != '\n')
 			i++;
 	}
 	return (i);

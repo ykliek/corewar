@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:26:14 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:37:30 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	checknen(char *s, t_asm *asem)
 	}
 }
 
-void	valid(t_asm *asem, t_lab *lab)
+void	valid(t_asm *asem, t_lab **lab)
 {
 	int		fd;
 	char	*file;

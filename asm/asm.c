@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:38:27 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:43:56 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,22 @@ void	init(t_asm *asem)
 	i = 0;
 	asem->champ_name = ft_strnew(PROG_NAME_LENGTH);
 	asem->champ_com = ft_strnew(COMMENT_LENGTH);
+	asem->ln = 1;
 	asem->opers = ft_memalloc(sizeof(char*) * 16);
-	asem->opers[0] = "live";
-	asem->opers[1] = "ld";
-	asem->opers[2] = "st";
-	asem->opers[3] = "add";
-	asem->opers[4] = "sub";
-	asem->opers[5] = "and";
-	asem->opers[6] = "or";
-	asem->opers[7] = "xor";
-	asem->opers[8] = "zjmp";
-	asem->opers[9] = "ldi";
-	asem->opers[10] = "sti";
-	asem->opers[11] = "fork";
-	asem->opers[12] = "lld";
-	asem->opers[13] = "lldi";
+	asem->opers[0] = "ldi";
+	asem->opers[1] = "sti";
+	asem->opers[2] = "lldi";
+	asem->opers[3] = "live";
+	asem->opers[4] = "ld";
+	asem->opers[5] = "st";
+	asem->opers[6] = "add";
+	asem->opers[7] = "sub";
+	asem->opers[8] = "and";
+	asem->opers[9] = "or";
+	asem->opers[10] = "xor";
+	asem->opers[11] = "zjmp";
+	asem->opers[12] = "fork";
+	asem->opers[13] = "lld";
 	asem->opers[14] = "lfork";
 	asem->opers[15] = "aff";
 }
@@ -86,7 +87,20 @@ int		main(int ac, char **av)
 		if (fnameval(av[1], asem) == 0)
 			errors(1, 0, asem);
 		asem->name_s = ft_strdup(av[1]);
-		valid(asem, lab);
+		valid(asem, &lab);
+		int n;
+		n = 0;
+		while (lab->prev)
+			lab = lab->prev;
+		while (lab->next)
+		{
+			printf("LIST %d\n", n);
+			printf("%s\n%s\n%s %d\n%s %d\n%s %d\n", lab->label, lab->oper, lab->args[0], lab->art[0], lab->args[1], lab->art[1], lab->args[2], lab->art[2]);
+			lab = lab->next;
+			n++;
+		}
+		printf("LIST %d\n", n);
+		printf("%s\n%s\n%s %d\n%s %d\n%s %d\n", lab->label, lab->oper, lab->args[0], lab->art[0], lab->args[1], lab->art[1], lab->args[2], lab->art[2]);
 		ft_printf("Writing output program to %s\n", asem->name_cor);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:46:22 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:04:45 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,8 @@ typedef struct	s_lab
 {
 	char		*label;
 	char		*oper;
-	int			arg1;
-	int			ar1t;
-	int			arg2;
-	int			ar2t;
-	int			arg3;
-	int			ar3t;
+	char		**args;
+	int			art[3]; //arg type 1 - reg, 2 - dir, 3 - ind
 	void		*next;
 	void		*prev;
 }				t_lab;
@@ -45,16 +41,17 @@ typedef struct	s_asm
 	char		*champ_name;
 	char		*champ_com;
 	char		**opers;
+	int			ln;
 	t_lab		*lab;
 }				t_asm;
 
 void			errors(int n, int ln, t_asm *asem);
 void			flags(int n, char **s);
-int				comcheck_com(t_asm *asem, int ln, char *file, int i);
-int				comcheck_name(t_asm *asem, int ln, char *file, int i);
+int				comcheck_com(t_asm *asem, char *file, int i);
+int				comcheck_name(t_asm *asem, char *file, int i);
 int				ft_comment(char *file, int i);
-void			checkfile(char *file, t_asm *asem, t_lab *lab);
-void			valid(t_asm *asem, t_lab *lab);
+void			checkfile(char *file, t_asm *asem, t_lab **lab);
+void			valid(t_asm *asem, t_lab **lab);
 int				labcheck(char *file, int i, t_asm *asem, t_lab *page);
 int				opercheck(char *file, int i, t_asm *asem, t_lab *page);
 void			chistim(t_asm *asem);
