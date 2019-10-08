@@ -14,28 +14,29 @@
 
 /*
 ** TODO: create flags handler
-** BODY: flag [-n [number]] Add serial number to players that have this flag and
+** 	BODY: flag [-n [number]] Add serial number to players that have this flag and
 ** 			add a serial number that are not used to another players.
 */
 
 /*
 ** TODO: validation: serial numbers
-** BODY: players must have unique serial number.
+** 	BODY: players must have unique serial number.
 */
 
 /*
 ** TODO: validation: size of executable code
-** BODY: Size of executable code must be less than 682 bytes if file didn't send
- * 			CHAMP_MAX_SIZE.
+** 		BODY: Size of executable code must be less than 682 bytes if file didn't send
+** 			CHAMP_MAX_SIZE.
 */
 
 /*
 ** TODO: parse values from champion .cor file
-** BODY: - unique identification number;
-** 		 - name of champion;
-** 		 - comment of champion;
-** 		 - size of executable code in bytes;
-** 		 - executable code.
+** 	BODY:
+ * 		- unique identification number;
+** 		- name of champion;
+** 		- comment of champion;
+** 		- size of executable code in bytes;
+** 		- executable code.
 */
 
 /*
@@ -46,5 +47,6 @@
 
 int		main(int argc, char **argv)
 {
-
+	ft_printf("Hi\n");
+	return (0);
 }
