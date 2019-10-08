@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/01 14:35:29 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 14:35:30 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
+{
+	int		count;
+	char	*sub;
 
-#endif
+	sub = (char *)malloc(len + 1);
+	if (!sub)
+		return (0);
+	count = 0;
+	if (s)
+	{
+		while (count < (int)len)
+		{
+			sub[count] = s[start];
+			count++;
+			start++;
+		}
+		sub[count] = '\0';
+		return (sub);
+	}
+	return (0);
+}

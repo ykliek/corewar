@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/01 14:10:16 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 14:10:17 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+int		ft_strnequ(char const *s1, char const *s2, size_t n)
+{
+	int count;
+	int	count_1;
 
-#endif
+	count = 0;
+	count_1 = 0;
+	if (s1 && s2)
+	{
+		while (count != (int)n)
+		{
+			if (*s1++ == *s2++)
+				count_1++;
+			else
+				return (0);
+			count++;
+		}
+	}
+	if (count_1 == (int)n)
+		return (1);
+	return (0);
+}

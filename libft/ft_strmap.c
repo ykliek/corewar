@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/30 16:29:27 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/30 16:29:28 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+char	*ft_strmap(char const *s, char (*f)(char))
+{
+	char	*str;
+	int		count;
 
-#endif
+	if (s && f)
+	{
+		str = (char *)malloc(ft_strlen((char *)s) + 1);
+		if (!str)
+			return (NULL);
+		count = 0;
+		while (s[count] != '\0')
+		{
+			str[count] = f(s[count]);
+			count++;
+		}
+		str[count] = '\0';
+		return (str);
+	}
+	else
+		return (0);
+}
