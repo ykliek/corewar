@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:40:51 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:19:36 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	errors(int n, int ln, t_asm *asem)
 		ft_printf("TOO LONG CHAMP NAME! LINE: %d!\n", ln);
 	if (n == 11)
 		ft_printf("TOO LONG CHAMP COMM! LINE: %d!\n", ln);
-	chistim(asem);
+	chistim(asem, asem->lab);
 	exit(0);
 }
 

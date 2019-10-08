@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 16:16:23 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:09:34 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 		if (file[i] == '\n')
 			asem->ln++;
 	}
+	ft_strdel(&file);
 }

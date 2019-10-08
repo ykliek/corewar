@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 15:43:56 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:21:01 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,49 @@ void	init(t_asm *asem)
 	asem->opers[15] = "aff";
 }
 
-void	chistim(t_asm *asem)
+void	chistim2(t_lab *lab)
 {
-	(void)asem;
+	t_lab	*tmp;
+	int		i;
+
+	while (lab)
+	{
+		ft_strdel(&(lab->label));
+		ft_strdel(&(lab->oper));
+		i = 0;
+		while (i < 3)
+		{
+			ft_strdel(&(lab->args[i]));
+			i++;
+		}
+		free(lab->art);
+		tmp = lab;
+		lab = lab->next;
+		free(tmp);
+	}
+}
+
+void	chistim(t_asm *asem, t_lab *lab)
+{
+	int		i;
+
+	if (asem)
+	{
+		ft_strdel(&(asem->name_s));
+		ft_strdel(&(asem->name_cor));
+		ft_strdel(&(asem->champ_com));
+		ft_strdel(&(asem->champ_name));
+		i = 0;
+		while (i < 16)
+		{
+			ft_strdel(&(asem->opers[i]));
+			i++;
+		}
+		free(asem->opers);
+		free(asem);
+	}
+	if (lab)
+		chistim2(lab);
 }
 
 int		main(int ac, char **av)
@@ -88,19 +128,6 @@ int		main(int ac, char **av)
 			errors(1, 0, asem);
 		asem->name_s = ft_strdup(av[1]);
 		valid(asem, &lab);
-		int n;
-		n = 0;
-		while (lab->prev)
-			lab = lab->prev;
-		while (lab->next)
-		{
-			printf("LIST %d\n", n);
-			printf("%s\n%s\n%s %d\n%s %d\n%s %d\n", lab->label, lab->oper, lab->args[0], lab->art[0], lab->args[1], lab->art[1], lab->args[2], lab->art[2]);
-			lab = lab->next;
-			n++;
-		}
-		printf("LIST %d\n", n);
-		printf("%s\n%s\n%s %d\n%s %d\n%s %d\n", lab->label, lab->oper, lab->args[0], lab->art[0], lab->args[1], lab->art[1], lab->args[2], lab->art[2]);
 		ft_printf("Writing output program to %s\n", asem->name_cor);
 	}
 	return (0);
