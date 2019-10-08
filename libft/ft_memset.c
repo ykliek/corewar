@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/25 16:12:01 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/25 16:57:34 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+void	*ft_memset(void *b, int c, size_t len)
+{
+	char	*str;
+	int		count;
+	int		num;
 
-#endif
+	num = (int)len;
+	str = (char*)b;
+	count = 0;
+	while (count < num)
+	{
+		str[count] = c;
+		count++;
+	}
+	b = str;
+	return (b);
+}

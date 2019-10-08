@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/05 20:40:26 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/05 20:40:27 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
+{
+	t_list *new;
 
-#endif
+	if (lst && f)
+	{
+		new = lst;
+		while (new != NULL)
+		{
+			f(new);
+			new = new->next;
+		}
+	}
+}

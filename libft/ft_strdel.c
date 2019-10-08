@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/30 13:40:53 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/30 13:40:54 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
-
-#endif
+void	ft_strdel(char **as)
+{
+	if (as)
+	{
+		free(*as);
+		*as = NULL;
+	}
+}

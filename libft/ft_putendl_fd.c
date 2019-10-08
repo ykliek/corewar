@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/01 12:44:49 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 12:44:51 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+void	ft_putendl_fd(char const *s, int fd)
+{
+	int		count;
 
-#endif
+	count = 0;
+	if (s)
+	{
+		while (s[count] != '\0')
+		{
+			ft_putchar_fd(s[count], fd);
+			count++;
+		}
+		ft_putchar_fd('\n', fd);
+	}
+}

@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/27 18:25:06 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/27 18:25:08 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+char	*ft_strrchr(const char *s, int c)
+{
+	char	*str;
 
-#endif
+	str = (char *)s;
+	while (*str)
+		str++;
+	while (*str != c)
+	{
+		if (*str == s[0])
+			return (NULL);
+		str--;
+	}
+	return (str);
+}

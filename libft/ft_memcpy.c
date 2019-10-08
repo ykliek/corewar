@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/25 18:40:55 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/25 18:40:57 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+void	*ft_memcpy(void *destination, const void *source, size_t n)
+{
+	int				count;
+	unsigned char	*dest;
+	unsigned char	*src;
 
-#endif
+	dest = destination;
+	src = (unsigned char*)source;
+	count = 0;
+	while (count < (int)n)
+	{
+		*dest++ = *src++;
+		count++;
+	}
+	return (destination);
+}

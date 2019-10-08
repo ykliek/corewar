@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/30 14:50:41 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/30 14:50:43 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	unsigned int		index_1;
+	unsigned int		index_2;
 
-#endif
+	index_1 = 0;
+	index_2 = 0;
+	if (s && f != NULL)
+	{
+		index_2 = ft_strlen(s);
+		while (index_1 < index_2)
+		{
+			f(index_1, s);
+			s++;
+			index_1++;
+		}
+	}
+}

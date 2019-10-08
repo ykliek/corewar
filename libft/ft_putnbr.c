@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/01 12:08:05 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 12:08:06 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
-
-#endif
+void	ft_putnbr(int n)
+{
+	if (n < -9 || n > 9)
+		ft_putnbr(n / 10);
+	if (n < 0)
+	{
+		if (n >= -9)
+			ft_putchar('-');
+		ft_putchar('0' - (n % 10));
+	}
+	else
+		ft_putchar('0' + (n % 10));
+}

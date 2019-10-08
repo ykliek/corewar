@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   virtual_machine.h                                  :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 12:14:17 by ykliek            #+#    #+#             */
-/*   Updated: 2019/10/08 12:14:19 by ykliek           ###   ########.fr       */
+/*   Created: 2018/10/26 14:15:35 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/26 15:40:14 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VIRTUAL_MACHINE_H
-# define VIRTUAL_MACHINE_H
+#include "libft.h"
 
-# define MAX_PLAYERS 4;
+char	*ft_strncpy(char *dst, const char *src, size_t len)
+{
+	size_t	count;
+	char	*s2;
 
-#endif
+	s2 = (char *)dst;
+	count = len;
+	while (*src && len--)
+		*dst++ = *src++;
+	if (len <= count)
+		ft_bzero(dst, len);
+	return (s2);
+}
