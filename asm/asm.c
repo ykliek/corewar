@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 17:21:01 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:10:16 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	init(t_asm *asem)
 	asem->champ_name = ft_strnew(PROG_NAME_LENGTH);
 	asem->champ_com = ft_strnew(COMMENT_LENGTH);
 	asem->ln = 1;
+	asem->magic = ft_itoa(COREWAR_EXEC_MAGIC);
 	asem->opers = ft_memalloc(sizeof(char*) * 16);
 	asem->opers[0] = "ldi";
 	asem->opers[1] = "sti";
@@ -111,6 +112,7 @@ int		main(int ac, char **av)
 {
 	t_asm	*asem;
 	t_lab	*lab;
+	int		fd;
 
 	lab = NULL;
 	if (ac < 2)
@@ -128,6 +130,9 @@ int		main(int ac, char **av)
 			errors(1, 0, asem);
 		asem->name_s = ft_strdup(av[1]);
 		valid(asem, &lab);
+		fd = open(asem->name_cor, O_RDWR | O_CREAT, (S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH));
+		printf("%d\n", fd);
+		write(fd, asem->magic, 8);
 		ft_printf("Writing output program to %s\n", asem->name_cor);
 	}
 	return (0);

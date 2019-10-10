@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 17:19:31 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:09:51 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_asm
 	char		*champ_name;
 	char		*champ_com;
 	char		**opers;
+	char		*magic;
 	int			ln;
 	t_lab		*lab;
 }				t_asm;
