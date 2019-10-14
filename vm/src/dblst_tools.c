@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../virtual_machine.h"
 
 t_dblist	*create_dblist(void)
 {
@@ -23,12 +23,12 @@ t_dblist	*create_dblist(void)
 	return (tmp);
 }
 
-t_anthill	*create_list(t_room *room)
+t_dblist_data	*create_list(void *data)
 {
-	t_anthill	*tmp;
+	t_dblist_data	*tmp;
 
-	tmp = (t_anthill*)malloc(sizeof(t_anthill));
-	tmp->room = room;
+	tmp = (t_dblist_data*)malloc(sizeof(t_dblist_data));
+	tmp->data = data;
 	tmp->next = NULL;
 	tmp->prev = NULL;
 	return (tmp);
@@ -36,8 +36,8 @@ t_anthill	*create_list(t_room *room)
 
 void		delete_dblist(t_dblist **list)
 {
-	t_anthill	*tmp;
-	t_anthill	*next;
+	t_dblist_data	*tmp;
+	t_dblist_data	*next;
 
 	tmp = (*list)->head;
 	next = NULL;
@@ -51,9 +51,9 @@ void		delete_dblist(t_dblist **list)
 	(*list) = NULL;
 }
 
-void		delete_list(t_anthill **list)
+void		delete_list(t_dblist_data **list)
 {
-	t_anthill *to_free;
+	t_dblist_data	*to_free;
 
 	while (*list)
 	{
@@ -63,18 +63,14 @@ void		delete_list(t_anthill **list)
 	}
 }
 
-/*
-** Додавання нового елемента в кінець списку
-*/
-
-void		push_back(t_dblist *list, t_room *room)
+void		push_back(t_dblist *list, void *data)
 {
-	t_anthill	*tmp;
+	t_dblist_data	*tmp;
 
-	tmp = (t_anthill*)malloc(sizeof(t_anthill));
+	tmp = (t_dblist_data*)malloc(sizeof(t_dblist_data));
 	if (tmp == NULL)
 		exit(2);
-	tmp->room = room;
+	tmp->data = data;
 	tmp->next = NULL;
 	tmp->prev = list->tail;
 	if (list->tail)
