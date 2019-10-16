@@ -86,6 +86,7 @@ void    create_arena(t_data *data)
         player = player->next;
         player_nbr++;
     }
+    insert_op_tab(data);
 }
 
 int		main(int argc, char **argv)
@@ -95,6 +96,7 @@ int		main(int argc, char **argv)
 	init(&data);
 	define_argc(&data, argc, argv);
 	create_arena(&data);
+	main_cycle(&data);
 
 	return (0);
 }

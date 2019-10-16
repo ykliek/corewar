@@ -18,6 +18,12 @@
 
 typedef struct				s_dblist	t_dblist;
 
+typedef union		u_comp;
+{
+	unsigned int	full;
+	unsigned int	part[4];
+}					t_comp;
+
 typedef struct				s_arg
 {
 	char					*type;
@@ -47,7 +53,7 @@ typedef struct				s_carr
     unsigned char			reg[REG_SIZE * (REG_NUMBER + 1)];
 	t_carry					carry;
     int						last_live;
-    unsigned char           command_id;
+    unsigned char			command_id;
     int						wait;
 }							t_carr;
 
@@ -65,6 +71,18 @@ typedef struct				s_dblist
 	t_ldata			        *tail;
 }							t_dblist;
 
+typedef struct		s_op
+{
+	char	name[PROG_NAME_LENGTH];
+	int		nb_params;
+	char	params_type[3];
+	int		id;
+	int		wait;
+	char	description[50];
+	int		code_type;
+	int		half_size_dir;
+}					t_op;
+
 typedef struct				s_data
 {
 	int						line;
@@ -72,6 +90,7 @@ typedef struct				s_data
 	t_dblist				*fd;
 	unsigned char           *arena;
 	t_dblist                *carriage;
+	t_op					op_tab[17];
 }							t_data;
 
 /*
@@ -98,6 +117,7 @@ void						push_back(t_dblist *list, void *data);
 ** virtual_machine.c
 */
 
-
+void	insert_op_tab(t_data *data);
+int 	main_cycle(t_data *data);
 
 #endif
