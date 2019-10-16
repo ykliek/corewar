@@ -48,7 +48,7 @@ typedef struct				s_carr
 	t_carry					carry;
     int						last_live;
     unsigned char           command_id;
-    int                     wait;
+    int						wait;
 }							t_carr;
 
 typedef struct				s_ldata
