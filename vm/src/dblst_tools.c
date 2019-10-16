@@ -23,11 +23,11 @@ t_dblist	*create_dblist(void)
 	return (tmp);
 }
 
-t_dblist_data	*create_list(void *data)
+t_ldata	*create_list(void *data)
 {
-	t_dblist_data	*tmp;
+	t_ldata	*tmp;
 
-	tmp = (t_dblist_data*)malloc(sizeof(t_dblist_data));
+	tmp = (t_ldata*)malloc(sizeof(t_ldata));
 	tmp->data = data;
 	tmp->next = NULL;
 	tmp->prev = NULL;
@@ -36,8 +36,8 @@ t_dblist_data	*create_list(void *data)
 
 void		delete_dblist(t_dblist **list)
 {
-	t_dblist_data	*tmp;
-	t_dblist_data	*next;
+	t_ldata	*tmp;
+	t_ldata	*next;
 
 	tmp = (*list)->head;
 	next = NULL;
@@ -51,9 +51,9 @@ void		delete_dblist(t_dblist **list)
 	(*list) = NULL;
 }
 
-void		delete_list(t_dblist_data **list)
+void		delete_list(t_ldata **list)
 {
-	t_dblist_data	*to_free;
+	t_ldata	*to_free;
 
 	while (*list)
 	{
@@ -65,9 +65,9 @@ void		delete_list(t_dblist_data **list)
 
 void		push_back(t_dblist *list, void *data)
 {
-	t_dblist_data	*tmp;
+	t_ldata	*tmp;
 
-	tmp = (t_dblist_data*)malloc(sizeof(t_dblist_data));
+	tmp = (t_ldata*)malloc(sizeof(t_ldata));
 	if (tmp == NULL)
 		exit(2);
 	tmp->data = data;

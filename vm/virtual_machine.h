@@ -24,38 +24,45 @@ typedef struct				s_arg
 	int						value;
 }							t_arg;
 
-typedef struct				s_exe_code
-{
-	int						op_code;
-	int						type_arg_code;
-	t_arg					arg_1;
-	t_arg					arg_2;
-	t_arg					arg_3;
-}							t_exe_code;
-
-typedef struct				s_player_info
+typedef struct				s_player
 {
 	int						id;
-	int						null_1;
-	int						null_2;
 	int						size_exe_code;
-	char					*name;
-	char					*comment;
-	t_dblist				*exe_code;
-}							t_player_info;
+    unsigned char			*name;
+    unsigned char			*comment;
+    unsigned char			*exe_code;
+}							t_player;
 
-typedef struct				s_dblist_data
+typedef enum 				e_carry
 {
-	void					*data;
-	struct s_dblist_data	*next;
-	struct s_dblist_data	*prev;
-}							t_dblist_data;
+	CARRY_DONT_MOVE,
+	CARRY_MOVE,
+}							t_carry;
+
+typedef struct				s_carr
+{
+    int                     carr_id;
+    unsigned char			*position;
+    int						byte_to_next;
+    unsigned char			reg[REG_SIZE * (REG_NUMBER + 1)];
+	t_carry					carry;
+    int						last_live;
+    unsigned char           command_id;
+    int                     wait;
+}							t_carr;
+
+typedef struct				s_ldata
+{
+	void                	*data;
+	struct s_ldata	        *next;
+	struct s_ldata	        *prev;
+}							t_ldata;
 
 typedef struct				s_dblist
 {
 	int						size;
-	t_dblist_data			*head;
-	t_dblist_data			*tail;
+	t_ldata			        *head;
+	t_ldata			        *tail;
 }							t_dblist;
 
 typedef struct				s_data
@@ -63,6 +70,8 @@ typedef struct				s_data
 	int						line;
 	t_dblist				*player;
 	t_dblist				*fd;
+	unsigned char           *arena;
+	t_dblist                *carriage;
 }							t_data;
 
 /*
@@ -71,11 +80,11 @@ typedef struct				s_data
 
 t_dblist					*create_dblist(void);
 
-t_dblist_data				*create_list(void *data);
+t_ldata				*create_list(void *data);
 
 void						delete_dblist(t_dblist **list);
 
-void						delete_list(t_dblist_data **list);
+void						delete_list(t_ldata **list);
 
 void						push_back(t_dblist *list, void *data);
 
