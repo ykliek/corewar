@@ -20,6 +20,32 @@ void	init(t_data *data)
 	data->fd = create_dblist();
 }
 
+void insertion_sort(t_dblist **list, int (*cmp)(void*, void*))
+{
+	t_dblist *out;
+	t_ldata *sorted;
+	t_ldata *unsorted;
+
+	unsorted = NULL;
+	sorted = NULL;
+	out = create_dblist();
+	push_front(out, pop_front(*list));
+	unsorted = (*list)->head;
+	while (unsorted)
+	{
+		sorted = out->head;
+		while (sorted && !cmp(unsorted->data, sorted->data))
+			sorted = sorted->next;
+		if (sorted)
+			insert_before(out, sorted, unsorted->data);
+		else
+			push_back(out, unsorted->data);
+		unsorted = unsorted->next;
+	}
+	free(*list);
+	*list = out;
+}
+
 void	define_argc(t_data *data, int argc, char **argv)
 {
 	int		count;
