@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vm/virtual_machine.h>
 #include "../virtual_machine.h"
 
 void	reader(t_data *data) {

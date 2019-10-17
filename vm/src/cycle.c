@@ -26,6 +26,7 @@ int 	main_cycle(t_data *data)
 		get_command_id(data, (t_carr *)current_carriage->head->data);
 		if (((t_carr *)current_carriage->head->data)->wait > 0)
 			((t_carr *)current_carriage->head->data)->wait--;
+
 		return (0);
 	}
 }

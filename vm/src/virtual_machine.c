@@ -24,19 +24,23 @@ void	define_argc(t_data *data, int argc, char **argv)
 {
 	int		count;
 	int		order;
-	int		fd;
+	t_fd	*fd;
 
-	order = 0;
-	count = 0;
-	while (count <= argc)
+	count = 1;
+	while (count < argc)
 	{
 		if (ft_strequ(argv[count], "-n"))
-			order = ft_atoi(argv[count++]);
-		else
 		{
-			fd = open(argv[count], O_RDONLY);
-			push_back(data->fd, &fd);
+			order = ft_atoi(argv[count++]);
+			count++;
 		}
+		else
+			order = 0;
+		fd = (t_fd *)malloc(sizeof(t_fd));
+		fd->fd = open(argv[count], O_RDONLY);
+		fd->order = order;
+
+		push_back(data->fd, fd);
 		count++;
 	}
 }
