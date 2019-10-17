@@ -107,7 +107,7 @@ typedef struct				s_data
 	t_dblist				*player;
 	t_dblist				*fd;
 	t_arena					arena[MEM_SIZE];
-	t_dblist                *carriage;
+	t_dblist				*carriage;
 	t_op					op_tab[17];
 }							t_data;
 
@@ -117,13 +117,20 @@ typedef struct				s_data
 
 t_dblist					*create_dblist(void);
 
-t_ldata				*create_list(void *data);
+t_ldata						*create_list(void *data);
 
 void						delete_dblist(t_dblist **list);
 
 void						delete_list(t_ldata **list);
 
 void						push_back(t_dblist *list, void *data);
+
+void						push_front(t_dblist *list, void *data);
+
+void						insert_before(t_dblist *list, t_ldata* elm,
+		void *value);
+
+void						*pop_front(t_dblist *list);
 
 /*
 ** reader.c
