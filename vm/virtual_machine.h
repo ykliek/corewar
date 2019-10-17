@@ -13,12 +13,16 @@
 #ifndef VIRTUAL_MACHINE_H
 # define VIRTUAL_MACHINE_H
 
-# define NAME_SIZE 128
-# define COMMENT_SIZE 1028
-# define O_BINARY 0
-
 #include "../libft/libft.h"
 #include "../resources/op.h"
+
+enum
+{
+	NAME,
+	COMMENT,
+	EXE_CODE,
+	FINAL_CHECK
+};
 
 typedef struct				s_dblist	t_dblist;
 
@@ -38,8 +42,8 @@ typedef struct				s_player
 {
 	int						id;
 	int						size_exe_code;
-    unsigned char			name[NAME_SIZE];
-    unsigned char			comment[COMMENT_SIZE];
+    unsigned char			name[PROG_NAME_LENGTH];
+    unsigned char			comment[COMMENT_LENGTH];
     unsigned char			*exe_code;
 }							t_player;
 

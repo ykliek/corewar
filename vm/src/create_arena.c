@@ -33,7 +33,7 @@ t_ldata			*create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 void    create_arena(t_data *data)
 {
 	t_arena			*temp_pointer;
-	int             player_nbr;
+	int				player_nbr;
 	t_ldata			*player;
 	int 			i;
 

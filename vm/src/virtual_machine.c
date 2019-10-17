@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -12,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../virtual_machine.h"
+#include <sys/types.h>
 
 void	init(t_data *data)
 {
@@ -39,7 +39,6 @@ void	define_argc(t_data *data, int argc, char **argv)
 		fd = (t_fd *)malloc(sizeof(t_fd));
 		fd->fd = open(argv[count], O_RDONLY);
 		fd->order = order;
-
 		push_back(data->fd, fd);
 		count++;
 	}
