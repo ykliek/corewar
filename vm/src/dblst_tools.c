@@ -80,3 +80,67 @@ void		push_back(t_dblist *list, void *data)
 		list->head = tmp;
 	list->size++;
 }
+
+void		push_front(t_dblist *list, void *data)
+{
+	t_ldata *tmp;
+
+	tmp = (t_ldata*) malloc(sizeof(t_ldata));
+	if (tmp == NULL) {
+		exit(1);
+	}
+	tmp->data = data;
+	tmp->next = list->head;
+	tmp->prev = NULL;
+	if (list->head) {
+		list->head->prev = tmp;
+	}
+	list->head = tmp;
+
+	if (list->tail == NULL) {
+		list->tail = tmp;
+	}
+	list->size++;
+}
+
+
+void		insert_before(t_dblist *list, t_ldata* elm, void *value)
+{
+	t_ldata *ins;
+
+	ins = NULL;
+	if (elm == NULL)
+		exit(6);
+	if (!elm->prev)
+	{
+		push_front(list, value);
+		return ;
+	}
+	ins = (t_ldata*) malloc(sizeof(t_ldata));
+	ins->data = value;
+	ins->prev = elm->prev;
+	elm->prev->next = ins;
+	ins->next = elm;
+	elm->prev = ins;
+	list->size++;
+}
+
+
+void		*pop_front(t_dblist *list)
+{
+	t_ldata		*prev;
+	void		*tmp;
+
+	if (list->head == NULL)
+		exit(2);
+	prev = list->head;
+	list->head = list->head->next;
+	if (list->head)
+		list->head->prev = NULL;
+	if (prev == list->tail)
+		list->tail = NULL;
+	tmp = prev->data;
+	free(prev);
+	list->size--;
+	return (tmp);
+}
