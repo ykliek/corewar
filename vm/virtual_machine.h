@@ -13,16 +13,20 @@
 #ifndef VIRTUAL_MACHINE_H
 # define VIRTUAL_MACHINE_H
 
+# define NAME_SIZE 128
+# define COMMENT_SIZE 1028
+# define O_BINARY 0
+
 #include "../libft/libft.h"
 #include "../resources/op.h"
 
 typedef struct				s_dblist	t_dblist;
 
-typedef union		u_comp;
+typedef struct				s_fd
 {
-	unsigned int	full;
-	unsigned int	part[4];
-}					t_comp;
+	int						fd;
+	int						order;
+}							t_fd;
 
 typedef struct				s_arg
 {
@@ -34,8 +38,8 @@ typedef struct				s_player
 {
 	int						id;
 	int						size_exe_code;
-    unsigned char			*name;
-    unsigned char			*comment;
+    unsigned char			name[NAME_SIZE];
+    unsigned char			comment[COMMENT_SIZE];
     unsigned char			*exe_code;
 }							t_player;
 
@@ -64,16 +68,16 @@ typedef struct				s_carr
 
 typedef struct				s_ldata
 {
-	void                	*data;
-	struct s_ldata	        *next;
-	struct s_ldata	        *prev;
+	void					*data;
+	struct s_ldata			*next;
+	struct s_ldata			*prev;
 }							t_ldata;
 
 typedef struct				s_dblist
 {
 	int						size;
-	t_ldata			        *head;
-	t_ldata			        *tail;
+	t_ldata					*head;
+	t_ldata					*tail;
 }							t_dblist;
 
 typedef struct		s_op
@@ -90,6 +94,11 @@ typedef struct		s_op
 
 typedef struct				s_data
 {
+	union
+	{
+		unsigned int					value;
+		unsigned char		convert[4];
+	}						check;
 	int						line;
 	t_dblist				*player;
 	t_dblist				*fd;
@@ -116,7 +125,7 @@ void						push_back(t_dblist *list, void *data);
 ** reader.c
 */
 
-
+void						reader(t_data *data);
 
 /*
 ** virtual_machine.c
@@ -125,5 +134,10 @@ void						push_back(t_dblist *list, void *data);
 void	insert_op_tab(t_data *data);
 void    create_arena(t_data *data);
 int 	main_cycle(t_data *data);
+/*
+** error_management.c
+*/
+
+void						err_messenge(char *err);
 
 #endif

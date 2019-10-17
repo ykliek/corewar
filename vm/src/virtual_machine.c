@@ -47,6 +47,7 @@ int		main(int argc, char **argv)
 
 	init(&data);
 	define_argc(&data, argc, argv);
+	reader(&data);
 	create_arena(&data);
 	main_cycle(&data);
 
