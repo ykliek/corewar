@@ -1,19 +1,13 @@
 cmake_minimum_required(VERSION 3.14)
-project(corewar_dev)
+project(work C)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_STANDARD 11)
 
-include_directories(.)
-include_directories(asm)
-include_directories(asm/gnl)
-include_directories(asm/gnl/libft)
-include_directories(asm/gnl/libft/Includes)
 include_directories(libft)
 include_directories(resources)
 include_directories(vm)
-include_directories(wiki_resources)
 
-add_executable(corewar_dev
+add_executable(work
         libft/colors.c
         libft/free_mem.c
         libft/ft_atoi.c
@@ -83,12 +77,12 @@ add_executable(corewar_dev
         libft/parser.c
         libft/precision.c
         libft/weigth_n_flags.c
-        vm/virtual_machine.h
-        vm/src/virtual_machine.c
-        vm/src/reader.c
-        vm/src/dblst_tools.c
-        vm/src/error_management.c
-        vm/src/create_arena.c
-        vm/src/cycle.c
+        resources/op.h
         resources/op.c
-        resources/op.h)
+        vm/src/virtual_machine.c
+        vm/virtual_machine.h
+        vm/src/dblst_tools.c
+        vm/src/reader.c
+        vm/src/cycle.c
+        vm/src/create_arena.c
+        vm/src/error_management.c)

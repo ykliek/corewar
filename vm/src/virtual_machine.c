@@ -18,6 +18,7 @@ void	init(t_data *data)
 	data->line = 0;
 	data->player = create_dblist();
 	data->fd = create_dblist();
+	data->carriage = create_dblist();
 }
 
 void	define_argc(t_data *data, int argc, char **argv)

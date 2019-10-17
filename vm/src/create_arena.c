@@ -19,15 +19,19 @@ t_ldata			*insert_new_carry(t_data *data)
 	return (result);
 }
 
-t_ldata			*create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
+void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 {
-	t_ldata	*result;
+	t_carr	*result;
 
-	result = insert_new_carry(data);
-	((t_carr *)result->data)->position = temp_pointer;
-	((t_carr *)result->data)->reg[1 * REG_SIZE] = ((t_player *)player->data)->id * -1;
-	((t_carr *)result->data)->carry = CARRY_DONT_MOVE;
-	return (result);
+	result = (t_carr *)malloc(sizeof(t_carr));
+	if (data->carriage->head)
+		result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
+	else
+		result->carr_id = 1;
+	result->position = temp_pointer;
+	result->reg[1 * REG_SIZE] = ((t_player *)player->data)->id * -1;
+	result->carry = CARRY_DONT_MOVE;
+	push_back(data->carriage, result);
 }
 
 void    create_arena(t_data *data)
