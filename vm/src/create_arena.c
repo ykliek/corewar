@@ -24,6 +24,7 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	t_carr	*result;
 
 	result = (t_carr *)malloc(sizeof(t_carr));
+	ft_bzero(result, sizeof(t_carr));
 	if (data->carriage->head)
 		result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
 	else
@@ -31,7 +32,8 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	result->position = temp_pointer;
 	result->reg[1 * REG_SIZE] = ((t_player *)player->data)->id * -1;
 	result->carry = CARRY_DONT_MOVE;
-	push_back(data->carriage, result);
+	ft_memcpy(result->test, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code);
+	push_front(data->carriage, result);
 }
 
 void    create_arena(t_data *data)

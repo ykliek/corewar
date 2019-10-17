@@ -58,6 +58,16 @@ typedef struct 				s_arena
 	unsigned char			hex;
 }							t_arena;
 
+typedef struct 				s_args
+{
+	char 					type;
+	union
+	{
+		unsigned int		nbr;
+		unsigned char		hex[4];
+	};
+}							t_args;
+
 typedef struct				s_carr
 {
     int                     carr_id;
@@ -68,6 +78,8 @@ typedef struct				s_carr
     int						last_live;
     unsigned char			command_id;
     int						wait;
+	t_args					args[3];
+    unsigned char			test[CHAMP_MAX_SIZE];
 }							t_carr;
 
 typedef struct				s_ldata
