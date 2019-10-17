@@ -8,7 +8,7 @@ void 	get_command_id(t_data *data, t_carr *carriage)
 {
 	if (carriage->wait == 0)
 	{
-		carriage->command_id = carriage->position;
+		carriage->command_id = carriage->position->hex;
 		if (carriage->command_id > 0 && carriage->command_id < 17)
 		{
 			carriage->wait = data->op_tab[carriage->command_id].wait;

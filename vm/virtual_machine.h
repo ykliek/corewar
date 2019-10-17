@@ -45,10 +45,15 @@ typedef enum 				e_carry
 	CARRY_MOVE,
 }							t_carry;
 
+typedef struct 				s_arena
+{
+	unsigned char			hex;
+}							t_arena;
+
 typedef struct				s_carr
 {
     int                     carr_id;
-    unsigned char			*position;
+	t_arena					*position;
     int						byte_to_next;
     unsigned char			reg[REG_SIZE * (REG_NUMBER + 1)];
 	t_carry					carry;
@@ -88,7 +93,7 @@ typedef struct				s_data
 	int						line;
 	t_dblist				*player;
 	t_dblist				*fd;
-	unsigned char           *arena;
+	t_arena					arena[MEM_SIZE];
 	t_dblist                *carriage;
 	t_op					op_tab[17];
 }							t_data;
@@ -118,6 +123,7 @@ void						push_back(t_dblist *list, void *data);
 */
 
 void	insert_op_tab(t_data *data);
+void    create_arena(t_data *data);
 int 	main_cycle(t_data *data);
 
 #endif
