@@ -6,15 +6,36 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:26:14 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:24:25 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char	*getfile(int fd, t_asm *asem)
+char	*ft_read(int fd, t_asm *asem, char *file, char *buff)
 {
 	int		r;
+	char	*tmp;
+
+	while ((r = read(fd, buff, 4)))
+	{
+		if (r < 0)
+			errors(2, 0, asem);
+		if (file)
+		{
+			tmp = file;
+			file = ft_strjoin(file, buff);
+			ft_strdel(&tmp);
+		}
+		else
+			file = ft_strdup(buff);
+		ft_strclr(buff);
+	}
+	return (file);
+}
+
+char	*getfile(int fd, t_asm *asem)
+{
 	int		f;
 	int		l;
 	char	*buff;
@@ -24,16 +45,8 @@ char	*getfile(int fd, t_asm *asem)
 	l = 0;
 	file = NULL;
 	buff = ft_strnew(4);
-	while ((r = read(fd, buff, 4)))
-	{
-		if (r < 0)
-			errors(2, 0, asem);
-		if (file)
-			file = ft_strjoin(file, buff);
-		else
-			file = ft_strdup(buff);
-		ft_strclr(buff);
-	}
+	file = ft_read(fd, asem, file, buff);
+	ft_strdel(&buff);
 	if (ft_strlen(file) == 0)
 		errors(3, 0, asem);
 	return (file);
@@ -64,7 +77,7 @@ void	checknen(char *s, t_asm *asem)
 	}
 }
 
-void	valid(t_asm *asem, t_lab *lab)
+void	valid(t_asm *asem, t_lab **lab)
 {
 	int		fd;
 	char	*file;
@@ -77,4 +90,6 @@ void	valid(t_asm *asem, t_lab *lab)
 		errors(2, 0, asem);
 	checknen(file, asem);
 	checkfile(file, asem, lab);
+	while ((*lab)->prev)
+		(*lab) = (*lab)->prev;
 }

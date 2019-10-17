@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/07 19:45:10 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:09:34 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,36 @@ void	initlab(t_lab *page)
 {
 	page->label = NULL;
 	page->oper = NULL;
-	page->arg1 = 0;
-	page->ar1t = 0;
-	page->arg2 = 0;
-	page->ar2t = 0;
-	page->arg3 = 0;
-	page->ar3t = 0;
+	page->art[0] = 0;
+	page->art[1] = 0;
+	page->art[2] = 0;
+	page->args = ft_memalloc(sizeof(char*) * 3);
 	page->next = NULL;
 	page->prev = NULL;
 }
 
-int		block32(char *file, int i, int ln, t_asm *asem)
+int		block32(char *file, int i, t_asm *asem)
 {
 	if (file[i + 1] == 'n')
-		i = comcheck_name(asem, ln, file, i);
+		i = comcheck_name(asem, file, i);
 	else if (file[i + 1] == 'c')
-		i = comcheck_com(asem, ln, file, i);
+		i = comcheck_com(asem, file, i);
 	else
-		errors(4, ln, asem);
+		errors(4, asem->ln, asem);
 	return (i);
 }
 
-void	block31(char *file, int i, t_asm *asem, t_lab *lab)
+int		block31(char *file, int i, t_asm *asem, t_lab **lab)
 {
 	int		j;
 	t_lab	*page;
 
-	while (file[i] == ' ' || file[i] == '	')
+	while (file[i] == ' ' || file[i] == '	' || file[i] == '\n')
+	{
+		if (file[i] == '\n')
+			asem->ln++;
 		i++;
+	}
 	j = i;
 	while (labcor(file[j], LABEL_CHARS) == 1)
 		j++;
@@ -67,34 +69,35 @@ void	block31(char *file, int i, t_asm *asem, t_lab *lab)
 		i = labcheck(file, i, asem, page);
 	else
 		i = opercheck(file, i, asem, page);
-	ft_listadd(&lab, page, asem);
+	ft_listadd(lab, page, asem);
+	return (i);
 }
 
-void	checkfile(char *file, t_asm *asem, t_lab *lab)
+void	checkfile(char *file, t_asm *asem, t_lab **lab)
 {
 	int		i;
-	int		ln;
 	int		f;
 
-	lab = NULL;
 	i = -1;
-	ln = 1;
 	f = 0;
 	while (file[++i])
 	{
+		while (file[i] == ' ' || file[i] == '	')
+			i++;
 		i = ft_comment(file, i);
 		if (file[i] == '.')
 		{
-			i = block32(file, i, ln, asem);
+			i = block32(file, i, asem);
 			f++;
 		}
-		else
+		else if (file[i])
 		{
 			if (f < 2)
 				errors(9, 0, asem);
-			block31(file, i, asem, lab);
+			i = block31(file, i, asem, lab);
 		}
 		if (file[i] == '\n')
-			ln++;
+			asem->ln++;
 	}
+	ft_strdel(&file);
 }
