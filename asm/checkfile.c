@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 17:09:34 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 15:13:18 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@ void	initlab(t_lab *page)
 	page->art[1] = 0;
 	page->art[2] = 0;
 	page->args = ft_memalloc(sizeof(char*) * 3);
+	page->len = 0;
+	page->ln = 0;
+	page->code = NULL;
 	page->next = NULL;
 	page->prev = NULL;
+	page->opc = 0;
 }
 
 int		block32(char *file, int i, t_asm *asem)

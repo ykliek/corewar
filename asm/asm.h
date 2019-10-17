@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/10 16:09:51 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 15:52:58 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ typedef struct	s_lab
 	char		*label;
 	char		*oper;
 	char		**args;
+	char		*code;
 	int			art[3]; //arg type 1 - reg, 2 - dir, 3 - ind
+	int			len;
+	int			ln;
+	int			opc;
 	void		*next;
 	void		*prev;
 }				t_lab;
@@ -41,8 +45,9 @@ typedef struct	s_asm
 	char		*champ_name;
 	char		*champ_com;
 	char		**opers;
-	char		*magic;
+	char		*code;
 	int			ln;
+	int			magic;
 	t_lab		*lab;
 }				t_asm;
 
@@ -57,5 +62,13 @@ int				labcheck(char *file, int i, t_asm *asem, t_lab *page);
 int				opercheck(char *file, int i, t_asm *asem, t_lab *page);
 void			ft_listadd(t_lab **lab, t_lab *page, t_asm *asem);
 void			chistim(t_asm *asem, t_lab *lab);
+char			*tohex(int n);
+void			convert(t_asm *asem, t_lab *lab);
+int				power(int n, int p);
+int				conlen(int d, int a);
+char			*tohex(int n);
+int				todec(int n);
+int				labput(t_lab *lab, t_asm *asem);
+void			codecon(int fd, t_lab *lab);
 
 #endif

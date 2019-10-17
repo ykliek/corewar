@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/10 16:10:16 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 15:08:14 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,25 @@ void	init(t_asm *asem)
 	asem->champ_name = ft_strnew(PROG_NAME_LENGTH);
 	asem->champ_com = ft_strnew(COMMENT_LENGTH);
 	asem->ln = 1;
-	asem->magic = ft_itoa(COREWAR_EXEC_MAGIC);
 	asem->opers = ft_memalloc(sizeof(char*) * 16);
-	asem->opers[0] = "ldi";
-	asem->opers[1] = "sti";
-	asem->opers[2] = "lldi";
-	asem->opers[3] = "live";
-	asem->opers[4] = "ld";
-	asem->opers[5] = "st";
-	asem->opers[6] = "add";
-	asem->opers[7] = "sub";
-	asem->opers[8] = "and";
-	asem->opers[9] = "or";
-	asem->opers[10] = "xor";
-	asem->opers[11] = "zjmp";
-	asem->opers[12] = "fork";
-	asem->opers[13] = "lld";
-	asem->opers[14] = "lfork";
-	asem->opers[15] = "aff";
+	asem->code = NULL;
+	asem->opers[0] = "ldi";//10
+	asem->opers[1] = "sti";//11
+	asem->opers[2] = "fork";//12
+	asem->opers[3] = "lld";//13
+	asem->opers[4] = "lldi";//14
+	asem->opers[5] = "lfork";//15
+	asem->opers[6] = "aff";//16
+	asem->opers[7] = "live";//1
+	asem->opers[8] = "ld";//2
+	asem->opers[9] = "st";//3
+	asem->opers[10] = "add";//4
+	asem->opers[11] = "sub";//5
+	asem->opers[12] = "and";//6
+	asem->opers[13] = "or";//7
+	asem->opers[14] = "xor";//8
+	asem->opers[15] = "zjmp";//9
+	asem->magic = 0xea83f3;
 }
 
 void	chistim2(t_lab *lab)
@@ -112,7 +113,6 @@ int		main(int ac, char **av)
 {
 	t_asm	*asem;
 	t_lab	*lab;
-	int		fd;
 
 	lab = NULL;
 	if (ac < 2)
@@ -130,9 +130,7 @@ int		main(int ac, char **av)
 			errors(1, 0, asem);
 		asem->name_s = ft_strdup(av[1]);
 		valid(asem, &lab);
-		fd = open(asem->name_cor, O_RDWR | O_CREAT, (S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH));
-		printf("%d\n", fd);
-		write(fd, asem->magic, 8);
+		convert(asem, lab);
 		ft_printf("Writing output program to %s\n", asem->name_cor);
 	}
 	return (0);
