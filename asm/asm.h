@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 16:55:24 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 19:38:01 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,14 @@ typedef struct	s_asm
 	char		*code;
 	int			ln;
 	int			magic;
+	int			rev;
+	int			help;
+	int			hs;
 	t_lab		*lab;
 }				t_asm;
 
 void			errors(int n, int ln, t_asm *asem);
-void			flags(int n, char **s);
+void			flags(char **s, t_asm *asem, int l);
 int				comcheck_com(t_asm *asem, char *file, int i);
 int				comcheck_name(t_asm *asem, char *file, int i);
 int				ft_comment(char *file, int i);
@@ -79,5 +82,8 @@ void			block53(t_lab *lab, int fd, int i);
 void			block51(t_lab *lab, int fd, int i);
 int				argtype(t_lab *lab);
 int				blockgde(t_lab **lab, char *s);
+void			init(t_asm *asem);
+void			stocor(t_asm *asem, t_lab *lab, char **av);
+int				fnameval(char *s, t_asm *asem);
 
 #endif

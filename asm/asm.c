@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 18:33:35 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 19:38:33 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +33,6 @@ int		fnameval(char *s, t_asm *asem)
 	asem->name_cor[j + 2] = 'o';
 	asem->name_cor[j + 3] = 'r';
 	return (1);
-}
-
-void	init(t_asm *asem)
-{
-	int		i;
-
-	i = 0;
-	asem->champ_name = ft_strnew(PROG_NAME_LENGTH);
-	asem->champ_com = ft_strnew(COMMENT_LENGTH);
-	asem->ln = 1;
-	asem->opers = ft_memalloc(sizeof(char*) * 16);
-	asem->code = NULL;
-	asem->opers[0] = "ldi";
-	asem->opers[1] = "sti";
-	asem->opers[2] = "fork";
-	asem->opers[3] = "lld";
-	asem->opers[4] = "lldi";
-	asem->opers[5] = "lfork";
-	asem->opers[6] = "aff";
-	asem->opers[7] = "live";
-	asem->opers[8] = "ld";
-	asem->opers[9] = "st";
-	asem->opers[10] = "add";
-	asem->opers[11] = "sub";
-	asem->opers[12] = "and";
-	asem->opers[13] = "or";
-	asem->opers[14] = "xor";
-	asem->opers[15] = "zjmp";
-	asem->magic = 0xea83f3;
 }
 
 void	chistim2(t_lab *lab)
@@ -105,23 +76,20 @@ int		main(int ac, char **av)
 	t_lab	*lab;
 
 	lab = NULL;
-	if (ac < 2)
-	{
-		ft_printf("Usage: ./asem (champion_file.s");
-		ft_printf("| -r binary_file.cor | -hf)\n");
-	}
+	asem = NULL;
+	if (ac < 2 || ac > 3)
+		errors(0, 0, asem);
 	else
 	{
 		asem = ft_memalloc(sizeof(t_asm));
 		init(asem);
-		if (ac > 2)
-			flags(ac, av);
-		if (fnameval(av[1], asem) == 0)
-			errors(1, 0, asem);
-		asem->name_s = ft_strdup(av[1]);
-		valid(asem, &lab);
-		convert(asem, lab);
-		ft_printf("Writing output program to %s\n", asem->name_cor);
+		flags(av, asem, ac);
+		if (asem->rev == 0)
+			stocor(asem, lab, av);
+		else if (asem->rev == 1)
+		{
+			printf("REVERCE\n");
+		}
 	}
 	return (0);
 }

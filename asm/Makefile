@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/18 15:51:19 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/18 19:48:43 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HEAD = asm.h
 
 SRC = asm.c bonus.c checkfile.c comname.c labelch.c valid.c \
 gnl/get_next_line.c addcheckfile.c convert.c usefull.c \
-codecon.c dlc1.c block5.c
+codecon.c dlc1.c block5.c dlc2.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -32,20 +32,20 @@ all: $(NAME) $(OBJ)
 
 $(NAME): libft
 	@gcc -o $(NAME) -Wall -Werror -Wextra $(SRC) -I $(HEAD) $(LIB)
-	printf '\033[32m[ ✔ ] %s\n\033[0m' "Create binary asm"
+	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "Create binary asm"
 
 libft:
 	@make -C gnl/libft/
-	printf '\033[32m[ ✔ ] %s\n\033[0m' "Compile lib"
+	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "Compile lib"
 
 clean:
 	@rm -rf $(OBJ)
 	@make clean -C gnl/libft/
-	printf '\033[32m[ ✔ ] %s\n\033[0m' "All *.o were cleaned"
+	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "All *.o were cleaned"
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make fclean -C gnl/libft
-	printf '\033[32m[ ✔ ] %s\n\033[0m' "Libft.a and binary were cleaned"
+	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "Libft.a and binary were cleaned"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:47:51 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 18:30:21 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 19:19:45 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int				blockgde(t_lab **lab, char *s)
 	{
 		if ((*lab)->label)
 		{
-			if (ft_strstr((*lab)->label, &s[2]) != 0 && s[2] == (*lab)->label[0])
+			if (ft_strstr((*lab)->label, &s[2]) != 0
+			&& s[2] == (*lab)->label[0])
 				break ;
 		}
 		(*lab) = (*lab)->next;
