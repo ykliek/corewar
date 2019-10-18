@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/17 15:08:14 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:22:39 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ void	init(t_asm *asem)
 	asem->ln = 1;
 	asem->opers = ft_memalloc(sizeof(char*) * 16);
 	asem->code = NULL;
-	asem->opers[0] = "ldi";//10
-	asem->opers[1] = "sti";//11
-	asem->opers[2] = "fork";//12
-	asem->opers[3] = "lld";//13
-	asem->opers[4] = "lldi";//14
-	asem->opers[5] = "lfork";//15
-	asem->opers[6] = "aff";//16
-	asem->opers[7] = "live";//1
-	asem->opers[8] = "ld";//2
-	asem->opers[9] = "st";//3
-	asem->opers[10] = "add";//4
-	asem->opers[11] = "sub";//5
-	asem->opers[12] = "and";//6
-	asem->opers[13] = "or";//7
-	asem->opers[14] = "xor";//8
-	asem->opers[15] = "zjmp";//9
+	asem->opers[0] = "ldi";
+	asem->opers[1] = "sti";
+	asem->opers[2] = "fork";
+	asem->opers[3] = "lld";
+	asem->opers[4] = "lldi";
+	asem->opers[5] = "lfork";
+	asem->opers[6] = "aff";
+	asem->opers[7] = "live";
+	asem->opers[8] = "ld";
+	asem->opers[9] = "st";
+	asem->opers[10] = "add";
+	asem->opers[11] = "sub";
+	asem->opers[12] = "and";
+	asem->opers[13] = "or";
+	asem->opers[14] = "xor";
+	asem->opers[15] = "zjmp";
 	asem->magic = 0xea83f3;
 }
 
@@ -72,14 +72,12 @@ void	chistim2(t_lab *lab)
 	while (lab)
 	{
 		ft_strdel(&(lab->label));
-		ft_strdel(&(lab->oper));
 		i = 0;
 		while (i < 3)
 		{
 			ft_strdel(&(lab->args[i]));
 			i++;
 		}
-		free(lab->art);
 		tmp = lab;
 		lab = lab->next;
 		free(tmp);
@@ -88,20 +86,12 @@ void	chistim2(t_lab *lab)
 
 void	chistim(t_asm *asem, t_lab *lab)
 {
-	int		i;
-
 	if (asem)
 	{
 		ft_strdel(&(asem->name_s));
 		ft_strdel(&(asem->name_cor));
 		ft_strdel(&(asem->champ_com));
 		ft_strdel(&(asem->champ_name));
-		i = 0;
-		while (i < 16)
-		{
-			ft_strdel(&(asem->opers[i]));
-			i++;
-		}
 		free(asem->opers);
 		free(asem);
 	}

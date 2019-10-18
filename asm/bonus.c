@@ -6,13 +6,13 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/16 20:11:23 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:23:29 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	errors(int n, int ln, t_asm *asem)
+void	errman(int n, int ln)
 {
 	if (n == 1)
 		ft_printf("FILE NAME ERROR, CHECK USAGE!\n");
@@ -36,8 +36,13 @@ void	errors(int n, int ln, t_asm *asem)
 		ft_printf("TOO LONG CHAMP NAME! LINE: %d!\n", ln);
 	if (n == 11)
 		ft_printf("TOO LONG CHAMP COMM! LINE: %d!\n", ln);
-	if (n == 11)
+	if (n == 12)
 		ft_printf("ARGS NUMM ERROR! LINE: %d!\n", ln);
+}
+
+void	errors(int n, int ln, t_asm *asem)
+{
+	errman(n, ln);
 	chistim(asem, asem->lab);
 	exit(0);
 }

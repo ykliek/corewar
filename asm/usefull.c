@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:15:54 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/17 17:43:41 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:22:29 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		power(int n, int p)
 		p--;
 	}
 	if (p <= 0)
-		return(1);
+		return (1);
 	return (n);
 }
 

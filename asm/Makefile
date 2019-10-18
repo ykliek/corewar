@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/16 21:55:00 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/18 15:51:19 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HEAD = asm.h
 
 SRC = asm.c bonus.c checkfile.c comname.c labelch.c valid.c \
 gnl/get_next_line.c addcheckfile.c convert.c usefull.c \
-codecon.c
+codecon.c dlc1.c block5.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -46,6 +46,6 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 	@make fclean -C gnl/libft
-	printf '\033[32m[ ✔ ] %s\n\033[0m' "All libft.a and binary were cleaned"
+	printf '\033[32m[ ✔ ] %s\n\033[0m' "Libft.a and binary were cleaned"
 
 re: fclean all
