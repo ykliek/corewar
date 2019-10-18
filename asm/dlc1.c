@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 19:27:19 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 15:55:30 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:55:28 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			optype(t_lab *lab, t_asm *asem)
 		lab->opc = j - 6;
 }
 
-unsigned int	brev(int n, int l)
+unsigned int	brev4(unsigned int n)
 {
 	int			i;
 	unsigned	b;
@@ -81,10 +81,10 @@ unsigned int	brev(int n, int l)
 
 	i = 0;
 	r = 0;
-	while (i < l)
+	while (i < 4)
 	{
 		b = (n >> 8 * i);
-		r |= b << (((l - 1) * 8) - 8 * i);
+		r |= b << (24 - 8 * i);
 		i++;
 	}
 	return (r);

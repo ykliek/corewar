@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:14:44 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 15:45:33 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:52:21 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	convert(t_asm *asem, t_lab *lab)
 
 	fd = open(asem->name_cor, O_RDWR | O_CREAT, (S_IRUSR | S_IWUSR | S_IXUSR
 	| S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH));
-	m = brev(asem->magic, 4);
+	m = brev4(asem->magic);
 	write(fd, &m, 4);
 	champput(asem->champ_name, fd, PROG_NAME_LENGTH);
 	codelenput(fd, asem, lab);

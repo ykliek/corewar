@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 21:54:17 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 15:57:50 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:57:27 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		gdemarker(t_lab *lab, char *s)
 		p1++;
 		lab = lab->prev;
 	}
-	p2 = blockgde(lab, s);
+	p2 = blockgde(&lab, s);
 	if (p2 < p1)
 		r = lensum1(lab, p1, p2);
 	else

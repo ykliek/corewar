@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 16:00:11 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/18 16:55:24 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ int				todec(int n);
 int				labput(t_lab *lab, t_asm *asem);
 void			codecon(int fd, t_lab *lab);
 int				codelen(t_lab *lab);
-unsigned int	brev(int n, int l);
+unsigned int	brev4(unsigned int n);
 void			optype(t_lab *lab, t_asm *asem);
 int				gdemarker(t_lab *lab, char *s);
 void			block52(t_lab *lab, int fd, int i);
 void			block53(t_lab *lab, int fd, int i);
 void			block51(t_lab *lab, int fd, int i);
 int				argtype(t_lab *lab);
-int				blockgde(t_lab *lab, char *s);
+int				blockgde(t_lab **lab, char *s);
 
 #endif
