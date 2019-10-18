@@ -30,7 +30,7 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	else
 		result->carr_id = 1;
 	result->position = temp_pointer;
-	result->reg[1 * REG_SIZE] = ((t_player *)player->data)->id * -1;
+	result->reg[1].nbr = ((t_player *)player->data)->id * -1;
 	result->carry = CARRY_DONT_MOVE;
 	ft_memcpy(result->test, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code);
 	push_front(data->carriage, result);

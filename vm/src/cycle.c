@@ -223,6 +223,7 @@ int 	do_command(t_data *data, t_carr *carriage)
 	if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
 	go_to_command(data, carriage);
+	carriage->position += (carriage->byte_to_next + 1);
 	return (0);
 }
 
@@ -233,6 +234,7 @@ int 	main_cycle(t_data *data)
 	while (1)
 	{
 		current_carriage = data->carriage->head;
+		data->cycle++;
 		while (current_carriage)
 		{
 			get_command_id(data, (t_carr *)current_carriage->data);

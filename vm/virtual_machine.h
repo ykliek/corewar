@@ -75,17 +75,28 @@ typedef struct 				s_args
 	}						value;
 }							t_args;
 
+typedef struct 				s_reg
+{
+	union
+	{
+		int					nbr;
+		short				half[2];
+		char				hex[4];
+	};
+}							t_reg;
+
 typedef struct				s_carr
 {
     int                     carr_id;
 	t_arena					*position;
     int						byte_to_next;
-    unsigned char			reg[REG_SIZE * (REG_NUMBER + 1)];
+    t_reg					reg[REG_NUMBER + 1];
 	t_carry					carry;
     int						last_live;
     unsigned char			command_id;
     int						wait;
 	t_args					args[3];
+	unsigned long			last_alive;
     unsigned char			test[CHAMP_MAX_SIZE];
 }							t_carr;
 
@@ -103,23 +114,23 @@ typedef struct				s_dblist
 	t_ldata					*tail;
 }							t_dblist;
 
-typedef struct		s_op
+typedef struct				s_op
 {
-	char	name[PROG_NAME_LENGTH];
-	int		nb_params;
-	char	params_type[3];
-	int		id;
-	int		wait;
-	char	description[50];
-	int		code_type;
-	int		half_size_dir;
-}					t_op;
+	char					name[PROG_NAME_LENGTH];
+	int						nb_params;
+	char					params_type[3];
+	int						id;
+	int						wait;
+	char					description[50];
+	int						code_type;
+	int						half_size_dir;
+}							t_op;
 
 typedef struct				s_data
 {
 	union
 	{
-		unsigned int					value;
+		unsigned int		value;
 		unsigned char		convert[4];
 	}						check;
 	int						line;
@@ -127,6 +138,7 @@ typedef struct				s_data
 	t_dblist				*fd;
 	t_arena					arena[MEM_SIZE];
 	t_dblist				*carriage;
+	unsigned long			cycle;
 	t_op					op_tab[17];
 }							t_data;
 
