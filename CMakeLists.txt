@@ -85,4 +85,4 @@ add_executable(work
         vm/src/reader.c
         vm/src/cycle.c
         vm/src/create_arena.c
-        vm/src/error_management.c)
+        vm/src/error_management.c vm/src/commands.c)

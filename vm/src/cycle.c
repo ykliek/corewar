@@ -2,6 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-16.
 //
 
+#include <virtual_machine.h>
 #include "../virtual_machine.h"
 
 void 	get_command_id(t_data *data, t_carr *carriage)
@@ -18,14 +19,34 @@ void 	get_command_id(t_data *data, t_carr *carriage)
 
 int 	skip(int count, t_data *data, t_carr *carriage)
 {
-	carriage->position++;
+	carriage->position += count;
 	return (count);
 }
 
 int 	skip_invalid(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	int 	skip;
+	unsigned char	mask;
+
+	skip = 1;
+	if (data->op_tab[carriage->command_id].code_type == 0)
+		skip += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
+	else
+	{
+		skip++;
+		mask = 6;
+		while (mask)
+		{
+			if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
+				skip += 1;
+			else if  ((carriage->position[1].hex & (3 << mask)) == (2 << mask))
+				skip += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
+			else if  ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
+				skip += 2;
+			mask = mask >> 2;
+		}
+	}
+	carriage->position += skip;
 	return (1);
 }
 
@@ -42,12 +63,12 @@ int 	check_code_type(t_data *data, t_carr *carriage)
 	{
 		if ((data->op_tab[carriage->command_id].params_type[i] ^ 1) & 1)
 		{
-			if (carriage->position[1].hex & (1 << mask))
+			if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
 				return (1);
 		}
 		if ((data->op_tab[carriage->command_id].params_type[i] ^ 2) & 2)
 		{
-			if (carriage->position[1].hex & (2 << mask))
+			if ((carriage->position[1].hex & (3 << mask)) == (2 << mask))
 				return (1);
 		}
 		if ((data->op_tab[carriage->command_id].params_type[i] ^ 4) & 4)
@@ -61,10 +82,130 @@ int 	check_code_type(t_data *data, t_carr *carriage)
 	return (0);
 }
 
+int 	pars_without_type(t_data *data, t_carr *carriage)
+{
+	int		i;
+
+	if (data->op_tab[carriage->command_id].half_size_dir)
+	{
+		i = 1;
+		while (++i < 4)
+			carriage->args[0].value.hex[i] = carriage->position[i - 1].hex;
+		carriage->byte_to_next = 2;
+	}
+	else
+	{
+		i = -1;
+		while (++i < 4)
+			carriage->args[0].value.hex[i] = carriage->position[i + 1].hex;
+		carriage->byte_to_next = 4;
+	}
+	carriage->args[0].type = T_DIR;
+	return (0);
+}
+
+int 	get_direct(t_data *data, t_carr *carriage, int count)
+{
+	int		i;
+
+	if (data->op_tab[carriage->command_id].half_size_dir)
+	{
+		i = 1;
+		while (++i < 4)
+			carriage->args[count].value.hex[i] = carriage->position[carriage->byte_to_next + i - 1].hex;
+		carriage->byte_to_next += 2;
+	}
+	else
+	{
+		i = -1;
+		while (++i < 4)
+			carriage->args[count].value.hex[i] = carriage->position[carriage->byte_to_next + i + 1].hex;
+		carriage->byte_to_next += 4;
+	}
+	carriage->args[count].type = T_DIR;
+	return (0);
+}
+
+int 	get_arg(t_data *data, t_carr *carriage, int count)
+{
+	int		i;
+	int 	mask;
+
+	mask = 6 - (count * 2);
+	if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
+	{
+		carriage->args[count].point.hex[4] = carriage->position[carriage->byte_to_next + 1].hex;
+		if (carriage->args[count].point.hex[4] < 1 || carriage->args[count].point.hex[4] > REG_NUMBER)
+			return (1);
+		carriage->args[count].type = T_REG;
+		carriage->byte_to_next++;
+	}
+	else if ((carriage->position[1].hex & (3 << mask)) == (2 << mask))
+	{
+		get_direct(data, carriage, count);
+	}
+	else if ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
+	{
+		carriage->args[count].point.hex[3] = carriage->position[carriage->byte_to_next + 1].hex;
+		carriage->args[count].point.hex[4] = carriage->position[carriage->byte_to_next + 2].hex;
+		carriage->args[count].type = T_IND;
+		carriage->byte_to_next += 2;
+	}
+	return (0);
+}
+
 int 	pars_args(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	int		i;
+
+	ft_bzero(carriage->args, sizeof(t_args) * 3);
+	if (data->op_tab[carriage->command_id].code_type == 0)
+		return (pars_without_type(data, carriage));
+	i = 0;
+	carriage->byte_to_next = 1;
+	while (i < 3)
+	{
+		if (get_arg(data, carriage, i))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int 	go_to_command(t_data *data, t_carr *carriage)
+{
+	if (carriage->command_id == 1)
+		op_live(data, carriage);
+	else if (carriage->command_id == 2)
+		op_ld(data, carriage);
+	else if (carriage->command_id == 3)
+		op_st(data, carriage);
+	else if (carriage->command_id == 4)
+		op_add(data, carriage);
+	else if (carriage->command_id == 5)
+		op_sub(data, carriage);
+	else if (carriage->command_id == 6)
+		op_and(data, carriage);
+	else if (carriage->command_id == 7)
+		op_or(data, carriage);
+	else if (carriage->command_id == 8)
+		op_xor(data, carriage);
+	else if (carriage->command_id == 9)
+		op_zjmp(data, carriage);
+	else if (carriage->command_id == 10)
+		op_ldi(data, carriage);
+	else if (carriage->command_id == 11)
+		op_sti(data, carriage);
+	else if (carriage->command_id == 12)
+		op_fork(data, carriage);
+	else if (carriage->command_id == 13)
+		op_lld(data, carriage);
+	else if (carriage->command_id == 14)
+		op_lldi(data, carriage);
+	else if (carriage->command_id == 15)
+		op_lfork(data, carriage);
+	else if (carriage->command_id == 16)
+		op_aff(data, carriage);
 	return (0);
 }
 
@@ -79,6 +220,9 @@ int 	do_command(t_data *data, t_carr *carriage)
 		if (pars_args(data, carriage))
 			return (skip_invalid(data, carriage));
 	}
+	if (pars_args(data, carriage))
+		return (skip_invalid(data, carriage));
+	go_to_command(data, carriage);
 	return (0);
 }
 

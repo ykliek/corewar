@@ -64,8 +64,15 @@ typedef struct 				s_args
 	union
 	{
 		unsigned int		nbr;
+		unsigned short		half[2];
 		unsigned char		hex[4];
-	};
+	}						point;
+	union
+	{
+		unsigned int		nbr;
+		unsigned short		half[2];
+		unsigned char		hex[4];
+	}						value;
 }							t_args;
 
 typedef struct				s_carr
@@ -157,6 +164,23 @@ void						reader(t_data *data);
 void	insert_op_tab(t_data *data);
 void    create_arena(t_data *data);
 int 	main_cycle(t_data *data);
+
+int 	op_live(t_data *data, t_carr *carriage);
+int 	op_ld(t_data *data, t_carr *carriage);
+int 	op_st(t_data *data, t_carr *carriage);
+int 	op_add(t_data *data, t_carr *carriage);
+int 	op_sub(t_data *data, t_carr *carriage);
+int 	op_and(t_data *data, t_carr *carriage);
+int 	op_or(t_data *data, t_carr *carriage);
+int 	op_xor(t_data *data, t_carr *carriage);
+int 	op_zjmp(t_data *data, t_carr *carriage);
+int 	op_ldi(t_data *data, t_carr *carriage);
+int 	op_sti(t_data *data, t_carr *carriage);
+int 	op_fork(t_data *data, t_carr *carriage);
+int 	op_lld(t_data *data, t_carr *carriage);
+int 	op_lldi(t_data *data, t_carr *carriage);
+int 	op_lfork(t_data *data, t_carr *carriage);
+int 	op_aff(t_data *data, t_carr *carriage);
 /*
 ** error_management.c
 */
