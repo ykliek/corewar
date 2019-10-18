@@ -20,30 +20,30 @@ void	init(t_data *data)
 	data->fd = create_dblist();
 }
 
-void insertion_sort(t_dblist **list, int (*cmp)(void*, void*))
+void	insertion_sort(t_dblist **list)
 {
-	t_dblist *out;
-	t_ldata *sorted;
-	t_ldata *unsorted;
+	t_dblist	*tmp;
+	void		*data;
+	int			count;
 
-	unsorted = NULL;
-	sorted = NULL;
-	out = create_dblist();
-	push_front(out, pop_front(*list));
-	unsorted = (*list)->head;
-	while (unsorted)
+	tmp = create_dblist();
+	tmp->head = (*list)->head;
+	count = 0;
+	while (tmp->head->next)
 	{
-		sorted = out->head;
-		while (sorted && !cmp(unsorted->data, sorted->data))
-			sorted = sorted->next;
-		if (sorted)
-			insert_before(out, sorted, unsorted->data);
-		else
-			push_back(out, unsorted->data);
-		unsorted = unsorted->next;
+		if (((t_fd *)tmp->head->data)->order >
+			((t_fd *)tmp->head->next->data)->order)
+		{
+			data = tmp->head->data;
+			tmp->head->data = tmp->head->next->data;
+			tmp->head->next->data = data;
+			tmp->head = (*list)->head;
+			count = -1;
+		}
+		count++;
+		if (count > 0)
+			tmp->head = tmp->head->next;
 	}
-	free(*list);
-	*list = out;
 }
 
 void	define_argc(t_data *data, int argc, char **argv)
@@ -57,8 +57,8 @@ void	define_argc(t_data *data, int argc, char **argv)
 	{
 		if (ft_strequ(argv[count], "-n"))
 		{
-			order = ft_atoi(argv[count++]);
 			count++;
+			order = ft_atoi(argv[count++]);
 		}
 		else
 			order = 0;
@@ -70,12 +70,20 @@ void	define_argc(t_data *data, int argc, char **argv)
 	}
 }
 
+void	define_zero_order(t_data *data)
+{
+	t_ldata		*tmp;
+	t_ldata		*tmp2;
+
+}
+
 int		main(int argc, char **argv)
 {
 	t_data	data;
 
 	init(&data);
 	define_argc(&data, argc, argv);
+	insertion_sort(&data.fd);
 	reader(&data);
 	create_arena(&data);
 	main_cycle(&data);
