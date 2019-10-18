@@ -6,8 +6,13 @@
 
 int 	op_live(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	carriage->last_alive = data->cycle;
+	if (carriage->args[0].value.nbr > 0 && carriage->args[0].value.nbr < data->player->size + 1)
+		data->who_last_live = carriage->args[0].value.nbr;
+	data->lives_from_check++;
+	ft_putstr("A process shows that player ");
+	ft_putnbr(data->who_last_live);
+	ft_putstr("X (champion_name) is alive\n");
 	return (0);
 }
 
@@ -221,8 +226,15 @@ int 	op_sti(t_data *data, t_carr *carriage)
 
 int 	op_fork(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	t_carr	*result;
+
+	result = (t_carr *)malloc(sizeof(t_carr));
+	ft_memcpy(result, carriage, sizeof(t_carr));
+	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
+	result->position = carriage->args[0].value.half[1] % IDX_MOD;
+	result->reg[1].nbr = carriage->reg[1].nbr;
+	result->carry = carriage->carry;
+	push_front(data->carriage, result);
 	return (0);
 }
 
@@ -278,14 +290,26 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 
 int 	op_lfork(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	t_carr	*result;
+
+	result = (t_carr *)malloc(sizeof(t_carr));
+	ft_memcpy(result, carriage, sizeof(t_carr));
+	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
+	result->position = carriage->args[0].value.half[1];
+	result->reg[1].nbr = carriage->reg[1].nbr;
+	result->carry = carriage->carry;
+	push_front(data->carriage, result);
 	return (0);
 }
 
 int 	op_aff(t_data *data, t_carr *carriage)
 {
-	(void)data;
-	(void)carriage;
+	char ch;
+
+	if (data->flags.aff_mode)
+	{
+		ch = carriage->reg[carriage->args[0].point.nbr].nbr % 256;
+		write(1, &ch, 1);
+	}
 	return (0);
 }

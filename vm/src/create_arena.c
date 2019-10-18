@@ -4,21 +4,6 @@
 
 #include "../virtual_machine.h"
 
-t_ldata			*insert_new_carry(t_data *data)
-{
-	t_ldata	*result;
-
-	result = (t_ldata *)malloc(sizeof(t_ldata));
-	ft_bzero(result, sizeof(t_ldata));
-	((t_carr *)result->data)->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	result->next = data->carriage->head;
-	result->prev = data->carriage->tail;
-	data->carriage->head->prev = result;
-	data->carriage->tail->next = result;
-	data->carriage->head = result;
-	return (result);
-}
-
 void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 {
 	t_carr	*result;
@@ -31,6 +16,7 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 		result->carr_id = 1;
 	result->position = temp_pointer;
 	result->reg[1].nbr = ((t_player *)player->data)->id * -1;
+	data->who_last_live = ((t_player *)player->data)->id * -1;
 	result->carry = CARRY_DONT_MOVE;
 	ft_memcpy(result->test, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code);
 	push_front(data->carriage, result);

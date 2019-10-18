@@ -92,7 +92,6 @@ typedef struct				s_carr
     int						byte_to_next;
     t_reg					reg[REG_NUMBER + 1];
 	t_carry					carry;
-    int						last_live;
     unsigned char			command_id;
     int						wait;
 	t_args					args[3];
@@ -126,6 +125,11 @@ typedef struct				s_op
 	int						half_size_dir;
 }							t_op;
 
+typedef struct				s_flags
+{
+	char					aff_mode;
+}							t_flags;
+
 typedef struct				s_data
 {
 	union
@@ -136,9 +140,17 @@ typedef struct				s_data
 	int						line;
 	t_dblist				*player;
 	t_dblist				*fd;
+	t_flags					flags;
 	t_arena					arena[MEM_SIZE];
 	t_dblist				*carriage;
 	unsigned long			cycle;
+	int 					cycles_to_die;
+	unsigned char			who_last_live;
+	unsigned long			lives_from_check;
+	int 					nbr_live;
+	int 					cycle_delta;
+	unsigned long			checks_counter;
+	int 					max_checks;
 	t_op					op_tab[17];
 }							t_data;
 
@@ -193,6 +205,8 @@ int 	op_lld(t_data *data, t_carr *carriage);
 int 	op_lldi(t_data *data, t_carr *carriage);
 int 	op_lfork(t_data *data, t_carr *carriage);
 int 	op_aff(t_data *data, t_carr *carriage);
+
+int 	checker(t_data *data);
 /*
 ** error_management.c
 */

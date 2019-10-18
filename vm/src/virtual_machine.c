@@ -20,6 +20,12 @@ void	init(t_data *data)
 	data->fd = create_dblist();
 	data->carriage = create_dblist();
 	data->cycle = 1;
+	data->flags.aff_mode = 0;
+	data->cycles_to_die = CYCLE_TO_DIE;
+	data->nbr_live = NBR_LIVE;
+	data->cycle_delta = CYCLE_DELTA;
+	data->max_checks = MAX_CHECKS;
+	data->checks_counter = 0;
 }
 
 void	define_argc(t_data *data, int argc, char **argv)
@@ -46,6 +52,13 @@ void	define_argc(t_data *data, int argc, char **argv)
 	}
 }
 
+int 	game_over(t_data *data)
+{
+	ft_putstr("\nThe champoin №");
+	ft_putnbr(data->who_last_live);
+	ft_putstr("is winner!\n");
+}
+
 int		main(int argc, char **argv)
 {
 	t_data	data;
@@ -55,6 +68,7 @@ int		main(int argc, char **argv)
 	reader(&data);
 	create_arena(&data);
 	main_cycle(&data);
+	game_over(&data);
 
 	return (0);
 }

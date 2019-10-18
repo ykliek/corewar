@@ -234,7 +234,6 @@ int 	main_cycle(t_data *data)
 	while (1)
 	{
 		current_carriage = data->carriage->head;
-		data->cycle++;
 		while (current_carriage)
 		{
 			get_command_id(data, (t_carr *)current_carriage->data);
@@ -244,6 +243,9 @@ int 	main_cycle(t_data *data)
 				do_command(data, (t_carr *)current_carriage->data);
 			current_carriage = current_carriage->next;
 		}
+		data->cycle++;
+		if (checker(data))
+			return (0);
 	}
 	return (0);
 }
