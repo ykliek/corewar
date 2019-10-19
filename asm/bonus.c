@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 19:53:03 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/19 12:29:04 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ void	flags(char **s, t_asm *asem, int l)
 		while (s[j])
 		{
 			if (s[i][j] == 'r')
+			{
 				asem->rev = 1;
+				asem->rs = i;
+			}
 			if (s[i][j] == 'h')
 			{
 				asem->hs = i;

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 19:46:19 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/19 13:51:58 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,10 @@ void	stocor(t_asm *asem, t_lab *lab, char **av)
 	int		i;
 
 	i = 1;
-	if (asem->help == 1 && asem->hs == 1)
-		i = 2;
-	if (av[i])
-	{
-		if (i == 2)
-			ft_printf("\n");
-		if (fnameval(av[i], asem) == 0)
-			errors(1, 0, asem);
-		asem->name_s = ft_strdup(av[i]);
-		valid(asem, &lab);
-		convert(asem, lab);
-		ft_printf("\033[1;32mWriting output program to %s\n", asem->name_cor);
-	}
+	if (fnameval(av[i], asem) == 0)
+		errors(1, 0, asem);
+	asem->name_s = ft_strdup(av[i]);
+	valid(asem, &lab);
+	convert(asem, lab);
+	ft_printf("\033[1;32mWriting output program to %s\n", asem->name_cor);
 }

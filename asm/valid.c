@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 19:30:38 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/19 15:09:46 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	valid(t_asm *asem, t_lab **lab)
 	checkfile(file, asem, lab);
 	while ((*lab)->prev)
 		(*lab) = (*lab)->prev;
+	printf("TUTA6\n");
 }

@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/18 19:48:43 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/19 15:08:01 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HEAD = asm.h
 
 SRC = asm.c bonus.c checkfile.c comname.c labelch.c valid.c \
 gnl/get_next_line.c addcheckfile.c convert.c usefull.c \
-codecon.c dlc1.c block5.c dlc2.c
+codecon.c dlc1.c block5.c dlc2.c cortos.c corconval.c corcode.c
 
 OBJ := $(SRC:.c=.o)
 

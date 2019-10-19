@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 19:38:33 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/19 13:49:52 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		fnameval(char *s, t_asm *asem)
 	asem->name_cor[j + 1] = 'c';
 	asem->name_cor[j + 2] = 'o';
 	asem->name_cor[j + 3] = 'r';
+	asem->name_cor[j + 4] = '\0';
 	return (1);
 }
 
@@ -84,12 +85,10 @@ int		main(int ac, char **av)
 		asem = ft_memalloc(sizeof(t_asm));
 		init(asem);
 		flags(av, asem, ac);
-		if (asem->rev == 0)
+		if (asem->rev == 0 && asem->help == 0)
 			stocor(asem, lab, av);
 		else if (asem->rev == 1)
-		{
-			printf("REVERCE\n");
-		}
+			cortos(av, asem);
 	}
 	return (0);
 }
