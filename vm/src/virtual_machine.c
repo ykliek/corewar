@@ -57,6 +57,7 @@ int 	game_over(t_data *data)
 	ft_putstr("\nThe champoin №");
 	ft_putnbr(data->who_last_live);
 	ft_putstr("is winner!\n");
+    return (0);
 }
 
 int		main(int argc, char **argv)

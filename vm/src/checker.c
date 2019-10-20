@@ -28,7 +28,7 @@ int 	check_carriages(t_data *data)
 	return (game_over) ? 1 : 0;
 }
 
-int 	checker(t_data *data)
+int 	check(t_data *data)
 {
 	static int last_check = 0;
 	static int checks_to_reduce = 0;
@@ -47,6 +47,7 @@ int 	checker(t_data *data)
 		data->lives_from_check = 0;
 		last_check = data->cycle;
 		data->checks_counter++;
+		dumping(data);
 	}
 	return (0);
 }

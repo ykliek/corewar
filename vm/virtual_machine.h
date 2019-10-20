@@ -206,7 +206,8 @@ int 	op_lldi(t_data *data, t_carr *carriage);
 int 	op_lfork(t_data *data, t_carr *carriage);
 int 	op_aff(t_data *data, t_carr *carriage);
 
-int 	checker(t_data *data);
+int 	check(t_data *data);
+void    dumping(t_data *data);
 /*
 ** error_management.c
 */
