@@ -28,6 +28,32 @@ void	init(t_data *data)
 	data->checks_counter = 0;
 }
 
+void	insertion_sort(t_dblist **list)
+{
+	t_dblist	*tmp;
+	void		*data;
+	int			count;
+
+	tmp = create_dblist();
+	tmp->head = (*list)->head;
+	count = 0;
+	while (tmp->head->next)
+	{
+		if (((t_fd *)tmp->head->data)->order >
+			((t_fd *)tmp->head->next->data)->order)
+		{
+			data = tmp->head->data;
+			tmp->head->data = tmp->head->next->data;
+			tmp->head->next->data = data;
+			tmp->head = (*list)->head;
+			count = -1;
+		}
+		count++;
+		if (count > 0)
+			tmp->head = tmp->head->next;
+	}
+}
+
 void	define_argc(t_data *data, int argc, char **argv)
 {
 	int		count;
@@ -39,8 +65,8 @@ void	define_argc(t_data *data, int argc, char **argv)
 	{
 		if (ft_strequ(argv[count], "-n"))
 		{
-			order = ft_atoi(argv[count++]);
 			count++;
+			order = ft_atoi(argv[count++]);
 		}
 		else
 			order = 0;
@@ -52,11 +78,18 @@ void	define_argc(t_data *data, int argc, char **argv)
 	}
 }
 
+void	define_zero_order(t_data *data)
+{
+	t_ldata		*tmp;
+	t_ldata		*tmp2;
+
+}
+
 int 	game_over(t_data *data)
 {
-	ft_putstr("\nThe champoin №");
-	ft_putnbr(data->who_last_live);
-	ft_putstr("is winner!\n");
+    ft_putstr("\nThe champoin №");
+    ft_putnbr(data->who_last_live);
+    ft_putstr("is winner!\n");
     return (0);
 }
 
@@ -66,6 +99,7 @@ int		main(int argc, char **argv)
 
 	init(&data);
 	define_argc(&data, argc, argv);
+	insertion_sort(&data.fd);
 	reader(&data);
 	create_arena(&data);
 	main_cycle(&data);

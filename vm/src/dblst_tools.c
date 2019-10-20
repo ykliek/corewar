@@ -85,21 +85,17 @@ void		push_front(t_dblist *list, void *data)
 {
 	t_ldata *tmp;
 
-	tmp = (t_ldata*) malloc(sizeof(t_ldata));
-	if (tmp == NULL) {
+	tmp = (t_ldata *)malloc(sizeof(t_ldata));
+	if (tmp == NULL)
 		exit(1);
-	}
 	tmp->data = data;
 	tmp->next = list->head;
 	tmp->prev = NULL;
-	if (list->head) {
+	if (list->head)
 		list->head->prev = tmp;
-	}
 	list->head = tmp;
-
-	if (list->tail == NULL) {
+	if (list->tail == NULL)
 		list->tail = tmp;
-	}
 	list->size++;
 }
 
