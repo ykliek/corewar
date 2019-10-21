@@ -101,6 +101,7 @@ int 	get_indirect(t_data *data, t_carr *carriage, int arg)
 		carriage->args[arg].value.hex[i] = position[i].hex;
 		i++;
 	}
+    return (0);
 }
 
 int 	op_and(t_data *data, t_carr *carriage)
@@ -231,7 +232,7 @@ int 	op_fork(t_data *data, t_carr *carriage)
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	result->position = carriage->args[0].value.half[1] % IDX_MOD;
+	result->position = carriage->position + carriage->args[0].value.half[1] % IDX_MOD;
 	result->reg[1].nbr = carriage->reg[1].nbr;
 	result->carry = carriage->carry;
 	push_front(data->carriage, result);
@@ -295,7 +296,7 @@ int 	op_lfork(t_data *data, t_carr *carriage)
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	result->position = carriage->args[0].value.half[1];
+	result->position = carriage->position + carriage->args[0].value.half[1];
 	result->reg[1].nbr = carriage->reg[1].nbr;
 	result->carry = carriage->carry;
 	push_front(data->carriage, result);

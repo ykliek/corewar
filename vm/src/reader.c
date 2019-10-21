@@ -43,6 +43,7 @@ void	checker(int fd, t_player *tmp, int type, int val)
 void	reader(t_data *data)
 {
 	int			count;
+	int			check;
 	int			fd;
 	int			id;
 	t_player	*tmp;
@@ -50,14 +51,14 @@ void	reader(t_data *data)
 	id = 1;
 	while (data->fd->head)
 	{
-		tmp = (t_player *)malloc(sizeof(t_player));
 		fd = ((t_fd *)data->fd->head->data)->fd;
+		tmp = (t_player *)malloc(sizeof(t_player));
 		count = 3;
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
 		if (data->check.value != COREWAR_EXEC_MAGIC)
 			err_messenge("Not valid magic header");
-		checker(fd, tmp, NAME, 0);
+		read(fd, tmp->name, PROG_NAME_LENGTH);
 		read(fd, data->check.convert, 4);
 		if (data->check.value != 0)
 			err_messenge("You have problem with NULL");
@@ -65,16 +66,12 @@ void	reader(t_data *data)
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
 		tmp->size_exe_code = data->check.value;
-		checker(fd, tmp, COMMENT, 0);
-		read(fd, data->check.convert, 4);
-		if (data->check.value != 0)
-			err_messenge("You have problem with NULL");
+		read(fd, tmp->comment, COMMENT_LENGTH);
 		tmp->exe_code = (unsigned char *)
 				malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
-		checker(fd, tmp, EXE_CODE, 0);
+		check = read(fd, tmp->exe_code, tmp->size_exe_code);
 		tmp->id = id++;
 		push_back(data->player, tmp);
-		checker(fd, tmp, FINAL_CHECK, 0);
 		data->fd->head = data->fd->head->next;
 	}
 }

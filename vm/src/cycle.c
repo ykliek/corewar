@@ -244,7 +244,7 @@ int 	main_cycle(t_data *data)
 			current_carriage = current_carriage->next;
 		}
 		data->cycle++;
-		if (checker(data))
+		if (check(data))
 			return (0);
 	}
 	return (0);
