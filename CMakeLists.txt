@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(work C)
+project(corewar_dev C)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -7,7 +7,7 @@ include_directories(libft)
 include_directories(resources)
 include_directories(vm)
 
-add_executable(work
+add_executable(corewar_dev
         libft/colors.c
         libft/free_mem.c
         libft/ft_atoi.c
@@ -85,4 +85,7 @@ add_executable(work
         vm/src/reader.c
         vm/src/cycle.c
         vm/src/create_arena.c
-        vm/src/error_management.c vm/src/commands.c vm/src/checker.c vm/src/dump.c)
+        vm/src/error_management.c
+        vm/src/commands.c
+        vm/src/checker.c
+        vm/src/dump.c)
