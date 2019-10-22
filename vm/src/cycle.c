@@ -245,6 +245,7 @@ int 	main_cycle(t_data *data)
 		data->cycle++;
 		if (check(data))
 			return (0);
+		dumping(data);
 	}
 	return (0);
 }
