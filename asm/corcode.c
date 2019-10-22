@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 15:07:14 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 15:10:15 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:29:22 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ int		convbyte(t_asm *asem, int fd1, int fd2, int l)
 		r++;
 		i--;
 	}
-	s = ft_itoa(asem->check.value);
+	
+	s = ft_itoa((short)asem->check.half[0]);
+//	printf("%s\n", s);
 	write(fd2, s, ft_strlen(s));
+//	write(fd2, "test", 4);
 	return (r);
 }
 

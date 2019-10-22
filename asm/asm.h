@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 14:37:38 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:23:19 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct			s_asm
 	union
 	{
 		unsigned int	value;
+		unsigned short	half[2];
 		unsigned char	convert[4];
 	}					check;
 	t_lab				*lab;
