@@ -63,6 +63,20 @@ void		delete_list(t_ldata **list)
 	}
 }
 
+void		delete_one_ldata(t_ldata **ldata)
+{
+    t_ldata *to_del;
+
+    if (ldata && *ldata)
+    {
+        to_del = (*ldata);
+        *ldata = (*ldata)->next;
+        if (*ldata)
+            (*ldata)->prev = to_del->prev;
+        free(to_del);
+    }
+}
+
 void		push_back(t_dblist *list, void *data)
 {
 	t_ldata	*tmp;

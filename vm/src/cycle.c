@@ -90,14 +90,14 @@ int 	pars_without_type(t_data *data, t_carr *carriage)
 	{
 		i = 1;
 		while (++i < 4)
-			carriage->args[0].value.hex[i] = carriage->position[i - 1].hex;
+			carriage->args[0].value.hex[3 - i] = carriage->position[i - 1].hex;
 		carriage->byte_to_next = 2;
 	}
 	else
 	{
 		i = -1;
 		while (++i < 4)
-			carriage->args[0].value.hex[i] = carriage->position[i + 1].hex;
+			carriage->args[0].value.hex[3 - i] = carriage->position[i + 1].hex;
 		carriage->byte_to_next = 4;
 	}
 	carriage->args[0].type = T_DIR;
@@ -112,14 +112,14 @@ int 	get_direct(t_data *data, t_carr *carriage, int count)
 	{
 		i = 1;
 		while (++i < 4)
-			carriage->args[count].value.hex[i] = carriage->position[carriage->byte_to_next + i - 1].hex;
+			carriage->args[count].value.hex[3 - i] = carriage->position[carriage->byte_to_next + i - 1].hex;
 		carriage->byte_to_next += 2;
 	}
 	else
 	{
 		i = -1;
 		while (++i < 4)
-			carriage->args[count].value.hex[i] = carriage->position[carriage->byte_to_next + i + 1].hex;
+			carriage->args[count].value.hex[3 - i] = carriage->position[carriage->byte_to_next + i + 1].hex;
 		carriage->byte_to_next += 4;
 	}
 	carriage->args[count].type = T_DIR;
@@ -128,14 +128,13 @@ int 	get_direct(t_data *data, t_carr *carriage, int count)
 
 int 	get_arg(t_data *data, t_carr *carriage, int count)
 {
-	int		i;
 	int 	mask;
 
 	mask = 6 - (count * 2);
 	if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
 	{
-		carriage->args[count].point.hex[4] = carriage->position[carriage->byte_to_next + 1].hex;
-		if (carriage->args[count].point.hex[4] < 1 || carriage->args[count].point.hex[4] > REG_NUMBER)
+		carriage->args[count].point.hex[0] = carriage->position[carriage->byte_to_next + 1].hex;
+		if (carriage->args[count].point.hex[0] < 1 || carriage->args[count].point.hex[0] > REG_NUMBER)
 			return (1);
 		carriage->args[count].type = T_REG;
 		carriage->byte_to_next++;
@@ -146,8 +145,8 @@ int 	get_arg(t_data *data, t_carr *carriage, int count)
 	}
 	else if ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
 	{
-		carriage->args[count].point.hex[3] = carriage->position[carriage->byte_to_next + 1].hex;
-		carriage->args[count].point.hex[4] = carriage->position[carriage->byte_to_next + 2].hex;
+		carriage->args[count].point.hex[1] = carriage->position[carriage->byte_to_next + 1].hex;
+		carriage->args[count].point.hex[0] = carriage->position[carriage->byte_to_next + 2].hex;
 		carriage->args[count].type = T_IND;
 		carriage->byte_to_next += 2;
 	}
@@ -220,7 +219,7 @@ int 	do_command(t_data *data, t_carr *carriage)
 		if (pars_args(data, carriage))
 			return (skip_invalid(data, carriage));
 	}
-	if (pars_args(data, carriage))
+	else if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
 	go_to_command(data, carriage);
 	carriage->position += (carriage->byte_to_next + 1);
@@ -231,6 +230,7 @@ int 	main_cycle(t_data *data)
 {
 	t_ldata *current_carriage;
 
+//    data->cycles_to_die = 27; // test
 	while (1)
 	{
 		current_carriage = data->carriage->head;

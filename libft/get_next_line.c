@@ -3,83 +3,139 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/12 09:53:19 by ykliek            #+#    #+#             */
-/*   Updated: 2018/11/12 09:53:21 by ykliek           ###   ########.fr       */
+/*   Created: 2018/12/11 20:07:19 by eamielin          #+#    #+#             */
+/*   Updated: 2018/12/11 20:07:20 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*add_newline(char *s, int len)
+static t_list	*save(void *content, size_t nbr, t_descriptor **curr, int mode)
 {
-	int		count;
-	char	*sub;
+	t_list			*part;
+	t_descriptor	*descriptor;
 
-	sub = ft_strnew(len);
-	count = 0;
-	if (s)
+	if (mode)
 	{
-		while (count < len)
+		if ((part = (t_list *)malloc(sizeof(t_list))))
 		{
-			sub[count] = s[count];
-			count++;
+			part->content = content;
+			part->content_size = nbr;
+			part->next = NULL;
+			return (part);
 		}
-		sub[count] = '\0';
-		return (sub);
+	}
+	else
+	{
+		if ((descriptor = (t_descriptor *)malloc(sizeof(t_descriptor))))
+		{
+			descriptor->branch = content;
+			descriptor->fd = (int)nbr;
+			descriptor->next = *curr;
+			*curr = descriptor;
+		}
 	}
 	return (NULL);
 }
 
-int		get_every_line(int fd, int tmp, char **str, char **line)
+static int		end(int rbyte, char *buf, t_list **curr)
 {
-	int		count;
-	char	*str1;
+	size_t	i;
+	int		last;
 
-	count = 0;
-	while (str[fd][count] != '\n' && str[fd][count] != '\0')
-		count++;
-	if (str[fd][count] == '\n')
+	if ((i = ft_findchr(buf, '\n', rbyte, 0)))
 	{
-		*line = add_newline(str[fd], count);
-		str1 = ft_strdup(str[fd] + count + 1);
-		free(str[fd]);
-		str[fd] = str1;
+		ft_lstaddend(curr, ft_lstnew(buf, i));
+		if (ft_lstcount(*curr) > 1)
+			ft_lstcat(curr, 0, 1, 1);
+		last = i;
+		while ((last < rbyte) && (i = ft_findchr(&buf[last], '\n',
+													rbyte - last, 0)))
+		{
+			ft_lstaddend(curr, ft_lstnew(&buf[last], i));
+			last += i;
+		}
+		if (last < rbyte)
+			ft_lstaddend(curr, ft_lstnew(&buf[last], rbyte - last));
+		free(buf);
+		return (1);
 	}
-	else if (str[fd][count] == '\0')
-	{
-		if (tmp == BUFF_SIZE)
-			return (get_next_line(fd, line));
-		*line = ft_strdup(str[fd]);
-		ft_strdel(&str[fd]);
-	}
-	return (1);
+	else
+		return (0);
 }
 
-int		get_next_line(const int fd, char **line)
+static int		reading(const int fd, t_list **curr)
 {
-	char			buf[BUFF_SIZE + 1];
-	char			*str;
-	int				tmp;
-	static	char	*str1[0xffffffff];
+	int		rbyte;
+	char	*buf;
 
-	if (fd < 0 || line == NULL)
-		return (-1);
-	while ((tmp = read(fd, buf, BUFF_SIZE)) > 0)
+	while (1)
 	{
-		buf[tmp] = '\0';
-		if (str1[fd] == NULL)
-			str1[fd] = ft_strnew(1);
-		str = ft_strjoin(str1[fd], buf);
-		free(str1[fd]);
-		str1[fd] = str;
-		if (ft_strchr(buf, '\n'))
-			break ;
+		buf = (char *)malloc(BUFF_SIZE);
+		if ((rbyte = read(fd, buf, BUFF_SIZE)) < 1)
+		{
+			if (*curr)
+			{
+				ft_lstaddend(curr, ft_lstnew("\0", 1));
+				ft_lstcat(curr, 0, 1, 1);
+				rbyte = 1;
+			}
+			free(buf);
+			return (rbyte);
+		}
+		if (end(rbyte, buf, curr))
+			return (1);
+		else
+			ft_lstaddend(curr, save(buf, rbyte, 0, 1));
 	}
-	if (tmp < 0)
-		return (-1);
-	else if (tmp == 0 && (str1[fd] == NULL || str1[fd][0] == '\0'))
-		return (0);
-	return (get_every_line(fd, tmp, str1, line));
+}
+
+static int		present(t_descriptor **curr, char **line, int result)
+{
+	t_list			*temp_branch;
+	t_descriptor	*temp_descriptor;
+
+	*line = ((*curr)->branch)->content;
+	(*line)[((*curr)->branch)->content_size - 1] = '\0';
+	temp_branch = ((*curr)->branch)->next;
+	free((*curr)->branch);
+	if (temp_branch == NULL)
+	{
+		temp_descriptor = (*curr)->next;
+		free(*curr);
+		*curr = temp_descriptor;
+	}
+	else
+		(*curr)->branch = temp_branch;
+	return (result);
+}
+
+int				get_next_line(const int fd, char **line)
+{
+	static t_descriptor	*prew;
+	t_descriptor		**curr;
+	int					result;
+	t_list				*branch;
+
+	curr = &prew;
+	branch = NULL;
+	while ((*curr) && ((*curr)->fd != fd))
+		curr = &((*curr)->next);
+	if ((*curr) && (((char *)((*curr)->branch)->content)
+		[((*curr)->branch)->content_size - 1] == '\n'))
+		return (present(curr, line, 1));
+	if (*curr)
+	{
+		reading(fd, &((*curr)->branch));
+		return (present(curr, line, 1));
+	}
+	if ((result = reading(fd, &branch)) == 1)
+	{
+		save(branch, fd, curr, 0);
+		return (present(curr, line, 1));
+	}
+	else
+		return (result);
 }

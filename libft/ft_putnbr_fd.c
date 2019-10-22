@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/01 12:45:39 by ykliek            #+#    #+#             */
-/*   Updated: 2018/11/01 12:45:40 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/13 22:56:16 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/13 22:56:16 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (n < -9 || n > 9)
-		ft_putnbr_fd(n / 10, fd);
-	if (n < 0)
+	char	array[11];
+	int		i;
+	char	except;
+
+	i = 10;
+	except = '\0';
+	if (n < 1)
+		except = (n < 0) ? '-' : '0';
+	while (n)
 	{
-		if (n >= -9)
-			ft_putchar_fd('-', fd);
-		ft_putchar_fd('0' - (n % 10), fd);
+		array[i--] = (n < 0) ? '0' - (n % 10) : '0' + (n % 10);
+		n /= 10;
 	}
-	else
-		ft_putchar_fd('0' + (n % 10), fd);
+	if (except)
+		array[i--] = except;
+	write(fd, &array[i + 1], 10 - i);
 }

@@ -11,19 +11,19 @@ int 	check_carriages(t_data *data)
 	int 	game_over;
 
 	game_over = 1;
-	tmp_carriage = &(data->carriage->head);
+	tmp_carriage = &data->carriage->head;
 	while (*tmp_carriage)
 	{
 		game_over = 0;
-		if (((t_carr *)(*tmp_carriage)->data)->last_alive < data->cycle - data->cycles_to_die)
+		if (((t_carr *)(*tmp_carriage)->data)->last_alive <= data->cycle - data->cycles_to_die)
 		{
-			free((t_carr *)(*tmp_carriage)->data);
-			temp = &(*tmp_carriage)->next;
-			delete_list(tmp_carriage);
+			free((*tmp_carriage)->data);
+//			temp = &(*tmp_carriage)->next;
+            delete_one_ldata(tmp_carriage);
 		}
 		else
-			temp = &(*tmp_carriage)->next;
-		tmp_carriage = temp;
+            tmp_carriage = &(*tmp_carriage)->next;
+//		tmp_carriage = temp;
 	}
 	return (game_over) ? 1 : 0;
 }
@@ -47,7 +47,7 @@ int 	check(t_data *data)
 		data->lives_from_check = 0;
 		last_check = data->cycle;
 		data->checks_counter++;
-		dumping(data);
+//		dumping(data);
 	}
 	return (0);
 }

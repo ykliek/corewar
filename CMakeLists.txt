@@ -8,24 +8,50 @@ include_directories(resources)
 include_directories(vm)
 
 add_executable(work
-        libft/colors.c
-        libft/free_mem.c
+        libft/ed_memalloc.c
+        libft/ft_arrlst.c
         libft/ft_atoi.c
+        libft/ft_atoi_base.c
         libft/ft_bzero.c
-        libft/ft_ftoa.c
+        libft/ft_capitalizer.c
+        libft/ft_contdel.c
+        libft/ft_donothing.c
+        libft/ft_elemnewdeterm.c
+        libft/ft_elemnewterm.c
+        libft/ft_elemnuldeterm.c
+        libft/ft_elemnulterm.c
+        libft/ft_error.c
+        libft/ft_findchr.c
+        libft/ft_fittoint.c
         libft/ft_isalnum.c
         libft/ft_isalpha.c
         libft/ft_isascii.c
         libft/ft_isdigit.c
+        libft/ft_ishex.c
         libft/ft_isprint.c
         libft/ft_itoa.c
         libft/ft_itoa_base.c
         libft/ft_lstadd.c
+        libft/ft_lstaddafter.c
+        libft/ft_lstaddend.c
+        libft/ft_lstarr.c
+        libft/ft_lstcat.c
+        libft/ft_lstcount.c
         libft/ft_lstdel.c
+        libft/ft_lstdelcount.c
         libft/ft_lstdelone.c
+        libft/ft_lstinter.c
         libft/ft_lstiter.c
         libft/ft_lstmap.c
+        libft/ft_lstmaxsize.c
         libft/ft_lstnew.c
+        libft/ft_lstprint.c
+        libft/ft_lstpushend.c
+        libft/ft_lstrvr.c
+        libft/ft_lstsave.c
+        libft/ft_lstsize.c
+        libft/ft_lstskip.c
+        libft/ft_lstterm.c
         libft/ft_memalloc.c
         libft/ft_memccpy.c
         libft/ft_memchr.c
@@ -34,7 +60,7 @@ add_executable(work
         libft/ft_memdel.c
         libft/ft_memmove.c
         libft/ft_memset.c
-        libft/ft_printf.c
+        libft/ft_onlyatoistr.c
         libft/ft_putchar.c
         libft/ft_putchar_fd.c
         libft/ft_putendl.c
@@ -43,6 +69,8 @@ add_executable(work
         libft/ft_putnbr_fd.c
         libft/ft_putstr.c
         libft/ft_putstr_fd.c
+        libft/ft_qfree.c
+        libft/ft_split.c
         libft/ft_strcat.c
         libft/ft_strchr.c
         libft/ft_strclr.c
@@ -73,10 +101,6 @@ add_executable(work
         libft/ft_toupper.c
         libft/get_next_line.c
         libft/libft.h
-        libft/modifiers.c
-        libft/parser.c
-        libft/precision.c
-        libft/weigth_n_flags.c
         resources/op.h
         resources/op.c
         vm/src/virtual_machine.c

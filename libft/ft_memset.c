@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/25 16:12:01 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/25 16:57:34 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/03 22:54:30 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/03 22:54:32 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,25 @@
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*str;
-	int		count;
-	int		num;
+	size_t			m;
+	unsigned char	i;
+	unsigned long	*temp;
+	unsigned long	*end;
 
-	num = (int)len;
-	str = (char*)b;
-	count = 0;
-	while (count < num)
+	if ((m = len / sizeof(long)))
 	{
-		str[count] = c;
-		count++;
+		temp = (unsigned long *)b;
+		i = 0;
+		while (i < sizeof(long))
+			((unsigned char *)b)[len - 1 - i++] = (unsigned char)c;
+		end = (unsigned long *)&((unsigned char *)b)[len - i];
+		while (m)
+			temp[(m--) - 1] = *end;
 	}
-	b = str;
+	else
+	{
+		while (len--)
+			((unsigned char *)b)[len] = (unsigned char)c;
+	}
 	return (b);
 }

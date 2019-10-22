@@ -2,17 +2,18 @@
 // Created by Eduard AMIELIN on 2019-10-18.
 //
 
+#include <virtual_machine.h>
 #include "../virtual_machine.h"
 
 int 	op_live(t_data *data, t_carr *carriage)
 {
 	carriage->last_alive = data->cycle;
-	if (carriage->args[0].value.nbr > 0 && carriage->args[0].value.nbr < data->player->size + 1)
+	if (carriage->args[0].value.nbr < 0 && (carriage->args[0].value.nbr > (data->player->size + 1) * -1))
 		data->who_last_live = carriage->args[0].value.nbr;
 	data->lives_from_check++;
 	ft_putstr("A process shows that player ");
 	ft_putnbr(data->who_last_live);
-	ft_putstr("X (champion_name) is alive\n");
+	ft_putstr(" (champion_name) is alive\n");
 	return (0);
 }
 
@@ -27,11 +28,11 @@ int 	op_ld(t_data *data, t_carr *carriage)
 		carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
 	else
 	{
-		position = carriage->position + (carriage->args[0].point.half[1] % IDX_MOD);
+		position = carriage->position + (carriage->args[0].point.nbr % IDX_MOD);
 		i = 0;
 		while (i < 4)
 		{
-			carriage->reg[reg_number].hex[i] = position[i].hex;
+			carriage->reg[reg_number].hex[3 - i] = position[i].hex;
 			i++;
 		}
 	}
@@ -44,17 +45,21 @@ int 	op_st(t_data *data, t_carr *carriage)
 	int 	i;
 	t_arena	*position;
 	int 	reg_number_src;
+    int 	reg_number_dst;
 
-	reg_number_src = carriage->args[1].point.nbr;
+    reg_number_src = carriage->args[0].point.nbr;
 	if (carriage->args[1].type == T_REG)
-		carriage->reg[carriage->args[1].point.nbr].nbr = carriage->reg[reg_number_src].nbr;
+    {
+        reg_number_dst = carriage->args[1].point.nbr;
+        carriage->reg[reg_number_dst].nbr = carriage->reg[reg_number_src].nbr;
+    }
 	else
 	{
-		position = carriage->position + (carriage->args[1].point.half[1] % IDX_MOD);
+		position = carriage->position + (carriage->args[1].point.nbr % IDX_MOD);
 		i = 0;
 		while (i < 4)
 		{
-			position[i].hex = carriage->reg[reg_number_src].hex[i];
+			position[i].hex = carriage->reg[reg_number_src].hex[3 - i];
 			i++;
 		}
 	}
@@ -95,13 +100,20 @@ int 	get_indirect(t_data *data, t_carr *carriage, int arg)
 	t_arena	*position;
 
 	i = 0;
-	position = carriage->position + (carriage->args[arg].point.half[1] % IDX_MOD);
+	position = carriage->position + (carriage->args[arg].point.half[0] % IDX_MOD);
 	while (i < 4)
 	{
-		carriage->args[arg].value.hex[i] = position[i].hex;
+		carriage->args[arg].value.hex[3 - i] = position[i].hex;
 		i++;
 	}
     return (0);
+}
+
+int 	get_reg_value(t_data *data, t_carr *carriage, int arg)
+{
+
+	carriage->args[arg].value.nbr = carriage->reg[carriage->args[arg].point.nbr].nbr;
+	return (0);
 }
 
 int 	op_and(t_data *data, t_carr *carriage)
@@ -113,10 +125,10 @@ int 	op_and(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-		{
 			get_indirect(data, carriage, arg);
-			arg++;
-		}
+		else if(carriage->args[arg].type == T_REG)
+			get_reg_value(data, carriage, arg);
+		arg++;
 	}
 	reg_three = carriage->args[2].point.nbr;
 	carriage->reg[reg_three].nbr = carriage->args[0].value.nbr & carriage->args[1].value.nbr;
@@ -133,10 +145,10 @@ int 	op_or(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-		{
 			get_indirect(data, carriage, arg);
-			arg++;
-		}
+		else if(carriage->args[arg].type == T_REG)
+			get_reg_value(data, carriage, arg);
+		arg++;
 	}
 	reg_three = carriage->args[2].point.nbr;
 	carriage->reg[reg_three].nbr = carriage->args[0].value.nbr | carriage->args[1].value.nbr;
@@ -153,10 +165,10 @@ int 	op_xor(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-		{
 			get_indirect(data, carriage, arg);
-			arg++;
-		}
+		else if(carriage->args[arg].type == T_REG)
+			get_reg_value(data, carriage, arg);
+		arg++;
 	}
 	reg_three = carriage->args[2].point.nbr;
 	carriage->reg[reg_three].nbr = carriage->args[0].value.nbr ^ carriage->args[1].value.nbr;
@@ -167,7 +179,10 @@ int 	op_xor(t_data *data, t_carr *carriage)
 int 	op_zjmp(t_data *data, t_carr *carriage)
 {
 	if (carriage->carry == CARRY_MOVE)
-		carriage->position = carriage->position + (carriage->args[0].value.half[1] % IDX_MOD);
+	{
+		carriage->position = carriage->position + (carriage->args[0].value.half[0] % IDX_MOD);
+		carriage->byte_to_next = -1;
+	}
 	return (0);
 }
 
@@ -192,7 +207,7 @@ int 	op_ldi(t_data *data, t_carr *carriage)
 	reg_number = carriage->args[2].point.nbr;
 	while (i < 4)
 	{
-		carriage->reg[reg_number].hex[i] = position[i].hex;
+		carriage->reg[reg_number].hex[3 - i] = position[i].hex;
 		i++;
 	}
 	return (0);
@@ -219,7 +234,7 @@ int 	op_sti(t_data *data, t_carr *carriage)
 	reg_number = carriage->args[0].point.nbr;
 	while (i < 4)
 	{
-		position[i].hex = carriage->reg[reg_number].hex[i];
+		position[i].hex = carriage->reg[reg_number].hex[3 - i];
 		i++;
 	}
 	return (0);
@@ -232,9 +247,8 @@ int 	op_fork(t_data *data, t_carr *carriage)
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	result->position = carriage->position + carriage->args[0].value.half[1] % IDX_MOD;
-	result->reg[1].nbr = carriage->reg[1].nbr;
-	result->carry = carriage->carry;
+	result->position = carriage->position + carriage->args[0].value.half[0] % IDX_MOD;
+	result->byte_to_next = 0;
 	push_front(data->carriage, result);
 	return (0);
 }
@@ -250,11 +264,11 @@ int 	op_lld(t_data *data, t_carr *carriage)
 		carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
 	else
 	{
-		position = carriage->position + (carriage->args[0].point.half[1]);
+		position = carriage->position + carriage->args[0].point.nbr;
 		i = 0;
 		while (i < 4)
 		{
-			carriage->reg[reg_number].hex[i] = position[i].hex;
+			carriage->reg[reg_number].hex[3 - i] = position[i].hex;
 			i++;
 		}
 	}
@@ -283,7 +297,7 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 	reg_number = carriage->args[2].point.nbr;
 	while (i < 4)
 	{
-		carriage->reg[reg_number].hex[i] = position[i].hex;
+		carriage->reg[reg_number].hex[3 - i] = position[i].hex;
 		i++;
 	}
 	return (0);
@@ -297,8 +311,7 @@ int 	op_lfork(t_data *data, t_carr *carriage)
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
 	result->position = carriage->position + carriage->args[0].value.half[1];
-	result->reg[1].nbr = carriage->reg[1].nbr;
-	result->carry = carriage->carry;
+	result->byte_to_next = 0;
 	push_front(data->carriage, result);
 	return (0);
 }

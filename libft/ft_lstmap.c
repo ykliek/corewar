@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/05 20:50:49 by ykliek            #+#    #+#             */
-/*   Updated: 2018/11/05 20:50:51 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/14 21:15:15 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/14 21:15:15 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*new;
-	t_list	*str;
-	t_list	*tmp;
+	t_list	*result;
+	t_list	*current;
+	t_list	*prew;
+	t_list	*source;
+	t_list	*next;
 
-	if (!lst)
-		return (NULL);
-	tmp = f(lst);
-	str = ft_lstnew(tmp->content, tmp->content_size);
-	if (!str)
-		return (NULL);
-	new = str;
-	lst = lst->next;
-	while (lst)
+	source = lst;
+	result = NULL;
+	prew = NULL;
+	while (source)
 	{
-		tmp = f(lst);
-		str->next = ft_lstnew(tmp->content, tmp->content_size);
-		if (!str->next)
-			return (NULL);
-		str = str->next;
-		lst = lst->next;
+		next = source->next;
+		current = f(source);
+		source = next;
+		if (prew)
+			prew->next = current;
+		prew = current;
+		if (!result)
+			result = current;
 	}
-	return (new);
+	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/28 14:26:08 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/28 14:26:09 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/07 21:35:48 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/07 21:35:49 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,15 @@
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int				count_1;
-	unsigned char	*str1;
-	unsigned char	*str2;
+	size_t	i;
 
-	str1 = (unsigned char*)s1;
-	str2 = (unsigned char*)s2;
-	count_1 = 0;
-	while (count_1 != (int)n)
+	i = 0;
+	while ((s1[i] || s2[i]) && i < n)
 	{
-		if (str1[count_1] == str2[count_1] && count_1 == (int)n)
-			return (0);
-		if (str1[count_1] == str2[count_1] && str2[count_1] == '\0')
-			return (0);
-		if (str1[count_1] > str2[count_1] && str1 && str2)
-			return (str1[count_1] - str2[count_1]);
-		if (str1[count_1] < str2[count_1])
-			return (str1[count_1] - str2[count_1]);
-		if (count_1 == (int)n && count_1 != (int)n)
-			return (str1[count_1] - str2[count_1]);
-		if (count_1 != (int)n && count_1 == (int)n)
-			return (str1[count_1] - str2[count_1]);
-		count_1++;
+		if (s1[i] == s2[i])
+			i++;
+		else
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
 	return (0);
 }

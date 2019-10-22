@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/01 15:08:23 by ykliek            #+#    #+#             */
-/*   Updated: 2018/11/01 15:08:25 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/10 14:37:10 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/10 14:37:11 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,19 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*str;
-	int		count;
-	int		count_1;
+	char	*result;
+	size_t	lenfirst;
+	size_t	lensecond;
 
-	count = 0;
-	count_1 = 0;
-	if (s1 && s2)
-	{
-		str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-		if (!str)
-			return (NULL);
-		while (s1[count] != '\0')
-			str[count_1++] = s1[count++];
-		count -= count;
-		while (s2[count] != '\0')
-			str[count_1++] = s2[count++];
-		str[count_1] = '\0';
-		return (str);
-	}
-	return (NULL);
+	if (!s1 || !s2)
+		return (NULL);
+	lenfirst = ft_strlen(s1);
+	lensecond = ft_strlen(s2);
+	result = (char *)malloc(lenfirst + lensecond + 1);
+	if (!result)
+		return (NULL);
+	ft_memcpy(result, s1, lenfirst);
+	ft_memcpy(&result[lenfirst], s2, lensecond);
+	result[lenfirst + lensecond] = '\0';
+	return (result);
 }

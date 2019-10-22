@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/27 16:28:16 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/27 16:28:18 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/05 20:09:51 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/05 20:09:52 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	*str;
+	char	*temp;
+	char	find;
 
-	str = (char *)s;
-	while (*str != c)
+	temp = (char *)s;
+	find = (char)c;
+	while (*temp)
 	{
-		if (*str == '\0')
-			return (NULL);
-		str++;
+		if (*temp == find)
+			return (temp);
+		temp++;
 	}
-	return (str);
+	if (*temp == find)
+		return (temp);
+	return (NULL);
 }

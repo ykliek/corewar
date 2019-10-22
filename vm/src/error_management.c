@@ -14,6 +14,7 @@
 
 void	err_messenge(char *err)
 {
-	ft_printf("%s\n", err);
+	ft_putstr_fd(err, 2);
+	ft_putstr_fd("\n", 2);
 	exit(0);
 }

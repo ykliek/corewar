@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/25 19:18:42 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/25 19:18:46 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/04 18:17:45 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/04 18:17:46 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	size_t	count;
-	char	*dst1;
-	char	*src1;
+	unsigned char	comp;
+	unsigned char	*destination;
+	unsigned char	*source;
 
-	dst1 = dst;
-	src1 = (char*)src;
-	count = 0;
-	while (count < n)
+	comp = (unsigned char)c;
+	destination = (unsigned char *)dst;
+	source = (unsigned char *)src;
+	while (n)
 	{
-		*dst1 = src1[count];
-		dst1++;
-		if (src1[count] == (char)c)
-			return (dst1);
-		count++;
+		if (*source == comp)
+		{
+			*(destination++) = *(source++);
+			return (destination);
+		}
+		*(destination++) = *(source++);
+		n--;
 	}
-	return (0);
+	return (NULL);
 }

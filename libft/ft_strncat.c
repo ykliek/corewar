@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/26 16:02:38 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/26 16:02:40 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/04 22:42:41 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/04 22:42:42 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	int	count_1;
-	int	count_2;
+	size_t	endfirst;
+	size_t	lensecond;
+	size_t	l;
 
-	count_1 = ft_strlen(s1);
-	count_2 = 0;
-	while (count_2 < (int)n && s2[count_2] != '\0')
-	{
-		s1[count_1] = s2[count_2];
-		count_1++;
-		count_2++;
-	}
-	s1[count_1] = '\0';
+	endfirst = ft_strlen(s1);
+	lensecond = ft_strlen(s2);
+	l = (lensecond < n) ? lensecond : n;
+	ft_memcpy(&s1[endfirst], s2, l);
+	s1[endfirst + l] = '\0';
 	return (s1);
 }

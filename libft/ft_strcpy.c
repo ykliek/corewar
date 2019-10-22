@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/26 14:06:02 by ykliek            #+#    #+#             */
-/*   Updated: 2018/10/26 14:06:03 by ykliek           ###   ########.fr       */
+/*   Created: 2018/11/04 21:10:13 by eamielin          #+#    #+#             */
+/*   Updated: 2018/11/04 21:10:14 by eamielin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 char	*ft_strcpy(char *dst, const char *src)
 {
-	int	count;
+	size_t	len;
 
-	count = 0;
-	while (src[count] != '\0')
-	{
-		dst[count] = src[count];
-		count++;
-	}
-	dst[count] = '\0';
+	len = ft_strlen(src);
+	ft_memmove(dst, src, len);
+	dst[len] = '\0';
 	return (dst);
 }

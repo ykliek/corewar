@@ -67,6 +67,9 @@ void	reader(t_data *data)
 			read(fd, &data->check.convert[count--], 1);
 		tmp->size_exe_code = data->check.value;
 		read(fd, tmp->comment, COMMENT_LENGTH);
+        read(fd, data->check.convert, 4);
+        if (data->check.value != 0)
+            err_messenge("You have problem with NULL");
 		tmp->exe_code = (unsigned char *)
 				malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
 		check = read(fd, tmp->exe_code, tmp->size_exe_code);

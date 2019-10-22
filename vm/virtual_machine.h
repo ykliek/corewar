@@ -63,15 +63,15 @@ typedef struct 				s_args
 	char 					type;
 	union
 	{
-		unsigned int		nbr;
-		unsigned short		half[2];
-		unsigned char		hex[4];
+		int					nbr;
+		short				half[2];
+		char				hex[4];
 	}						point;
 	union
 	{
-		unsigned int		nbr;
-		unsigned short		half[2];
-		unsigned char		hex[4];
+		int					nbr;
+		short				half[2];
+		char				hex[4];
 	}						value;
 }							t_args;
 
@@ -145,7 +145,7 @@ typedef struct				s_data
 	t_dblist				*carriage;
 	unsigned long			cycle;
 	int 					cycles_to_die;
-	unsigned char			who_last_live;
+	char		        	who_last_live;
 	unsigned long			lives_from_check;
 	int 					nbr_live;
 	int 					cycle_delta;
@@ -174,6 +174,7 @@ void						insert_before(t_dblist *list, t_ldata* elm,
 		void *value);
 
 void						*pop_front(t_dblist *list);
+void		                delete_one_ldata(t_ldata **ldata);
 
 /*
 ** reader.c
