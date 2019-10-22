@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
-void	err_messenge(char *err)
+void	err_massage(char *err)
 {
 	ft_putstr_fd(err, 2);
 	ft_putstr_fd("\n", 2);

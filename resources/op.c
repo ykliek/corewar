@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../vm/virtual_machine.h"
+#include "../vm/includes/virtual_machine.h"
 
 static t_op	g_op_tab[17] =
 		{

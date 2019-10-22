@@ -2,8 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-18.
 //
 
-#include <virtual_machine.h>
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 int 	op_live(t_data *data, t_carr *carriage)
 {

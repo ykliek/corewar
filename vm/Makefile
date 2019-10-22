@@ -6,52 +6,65 @@
 #    By: ykliek <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/08 13:02:57 by ykliek            #+#    #+#              #
-#    Updated: 2019/10/08 13:03:00 by ykliek           ###   ########.fr        #
+#    Updated: 2019/10/22 18:31:16 by ykliek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COREWAR = ../corewar
+NAME = ../corewar
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lncurses
 
-RM = rm -f
-MKDIR = mkdir -p
+INCLUDE_DIR = ./includes
+LIBFT_DIR = ../libft
+LIBFT = ../libft/libft.a
+INC_COREWAR = ./includes/virtual_machine.h
 
-LIBFT = -L ../libft -lft -lcurses
-LIBFT_PATH = ../libft
-INC_COREWAR = virtual_machine.h
-SRCS = cirtual_machine.c
+SRCS = src/checker.c \
+		src/commands.c \
+		src/create_arena.c \
+		src/cycle.c \
+		src/dblst_tools.c \
+		src/define.c \
+		src/dump.c \
+		src/error_management.c \
+		src/order.c \
+		src/reader.c \
+		src/virtual_machine.c \
+		../resources/op.c
 
-GREEN = \033[32m
-RED = \033[31m
-DEFAULT = \033[37m
-CYAN = \x1b[36m
-OBJS = $(SRCS:.c=.o)
-VPATH = srcs/:funcs/:funcs_tests:
+OBJ := $(SRC:.c=.o)
 
-all:	$(COREWAR)
+all: $(NAME) $(OBJ)
 
-# Executables
-$(COREWAR): $(OBJS)
-	@$(CC) -o $@ $^ $(CFLAGS) -include $(INC_COREWAR) $(LIBFT)
-	@echo "Compiling [$@]"
+$(NAME): libft
+	$(CC) -o $(NAME) $(CFLAGS) $(SRCS) -I $(INC_COREWAR) $(LIBFT)
+	printf '\033[32m[ ✔ ] %s\n\033[0m' "Create binary corewar"
 
-# Object files
-$(OBJS): $(SRCS)
-	@$(CC) -c $^ $(CFLAGS) -include $(INC_COREWAR)
-	@$(ECHO)
+libft:
+	@make -C $(LIBFT_DIR)
+	printf '\033[32m[ ✔ ] %s\n\033[0m' "Compile lib"
 
-# Cleaning rules
 clean:
-	@rm -f $(OBJS)
-	@echo "Cleaning [$(OBJS)]"
+	@rm -rf $(OBJ)
+	@make clean -C $(LIBFT_DIR)
+	printf '\033[32m[ ✔ ] %s\n\033[0m' "All *.o were cleaned"
 
-fclean:
-	@rm -f $(OBJS)
-	@rm -rf $(COREWAR)
-	@echo "Cleaning [libft corewar]"
+fclean: clean
+	@rm -rf $(NAME)
+	@make fclean -C $(LIBFT_DIR)
+	printf '\033[32m[ ✔ ] %s\n\033[0m' "All libft.a and binary were cleaned"
 
-re: fclean all
+cleanlib:
+	make -C $(LIBFT_DIR) clean
+
+fcleanlib:
+	make -C $(LIBFT_DIR) fclean
+
+relib:
+	make -C $(LIBFT_DIR) re
+
+deb :
+	$(CC) -lncurses -o $(NAME) $(SRCS) -I $(INC_COREWAR) $(LIBFT)
 
 .PHONY: clean fclean re libft all

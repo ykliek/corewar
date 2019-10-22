@@ -2,7 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-18.
 //
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 int 	check_carriages(t_data *data)
 {

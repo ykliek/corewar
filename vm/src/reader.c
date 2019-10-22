@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void	checker(int fd, t_player *tmp, int type, int val)
 {
@@ -18,32 +18,31 @@ void	checker(int fd, t_player *tmp, int type, int val)
 	{
 		val = read(fd, tmp->name, PROG_NAME_LENGTH);
 		if (val != PROG_NAME_LENGTH)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == COMMENT)
 	{
 		val = read(fd, tmp->comment, COMMENT_LENGTH);
 		if (val != COMMENT_LENGTH)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == EXE_CODE)
 	{
 		val = read(fd, tmp->exe_code, tmp->size_exe_code);
 		if (val != tmp->size_exe_code || val > CHAMP_MAX_SIZE)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == FINAL_CHECK)
 	{
 		val = read(fd, tmp->exe_code, 1);
 		if (val != 0)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 }
 
 void	reader(t_data *data)
 {
 	int			count;
-	int			check;
 	int			fd;
 	int			id;
 	t_player	*tmp;
@@ -57,24 +56,25 @@ void	reader(t_data *data)
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
 		if (data->check.value != COREWAR_EXEC_MAGIC)
-			err_messenge("Not valid magic header");
-		read(fd, tmp->name, PROG_NAME_LENGTH);
+			err_massage("Not valid magic header");
+		checker(fd, tmp, NAME, 0);
 		read(fd, data->check.convert, 4);
 		if (data->check.value != 0)
-			err_messenge("You have problem with NULL");
+			err_massage("You have problem with NULL");
 		count = 3;
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
 		tmp->size_exe_code = data->check.value;
-		read(fd, tmp->comment, COMMENT_LENGTH);
-        read(fd, data->check.convert, 4);
-        if (data->check.value != 0)
-            err_messenge("You have problem with NULL");
+		checker(fd, tmp, COMMENT, 0);
+		read(fd, data->check.convert, 4);
+		if (data->check.value != 0)
+			err_massage("You have problem with NULL");
 		tmp->exe_code = (unsigned char *)
 				malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
-		check = read(fd, tmp->exe_code, tmp->size_exe_code);
+		checker(fd, tmp, EXE_CODE, 0);
 		tmp->id = id++;
 		push_back(data->player, tmp);
+		checker(fd, tmp, FINAL_CHECK, 0);
 		data->fd->head = data->fd->head->next;
 	}
 }
