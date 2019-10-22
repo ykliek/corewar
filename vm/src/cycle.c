@@ -232,6 +232,8 @@ int 	main_cycle(t_data *data)
 //    data->cycles_to_die = 27; // test
 	while (1)
 	{
+		if (data->verbose.value & 2)
+			ft_printf("It is now cycle %d\n", data->cycle);
 		current_carriage = data->carriage->head;
 		while (current_carriage)
 		{
