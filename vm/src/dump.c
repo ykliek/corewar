@@ -42,6 +42,12 @@ void    dump64(t_data *data)
 
 void    dumping(t_data *data)
 {
-    dump64(data);
- //   exit (0);
+	if (data->dump.flag)
+	{
+		if (data->dump.value == data->cycle)
+		{
+			dump64(data);
+			exit (0);
+		}
+	}
 }
