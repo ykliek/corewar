@@ -16,8 +16,30 @@ void 	get_command_id(t_data *data, t_carr *carriage)
 	}
 }
 
+void	print_movements(t_data *data, t_carr *carriage)
+{
+	int	i;
+
+	if (carriage->command_id == 9 && carriage->byte_to_next == -1)
+		return ;
+	ft_printf("ADV %d (0x%04x -> 0x%04x)",
+			  carriage->byte_to_next + 1,
+			  (carriage->position - data->arena) / sizeof(t_arena),
+			  (carriage->position + carriage->byte_to_next + 1 - data->arena) / sizeof(t_arena));
+	i = 0;
+	while (i < (carriage->byte_to_next + 1))
+	{
+		ft_printf(" %02x", carriage->position[i].hex);
+		i++;
+	}
+	ft_printf("\n", carriage->byte_to_next + 1);
+}
+
 int 	skip(int count, t_data *data, t_carr *carriage)
 {
+	carriage->byte_to_next = count - 1;
+	if (data->verbose.value && 16)
+		print_movements(data, carriage);
 	carriage->position += count;
 	return (count);
 }
@@ -37,14 +59,23 @@ int 	skip_invalid(t_data *data, t_carr *carriage)
 		while (mask)
 		{
 			if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
+			{
 				skip += 1;
+			}
 			else if  ((carriage->position[1].hex & (3 << mask)) == (2 << mask))
+			{
 				skip += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
+			}
 			else if  ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
+			{
 				skip += 2;
-			mask = mask >> 2;
+			}
+			mask -= 2;
 		}
 	}
+	carriage->byte_to_next = skip - 1;
+	if (data->verbose.value && 16)
+		print_movements(data, carriage);
 	carriage->position += skip;
 	return (1);
 }
@@ -220,7 +251,11 @@ int 	do_command(t_data *data, t_carr *carriage)
 	}
 	else if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
+	if (data->verbose.value & 4)
+		ft_printf("P    %d | ", carriage->carr_id);
 	go_to_command(data, carriage);
+	if (data->verbose.value && 16)
+		print_movements(data, carriage);
 	carriage->position += (carriage->byte_to_next + 1);
 	return (0);
 }
@@ -234,6 +269,7 @@ int 	main_cycle(t_data *data)
 	{
 		if (data->verbose.value & 2)
 			ft_printf("It is now cycle %d\n", data->cycle);
+		dumping(data);
 		current_carriage = data->carriage->head;
 		while (current_carriage)
 		{
@@ -244,10 +280,9 @@ int 	main_cycle(t_data *data)
 				do_command(data, (t_carr *)current_carriage->data);
 			current_carriage = current_carriage->next;
 		}
-		data->cycle++;
 		if (check(data))
 			return (0);
-		dumping(data);
+		data->cycle++;
 	}
 	return (0);
 }

@@ -39,12 +39,11 @@ void	introducing_players(t_data *data)
 {
 	t_ldata		*tmp;
 
-	ft_printf("%kIntroducing contestants...\n", "yellow");
+	ft_printf("Introducing contestants...\n");
 	tmp = data->player->head;
 	while (data->player->head)
 	{
-		ft_printf("%k*Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				"red",
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 				((t_player *)data->player->head->data)->id,
 				((t_player *)data->player->head->data)->size_exe_code,
 				((t_player *)data->player->head->data)->name,
@@ -59,7 +58,7 @@ void	init(t_data *data)
 	data->player = create_dblist();
 	data->fd = create_dblist();
 	data->carriage = create_dblist();
-	data->cycle = 0;
+	data->cycle = 1;
 	data->cycles_to_die = CYCLE_TO_DIE;
 	data->nbr_live = NBR_LIVE;
 	data->cycle_delta = CYCLE_DELTA;
