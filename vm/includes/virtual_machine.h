@@ -13,8 +13,9 @@
 #ifndef VIRTUAL_MACHINE_H
 # define VIRTUAL_MACHINE_H
 
-#include "../libft/libft.h"
-#include "../resources/op.h"
+#include "../../libft/libft.h"
+#include "../../resources/op.h"
+#include <ncurses.h>
 
 enum
 {

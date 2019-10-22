@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void	define_zero_order(t_data *data)
 {

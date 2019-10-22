@@ -80,7 +80,6 @@ add_executable(corewar_dev
         resources/op.h
         resources/op.c
         vm/src/virtual_machine.c
-        vm/virtual_machine.h
         vm/src/dblst_tools.c
         vm/src/reader.c
         vm/src/cycle.c

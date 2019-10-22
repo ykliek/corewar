@@ -2,7 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-20.
 //
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void    dump64(t_data *data)
 {

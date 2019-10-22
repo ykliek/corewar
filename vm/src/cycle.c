@@ -2,8 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-16.
 //
 
-#include <virtual_machine.h>
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void 	get_command_id(t_data *data, t_carr *carriage)
 {

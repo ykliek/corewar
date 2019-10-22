@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void	err_massage(char *err)
 {

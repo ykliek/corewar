@@ -2,7 +2,7 @@
 // Created by Eduard AMIELIN on 2019-10-17.
 //
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 {

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
-#include <sys/types.h>
+#include "../includes/virtual_machine.h"
 
 void	print_usage(void)
 {

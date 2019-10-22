@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 t_dblist	*create_dblist(void)
 {

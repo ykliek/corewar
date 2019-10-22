@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
 void	checker(int fd, t_player *tmp, int type, int val)
 {
