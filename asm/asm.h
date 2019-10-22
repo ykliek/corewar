@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/19 15:39:03 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:37:38 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,8 @@ void					cortos(char **av, t_asm *asem);
 void					corconval(t_asm *asem);
 void					corerr(int n, int l, t_asm *asem);
 void					corcode(int fd1, int fd2, t_asm *asem);
+int						tobin(int n);
+void					flags2(char **s, t_asm *asem, int i);
+void					fhelp(void);
 
 #endif

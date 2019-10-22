@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/19 15:10:28 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:41:23 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,11 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 
 	i = -1;
 	f = 0;
-	printf("TUTA1\n");
 	while (file[++i])
 	{
-		printf("TUTA2\n");
-		while (file[i] == ' ' || file[i] == '	')
-			i++;
 		i = ft_comment(file, i);
+		if (ft_strlen(&file[i]) == 0)
+			break ;
 		if (file[i] == '.')
 		{
 			i = block32(file, i, asem);
@@ -104,8 +102,6 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 		}
 		if (file[i] == '\n')
 			asem->ln++;
-		printf("TUTA3\n");
 	}
-	printf("TUTA4\n");
 	ft_strdel(&file);
 }

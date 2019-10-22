@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/19 13:51:58 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:56:47 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	init2(t_asm *asem)
 {
-	asem->opers[0] = "ldi";
-	asem->opers[1] = "sti";
-	asem->opers[2] = "fork";
-	asem->opers[3] = "lld";
-	asem->opers[4] = "lldi";
-	asem->opers[5] = "lfork";
-	asem->opers[6] = "aff";
-	asem->opers[7] = "live";
-	asem->opers[8] = "ld";
-	asem->opers[9] = "st";
-	asem->opers[10] = "add";
-	asem->opers[11] = "sub";
-	asem->opers[12] = "and";
-	asem->opers[13] = "or";
-	asem->opers[14] = "xor";
-	asem->opers[15] = "zjmp";
+	asem->opers[0] = "ldi\0";
+	asem->opers[1] = "sti\0";
+	asem->opers[2] = "fork\0";
+	asem->opers[3] = "lld\0";
+	asem->opers[4] = "lldi\0";
+	asem->opers[5] = "lfork\0";
+	asem->opers[6] = "aff\0";
+	asem->opers[7] = "live\0";
+	asem->opers[8] = "ld\0";
+	asem->opers[9] = "st\0";
+	asem->opers[10] = "add\0";
+	asem->opers[11] = "sub\0";
+	asem->opers[12] = "and\0";
+	asem->opers[13] = "or\0";
+	asem->opers[14] = "xor\0";
+	asem->opers[15] = "zjmp\0";
 }
 
 void	init(t_asm *asem)
@@ -60,4 +60,26 @@ void	stocor(t_asm *asem, t_lab *lab, char **av)
 	valid(asem, &lab);
 	convert(asem, lab);
 	ft_printf("\033[1;32mWriting output program to %s\n", asem->name_cor);
+}
+
+void	flags2(char **s, t_asm *asem, int i)
+{
+	int		j;
+
+	j = 1;
+	while (s[j])
+	{
+		if (s[i][j] == 'r')
+		{
+			asem->rev = 1;
+			asem->rs = i;
+		}
+		if (s[i][j] == 'h')
+		{
+			asem->hs = i;
+			asem->help = 1;
+			fhelp();
+		}
+		j++;
+	}
 }

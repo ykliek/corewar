@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 19:27:19 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 16:55:28 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 13:18:12 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ unsigned int	brev4(unsigned int n)
 	r = 0;
 	while (i < 4)
 	{
-		b = (n >> 8 * i);
+		b = (n >> 8 * i) & 0xff;
 		r |= b << (24 - 8 * i);
 		i++;
 	}

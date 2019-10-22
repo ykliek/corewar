@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/19 15:08:01 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/22 12:57:20 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ MLX := -lmlx -framework OpenGL -framework AppKit
 all: $(NAME) $(OBJ)
 
 $(NAME): libft
-	@gcc -o $(NAME) -Wall -Werror -Wextra $(SRC) -I $(HEAD) $(LIB)
+	@gcc -o $(NAME) -Wall -Werror -Wextra $(SRC) -I $(HEAD) $(LIB) -g
 	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "Create binary asm"
 
 libft:

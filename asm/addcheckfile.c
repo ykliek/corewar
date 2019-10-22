@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 19:44:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/16 20:10:52 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:41:30 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ft_listadd(t_lab **lab, t_lab *page, t_asm *asem)
 
 int		ft_comment(char *file, int i)
 {
+	while (file[i] == ' ' || file[i] == '	')
+		i++;
 	if (file[i] == COMMENT_CHAR || file[i] == ALT_COMMENT_CHAR)
 	{
 		while (file[i] && file[i] != '\n')

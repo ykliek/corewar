@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:15:54 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/17 19:22:29 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:17:30 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,25 @@ int		todec(int n)
 		r += ((n % 10) * power(2, i));
 		n /= 10;
 		i++;
+	}
+	return (r);
+}
+
+int		tobin(int n)
+{
+	int		r;
+	int		t;
+	int		i;
+
+	r = 0;
+	i = -1;
+	while (n > 0)
+	{
+		i++;
+		t = n % 2;
+		t *= power(10, i);
+		r += t;
+		n /= 2;
 	}
 	return (r);
 }

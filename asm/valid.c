@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/19 15:09:46 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 13:10:56 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*getfile(int fd, t_asm *asem)
 	f = 0;
 	l = 0;
 	file = NULL;
-	buff = ft_strnew(4);
+	buff = ft_strnew(5);
 	file = ft_read(fd, asem, file, buff);
 	ft_strdel(&buff);
 	if (ft_strlen(file) == 0)
@@ -92,5 +92,4 @@ void	valid(t_asm *asem, t_lab **lab)
 	checkfile(file, asem, lab);
 	while ((*lab)->prev)
 		(*lab) = (*lab)->prev;
-	printf("TUTA6\n");
 }

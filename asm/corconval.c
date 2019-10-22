@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 12:49:06 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/19 15:40:43 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:13:19 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	corcom(int fd1, int fd2, t_asm *asem)
 	f = 0;
 	i = 0;
 	write(fd2, COMMENT_CMD_STRING, 8);
-	write(fd2, " '", 2);
+	write(fd2, " \"", 2);
 	while (i < COMMENT_LENGTH)
 	{
 		read(fd1, &c, 1);
@@ -46,7 +46,7 @@ void	corcom(int fd1, int fd2, t_asm *asem)
 			write(fd2, &c, 1);
 		i++;
 	}
-	write(fd2, "'", 1);
+	write(fd2, "\"", 1);
 	asem->bn += i;
 }
 
@@ -59,7 +59,7 @@ void	corname(int fd1, int fd2, t_asm *asem)
 	f = 0;
 	i = 0;
 	write(fd2, NAME_CMD_STRING, 5);
-	write(fd2, " '", 2);
+	write(fd2, " \"", 2);
 	while (i < PROG_NAME_LENGTH)
 	{
 		read(fd1, &c, 1);
@@ -71,7 +71,7 @@ void	corname(int fd1, int fd2, t_asm *asem)
 			corerr(2, asem->bn + i, asem);
 		i++;
 	}
-	write(fd2, "'", 1);
+	write(fd2, "\"", 1);
 	asem->bn += i;
 }
 
@@ -114,8 +114,8 @@ void	corconval(t_asm *asem)
 	getmh(fd1, asem, 2);
 	corcom(fd1, fd2, asem);
 	blocknol(fd1, fd2, asem);
-	corcode(fd1, fd2, asem);
 	write(fd2, "\n", 1);
+	corcode(fd1, fd2, asem);
 	close(fd1);
 	close(fd2);
 }
