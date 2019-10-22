@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 12:49:06 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 15:37:59 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:58:47 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ void	corconval(t_asm *asem)
 {
 	int		fd1;
 	int		fd2;
+	int		l;
 
 	fd1 = open(asem->name_cor, O_RDONLY);
-	fd2 = open(asem->name_s,  O_RDWR | O_CREAT, (S_IRUSR | S_IWUSR | S_IXUSR
+	fd2 = open(asem->name_s, O_RDWR | O_CREAT, (S_IRUSR | S_IWUSR | S_IXUSR
 	| S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH));
 	if (fd1 < 0 || fd2 < 0)
 		errors(2, 0, asem);
@@ -115,7 +116,9 @@ void	corconval(t_asm *asem)
 	corcom(fd1, fd2, asem);
 	blocknol(fd1, fd2, asem);
 	write(fd2, "\n", 1);
-	corcode(fd1, fd2, asem);
+	l = corcode(fd1, fd2, asem);
+	if (l != asem->cl)
+		corerr(5, asem->bn + l, asem);
 	close(fd1);
 	close(fd2);
 }

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 15:23:19 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:18:28 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct			s_asm
 	int					rs;
 	int					bn;
 	int					cl;
+	int					fd1;
+	int					fd2;
 	union
 	{
 		unsigned int	value;
@@ -61,6 +63,7 @@ typedef struct			s_asm
 		unsigned char	convert[4];
 	}					check;
 	t_lab				*lab;
+	int					n[3];
 }						t_asm;
 
 void					errors(int n, int ln, t_asm *asem);
@@ -97,9 +100,12 @@ int						fnameval(char *s, t_asm *asem);
 void					cortos(char **av, t_asm *asem);
 void					corconval(t_asm *asem);
 void					corerr(int n, int l, t_asm *asem);
-void					corcode(int fd1, int fd2, t_asm *asem);
+int						corcode(int fd1, int fd2, t_asm *asem);
 int						tobin(int n);
 void					flags2(char **s, t_asm *asem, int i);
 void					fhelp(void);
+void					ft_gettype(int n, int s[3]);
+int						convbyte(t_asm *asem, int fd1, int fd2, int l);
+int						corinit(t_asm *asem, unsigned char c, int fd2);
 
 #endif

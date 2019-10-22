@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/22 12:57:20 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/22 16:06:29 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ LIB = gnl/libft/libft.a
 HEAD = asm.h
 
 SRC = asm.c bonus.c checkfile.c comname.c labelch.c valid.c \
-gnl/get_next_line.c addcheckfile.c convert.c usefull.c \
-codecon.c dlc1.c block5.c dlc2.c cortos.c corconval.c corcode.c
+gnl/get_next_line.c addcheckfile.c convert.c usefull.c codecon.c dlc1.c \
+block5.c dlc2.c cortos.c corconval.c corcode.c corcode2.c
 
 OBJ := $(SRC:.c=.o)
 
