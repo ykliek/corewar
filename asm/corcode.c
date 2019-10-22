@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 15:07:14 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 16:25:18 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:31:32 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		corarg1(t_asm *asem, int i, int j)
 		l += r;
 		s = ft_itoa(c);
 		write(asem->fd2, s, 1);
+		free(s);
 		asem->ln++;
 	}
 	l += corarg2(asem, i, j);

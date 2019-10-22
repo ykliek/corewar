@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:05:19 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 16:10:04 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:32:31 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		convbyte(t_asm *asem, int fd1, int fd2, int l)
 	}
 	s = ft_itoa((short)asem->check.half[0]);
 	write(fd2, s, ft_strlen(s));
+	free(s);
 	return (r);
 }
 
@@ -64,5 +65,5 @@ int		corinit(t_asm *asem, unsigned char c, int fd2)
 	else
 		j += 6;
 	write(fd2, asem->opers[j], strlen(asem->opers[j]));
-	return(j);
+	return (j);
 }
