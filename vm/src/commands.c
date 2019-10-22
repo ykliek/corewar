@@ -10,9 +10,12 @@ int 	op_live(t_data *data, t_carr *carriage)
 	if (carriage->args[0].value.nbr < 0 && (carriage->args[0].value.nbr > (data->player->size + 1) * -1))
 		data->who_last_live = carriage->args[0].value.nbr;
 	data->lives_from_check++;
-	ft_putstr("A process shows that player ");
-	ft_putnbr(data->who_last_live);
-	ft_putstr(" (champion_name) is alive\n");
+	if (data->verbose.value & 1)
+	{
+		ft_printf("A process shows that player %d (%s) is alive\n",
+				  ((t_player *)data->player->head->data)->id,
+				  ((t_player *)data->player->head->data)->name);
+	}
 	return (0);
 }
 
