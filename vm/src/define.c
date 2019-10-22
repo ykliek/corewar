@@ -49,7 +49,7 @@ void	define_flags(t_data *data, char **argv)
 	else if (ft_strequ(argv[data->count], "-visu"))
 	{
 		data->count++;
-		data->visu_mod = 1;
+		data->visu_mode = 1;
 	}
 	else
 		print_usage();

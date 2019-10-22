@@ -60,7 +60,6 @@ void	init(t_data *data)
 	data->fd = create_dblist();
 	data->carriage = create_dblist();
 	data->cycle = 0;
-	data->flags.aff_mode = 0;
 	data->cycles_to_die = CYCLE_TO_DIE;
 	data->nbr_live = NBR_LIVE;
 	data->cycle_delta = CYCLE_DELTA;
@@ -69,7 +68,11 @@ void	init(t_data *data)
 	data->aff_mode = 0;
 	data->dump.flag = 0;
 	data->dump.value = 0;
-	data->visu_mod = 0;
+	data->visu_mode = 0;
+	data->s.value = 0;
+	data->s.flag = 0;
+	data->verbose.value = 0;
+	data->verbose.flag = 0;
     data->lives_from_check = 0;
 }
 

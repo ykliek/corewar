@@ -132,11 +132,6 @@ typedef struct				s_op
 	int						half_size_dir;
 }							t_op;
 
-typedef struct				s_flags
-{
-	char					aff_mode;
-}							t_flags;
-
 typedef struct				s_data
 {
 	union
@@ -147,7 +142,6 @@ typedef struct				s_data
 	t_dblist				*player;
 	t_dblist				*fd;
 	t_dblist				*carriage;
-	t_flags					flags;
 	t_arena					arena[MEM_SIZE];
 	t_flag					dump;
 	t_flag					s;
@@ -156,19 +150,15 @@ typedef struct				s_data
 	int						cycles_to_die;
 	int						nbr_live;
 	int						aff_mode;
-	int						visu_mod;
+	int						visu_mode;
 	int						tmp;
 	int						count;
 	int						cycle_delta;
 	int						max_checks;
-	unsigned char			who_last_live;
+	char					who_last_live;
 	unsigned long			lives_from_check;
 	unsigned long			cycle;
-	int 					cycles_to_die;
-	char		        	who_last_live;
 	unsigned long			checks_counter;
-	int 					max_checks;
-	t_op					op_tab[17];
 }							t_data;
 
 /*

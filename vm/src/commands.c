@@ -319,7 +319,7 @@ int 	op_aff(t_data *data, t_carr *carriage)
 {
 	char ch;
 
-	if (data->flags.aff_mode)
+	if (data->aff_mode)
 	{
 		ch = carriage->reg[carriage->args[0].point.nbr].nbr % 256;
 		write(1, &ch, 1);

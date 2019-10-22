@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/10 12:21:33 by eamielin          #+#    #+#             */
-/*   Updated: 2018/11/10 12:21:34 by eamielin         ###   ########.fr       */
+/*   Created: 2018/11/01 13:47:29 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 13:47:30 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,29 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	i;
-	char	*result;
+	char	*str;
+	int		count;
+	int		index_1;
+	int		index_2;
 
-	if (s)
+	index_1 = 0;
+	index_2 = 0;
+	if (s && f)
 	{
-		result = (char *)malloc(ft_strlen(s) + 1);
-		if (result)
+		index_2 = ft_strlen(s);
+		str = (char *)malloc(ft_strlen((char *)s) + 1);
+		if (!str)
+			return (NULL);
+		count = 0;
+		while (index_1 < index_2)
 		{
-			i = 0;
-			while (s[i])
-			{
-				result[i] = f((unsigned int)i, s[i]);
-				i++;
-			}
-			result[i] = '\0';
+			str[count] = f(index_1, s[count]);
+			count++;
+			index_1++;
 		}
-		return (result);
+		str[count] = '\0';
+		return (str);
 	}
-	return (NULL);
+	else
+		return (0);
 }

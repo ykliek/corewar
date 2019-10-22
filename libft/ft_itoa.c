@@ -3,40 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/11 22:14:07 by eamielin          #+#    #+#             */
-/*   Updated: 2018/11/11 22:14:08 by eamielin         ###   ########.fr       */
+/*   Created: 2018/11/02 16:01:39 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/02 16:01:40 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+static int		nagative(int n)
 {
-	int		digits;
-	int		temp;
-	char	*result;
+	int		count;
 
-	digits = 0;
-	temp = n;
-	if (n <= 0)
-		digits++;
-	while (temp)
-	{
-		digits++;
-		temp /= 10;
-	}
-	result = (char *)malloc(sizeof(char) * (digits + 1));
-	if (!result)
+	if (n >= 0)
+		count = 1;
+	if (n < 0)
+		count = 2;
+	return (count);
+}
+
+char			*ft_itoa(int n)
+{
+	char	*str;
+	int		count;
+	int		tmp;
+
+	tmp = n;
+	count = nagative(n);
+	while (tmp /= 10)
+		count++;
+	if ((str = (char *)malloc(count + 1)) == NULL)
 		return (NULL);
-	if (n <= 0)
-		result[0] = (n < 0) ? '-' : '0';
-	result[digits] = '\0';
-	while (n)
+	str[count] = '\0';
+	while (count--)
 	{
-		result[--digits] = (n < 0) ? ('0' - (n % 10)) : ('0' + (n % 10));
-		n /= 10;
+		if (n < 0)
+		{
+			str[count] = '0' - (n % 10);
+			if (n >= -9)
+				str[0] = '-';
+		}
+		else
+			str[count] = '0' + (n % 10);
+		if (n / 10 != 0)
+			n = n / 10;
 	}
-	return (result);
+	return (str);
 }

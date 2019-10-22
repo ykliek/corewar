@@ -3,61 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/10 17:26:31 by eamielin          #+#    #+#             */
-/*   Updated: 2018/11/10 17:26:32 by eamielin         ###   ########.fr       */
+/*   Created: 2018/11/01 17:33:13 by ykliek            #+#    #+#             */
+/*   Updated: 2018/11/01 17:33:14 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count(char const *s, char c)
+static char		*sub(char const *s, unsigned int start, size_t len)
 {
-	size_t	counter;
-	size_t	i;
+	int		count;
+	char	*sub;
 
-	if (!s)
+	sub = (char *)malloc(len + 1);
+	if (!sub)
 		return (0);
-	i = 0;
-	counter = 0;
-	while (s[i])
+	count = 0;
+	if (s)
 	{
-		while (s[i] == c)
-			i++;
-		if (s[i])
-			counter++;
-		while ((s[i]) && (s[i] != c))
-			i++;
+		while (start < (unsigned int)len)
+		{
+			sub[count] = s[start];
+			count++;
+			start++;
+		}
+		sub[count] = '\0';
+		return (sub);
 	}
-	return (counter);
+	return (0);
+}
+
+static int		find_c(char const *s, char c)
+{
+	int	count;
+	int	count_1;
+
+	count_1 = 0;
+	count = 0;
+	while (s[count] != '\0')
+	{
+		if (s[count] == c)
+			count_1++;
+		count++;
+	}
+	return (count_1);
+}
+
+static int		find_start(char const *s, char c, int count)
+{
+	while (s[count] != '\0')
+	{
+		if (s[count] != c)
+			return (count);
+		count++;
+	}
+	return (0);
+}
+
+static int		find_len(char const *s, char c, int count)
+{
+	while (s[count] != '\0')
+	{
+		if (s[count] != c && s[count + 1] == c)
+			return (count);
+		count++;
+	}
+	return (count);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
-	char	**result;
-	size_t	i;
-	size_t	start;
-	size_t	counter;
-	size_t	words;
+	int		a;
+	int		i;
+	int		count;
+	char	**str;
 
-	counter = count(s, c);
-	if (!s || !(result = (char **)malloc(sizeof(char *) * (counter + 1))))
-		return (NULL);
-	result[counter] = 0;
-	if (counter == 0)
-		return (result);
+	a = 0;
 	i = 0;
-	words = 0;
-	while (s[i])
+	if (s)
 	{
-		while (s[i] == c)
-			i++;
-		start = i;
-		while ((s[i]) && (s[i] != c))
-			i++;
-		if (i - start)
-			result[words++] = ft_strsub(s, start, i - start);
+		count = ft_strlen(s) - find_c(s, c);
+		str = (char **)malloc(sizeof(char *) * (count + 1));
+		if (!str)
+			return (NULL);
+		while (s[a] != '\0')
+		{
+			if (s[a] != c && a == 0)
+				str[i++] = sub(s, 0, find_len(s, c, a) + 1);
+			if (s[a] == c && s[a + 1] != c && s[a + 1] != '\0')
+				str[i++] = sub(s, find_start(s, c, a), find_len(s, c, a) + 1);
+			a++;
+		}
+		str[i] = NULL;
+		return (str);
 	}
-	return (result);
+	return (NULL);
 }

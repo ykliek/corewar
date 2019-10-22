@@ -3,30 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: ykliek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/05 20:53:21 by eamielin          #+#    #+#             */
-/*   Updated: 2018/11/05 20:53:23 by eamielin         ###   ########.fr       */
+/*   Created: 2018/10/27 18:51:39 by ykliek            #+#    #+#             */
+/*   Updated: 2018/10/27 18:51:41 by ykliek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strstr(const char *haystack, const char *needle)
+static char	*check(char *s1, char *s2)
 {
-	size_t	len;
-	char	*temp;
+	int	count;
+	int	tmp;
 
-	temp = (char *)haystack;
-	if (needle[0] == '\0')
-		return (temp);
-	len = ft_strlen(needle);
-	while (*temp)
+	count = 0;
+	tmp = 0;
+	while (1)
 	{
-		if (ft_memcmp(temp, needle, len))
-			temp++;
-		else
-			return (temp);
+		if (s1[count] == s2[tmp] && s2[tmp] != '\0')
+			tmp++;
+		if (s2[tmp] == '\0')
+			return (&s1[count - tmp + 1]);
+		if (s1[count] == '\0')
+			return (0);
+		count++;
+		if (s1[count] != s2[tmp] && tmp != 0)
+		{
+			count -= tmp / 2;
+			tmp = 0;
+		}
 	}
-	return (NULL);
+	return (0);
+}
+
+char		*ft_strstr(const char *haystack, const char *needle)
+{
+	char	*s1;
+	char	*s2;
+
+	s1 = (char *)haystack;
+	s2 = (char *)needle;
+	if (ft_strlen(s2) == 0 || ft_strcmp(s1, s2) == 0)
+		return (s1);
+	return (check(s1, s2));
 }

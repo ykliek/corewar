@@ -47,7 +47,7 @@ int 	check(t_data *data)
 		data->lives_from_check = 0;
 		last_check = data->cycle;
 		data->checks_counter++;
-//		dumping(data);
+		dumping(data);
 	}
 	return (0);
 }
