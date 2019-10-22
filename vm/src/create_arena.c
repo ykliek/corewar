@@ -22,7 +22,7 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	push_front(data->carriage, result);
 }
 
-void    create_arena(t_data *data)
+void	create_arena(t_data *data)
 {
 	t_arena			*temp_pointer;
 	int				player_nbr;

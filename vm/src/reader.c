@@ -18,25 +18,25 @@ void	checker(int fd, t_player *tmp, int type, int val)
 	{
 		val = read(fd, tmp->name, PROG_NAME_LENGTH);
 		if (val != PROG_NAME_LENGTH)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == COMMENT)
 	{
 		val = read(fd, tmp->comment, COMMENT_LENGTH);
 		if (val != COMMENT_LENGTH)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == EXE_CODE)
 	{
 		val = read(fd, tmp->exe_code, tmp->size_exe_code);
 		if (val != tmp->size_exe_code || val > CHAMP_MAX_SIZE)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 	if (type == FINAL_CHECK)
 	{
 		val = read(fd, tmp->exe_code, 1);
 		if (val != 0)
-			err_messenge("Wrong binary file");
+			err_massage("Wrong binary file");
 	}
 }
 
@@ -56,11 +56,11 @@ void	reader(t_data *data)
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
 		if (data->check.value != COREWAR_EXEC_MAGIC)
-			err_messenge("Not valid magic header");
+			err_massage("Not valid magic header");
 		checker(fd, tmp, NAME, 0);
 		read(fd, data->check.convert, 4);
 		if (data->check.value != 0)
-			err_messenge("You have problem with NULL");
+			err_massage("You have problem with NULL");
 		count = 3;
 		while (count >= 0)
 			read(fd, &data->check.convert[count--], 1);
@@ -68,7 +68,7 @@ void	reader(t_data *data)
 		checker(fd, tmp, COMMENT, 0);
 		read(fd, data->check.convert, 4);
 		if (data->check.value != 0)
-			err_messenge("You have problem with NULL");
+			err_massage("You have problem with NULL");
 		tmp->exe_code = (unsigned char *)
 				malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
 		checker(fd, tmp, EXE_CODE, 0);

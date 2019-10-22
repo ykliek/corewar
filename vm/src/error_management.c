@@ -12,7 +12,7 @@
 
 #include "../virtual_machine.h"
 
-void	err_messenge(char *err)
+void	err_massage(char *err)
 {
 	ft_printf("%s\n", err);
 	exit(0);

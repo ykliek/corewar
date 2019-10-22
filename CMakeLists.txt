@@ -88,4 +88,6 @@ add_executable(corewar_dev
         vm/src/error_management.c
         vm/src/commands.c
         vm/src/checker.c
-        vm/src/dump.c)
+        vm/src/dump.c
+        vm/src/order.c
+        vm/src/define.c)

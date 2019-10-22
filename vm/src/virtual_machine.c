@@ -13,9 +13,50 @@
 #include "../virtual_machine.h"
 #include <sys/types.h>
 
+void	print_usage(void)
+{
+	ft_printf("%k", "yellow");
+	ft_printf("Usage: ./resources/vm_champs/corewar [-d N -s N -v N -n N]");
+	ft_printf(" [-a] [-visu] <champion1.cor> <...>\n");
+	ft_printf("   -a   : Prints output from \"aff\" (Default is to hide it)\n");
+	ft_printf("#### TEXT OUTPUT MODE ######################################\n");
+	ft_printf("   -d N : Dumps memory after N cycles then exits\n");
+	ft_printf("   -s N : Runs N cycles, dumps memory, pauses, then repeats\n");
+	ft_printf("   -v N : Verbosity levels, can be added together to");
+	ft_printf(" enable several\n");
+	ft_printf("          - 0 : Show only essentials\n");
+	ft_printf("          - 1 : Show lives\n");
+	ft_printf("          - 2 : Show cycles\n");
+	ft_printf("          - 4 : Show operations (Params are NOT literal ...)\n");
+	ft_printf("          - 8 : Show deaths\n");
+	ft_printf("          - 16 : Show PC movements (Except for jumps)\n");
+	ft_printf("#### GRAPHIC OUTPUT MODE ###################################\n");
+	ft_printf("   -visu : Run COREWAR with graphic visualization\n");
+	ft_printf("    %k                  ENJOY THE GAME\n", "red");
+	exit(0);
+}
+
+void	introducing_players(t_data *data)
+{
+	t_ldata		*tmp;
+
+	ft_printf("%kIntroducing contestants...\n", "yellow");
+	tmp = data->player->head;
+	while (data->player->head)
+	{
+		ft_printf("%k*Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+				"red",
+				((t_player *)data->player->head->data)->id,
+				((t_player *)data->player->head->data)->size_exe_code,
+				((t_player *)data->player->head->data)->name,
+				((t_player *)data->player->head->data)->comment);
+		data->player->head = data->player->head->next;
+	}
+	data->player->head = tmp;
+}
+
 void	init(t_data *data)
 {
-	data->line = 0;
 	data->player = create_dblist();
 	data->fd = create_dblist();
 	data->carriage = create_dblist();
@@ -26,71 +67,18 @@ void	init(t_data *data)
 	data->cycle_delta = CYCLE_DELTA;
 	data->max_checks = MAX_CHECKS;
 	data->checks_counter = 0;
-}
-
-void	insertion_sort(t_dblist **list)
-{
-	t_dblist	*tmp;
-	void		*data;
-	int			count;
-
-	tmp = create_dblist();
-	tmp->head = (*list)->head;
-	count = 0;
-	while (tmp->head->next)
-	{
-		if (((t_fd *)tmp->head->data)->order >
-			((t_fd *)tmp->head->next->data)->order)
-		{
-			data = tmp->head->data;
-			tmp->head->data = tmp->head->next->data;
-			tmp->head->next->data = data;
-			tmp->head = (*list)->head;
-			count = -1;
-		}
-		count++;
-		if (count > 0)
-			tmp->head = tmp->head->next;
-	}
-}
-
-void	define_argc(t_data *data, int argc, char **argv)
-{
-	int		count;
-	int		order;
-	t_fd	*fd;
-
-	count = 1;
-	while (count < argc)
-	{
-		if (ft_strequ(argv[count], "-n"))
-		{
-			count++;
-			order = ft_atoi(argv[count++]);
-		}
-		else
-			order = 0;
-		fd = (t_fd *)malloc(sizeof(t_fd));
-		fd->fd = open(argv[count], O_RDONLY);
-		fd->order = order;
-		push_back(data->fd, fd);
-		count++;
-	}
-}
-
-void	define_zero_order(t_data *data)
-{
-	t_ldata		*tmp;
-	t_ldata		*tmp2;
-
+	data->aff_mode = 0;
+	data->dump.flag = 0;
+	data->dump.value = 0;
+	data->visu_mod = 0;
 }
 
 int 	game_over(t_data *data)
 {
-    ft_putstr("\nThe champoin №");
-    ft_putnbr(data->who_last_live);
-    ft_putstr("is winner!\n");
-    return (0);
+	ft_putstr("\nThe champion №");
+	ft_putnbr(data->who_last_live);
+	ft_putstr("is winner!\n");
+	return (0);
 }
 
 int		main(int argc, char **argv)
@@ -101,6 +89,7 @@ int		main(int argc, char **argv)
 	define_argc(&data, argc, argv);
 	insertion_sort(&data.fd);
 	reader(&data);
+	introducing_players(&data);
 	create_arena(&data);
 	main_cycle(&data);
 	game_over(&data);
