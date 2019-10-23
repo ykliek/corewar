@@ -17,6 +17,11 @@ int 	check_carriages(t_data *data)
 		game_over = 0;
 		if (((t_carr *)(*tmp_carriage)->data)->last_alive <= data->cycle - data->cycles_to_die)
 		{
+			if (data->verbose.value & 8)
+			{
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+						  ((t_carr *)(*tmp_carriage)->data)->carr_id, data->cycle - ((t_carr *)(*tmp_carriage)->data)->last_alive, data->cycles_to_die);
+			}
 			free((*tmp_carriage)->data);
 //			temp = &(*tmp_carriage)->next;
             delete_one_ldata(tmp_carriage);
@@ -42,8 +47,9 @@ int 	check(t_data *data)
 		{
 			data->cycles_to_die -= data->cycle_delta;
 			checks_to_reduce = 0;
+			if (data->verbose.value & 2)
+				ft_printf("Cycle to die is now %d\n", data->cycles_to_die);
 		}
-
 		data->lives_from_check = 0;
 		last_check = data->cycle;
 		data->checks_counter++;

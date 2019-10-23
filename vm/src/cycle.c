@@ -22,14 +22,14 @@ void	print_movements(t_data *data, t_carr *carriage)
 
 	if (carriage->command_id == 9 && carriage->byte_to_next == -1)
 		return ;
-	ft_printf("ADV %d (0x%04x -> 0x%04x)",
+	ft_printf("ADV %d (0x%04x -> 0x%04x) ",
 			  carriage->byte_to_next + 1,
 			  (carriage->position - data->arena) / sizeof(t_arena),
 			  (carriage->position + carriage->byte_to_next + 1 - data->arena) / sizeof(t_arena));
 	i = 0;
 	while (i < (carriage->byte_to_next + 1))
 	{
-		ft_printf(" %02x", carriage->position[i].hex);
+		ft_printf("%02x ", carriage->position[i].hex);
 		i++;
 	}
 	ft_printf("\n", carriage->byte_to_next + 1);
@@ -265,7 +265,7 @@ int 	do_command(t_data *data, t_carr *carriage)
 	else if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
 	if (data->verbose.value & 4 && carriage->command_id != 16)
-		ft_printf("P    %d | ", carriage->carr_id);
+		ft_printf("P%5d | ", carriage->carr_id);
 	go_to_command(data, carriage);
 	if (data->verbose.value & 16)
 		print_movements(data, carriage);
@@ -280,10 +280,10 @@ int 	main_cycle(t_data *data)
 //    data->cycles_to_die = 27; // test
 	while (1)
 	{
-		if (data->verbose.value & 2)
+		current_carriage = data->carriage->head;
+		if (data->verbose.value & 2 && current_carriage)
 			ft_printf("It is now cycle %d\n", data->cycle);
 		dumping(data);
-		current_carriage = data->carriage->head;
 		while (current_carriage)
 		{
 			get_command_id(data, (t_carr *)current_carriage->data);

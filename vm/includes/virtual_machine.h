@@ -203,6 +203,8 @@ void						create_arena(t_data *data);
 
 int							main_cycle(t_data *data);
 
+void 						get_command_id(t_data *data, t_carr *carriage);
+
 /*
 ** commands.c
 */

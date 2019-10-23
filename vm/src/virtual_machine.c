@@ -77,9 +77,19 @@ void	init(t_data *data)
 
 int 	game_over(t_data *data)
 {
-	ft_putstr("\nThe champion №");
-	ft_putnbr(data->who_last_live);
-	ft_putstr("is winner!\n");
+	t_ldata 	*pl;
+	int 		pl_id;
+
+	pl = (t_ldata *)data->player->head;
+	pl_id = data->who_last_live * -1;
+	while (pl && ((t_player *)pl->data)->id != pl_id)
+		pl = pl->next;
+	if (pl)
+	{
+		ft_printf("Contestant %d, \"%s\", has won !\n",
+				  pl_id,
+				  ((t_player *)pl->data)->name);
+	}
 	return (0);
 }
 
