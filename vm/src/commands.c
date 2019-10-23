@@ -284,22 +284,26 @@ int 	op_sti(t_data *data, t_carr *carriage)
 int 	op_fork(t_data *data, t_carr *carriage)
 {
 	t_carr	*result;
+	int 	go_to;
 	int 	temp;
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	temp = carriage->args[0].value.half[0] % IDX_MOD;
-	if (temp > MEM_SIZE)
-		temp %= MEM_SIZE;
-	else if (temp < 0)
-		temp = MEM_SIZE - temp % MEM_SIZE;
-	result->position = carriage->position + temp;
+	go_to = carriage->args[0].value.half[0] % IDX_MOD;
+	temp = (carriage->position - data->arena) / sizeof(t_arena);
+	if (data->verbose.value & 4)
+	{
+		ft_printf("lfork %d (%d)\n",
+				  go_to, temp + go_to);
+	}
+	if (temp + go_to > MEM_SIZE)
+		temp = (temp + go_to) % MEM_SIZE;
+	else if (temp + go_to < 0)
+		temp = MEM_SIZE - (temp + go_to) % MEM_SIZE;
+	result->position = data->arena + temp * sizeof(t_arena);
 	result->byte_to_next = 0;
 	push_front(data->carriage, result);
-	if (data->verbose.value & 4)
-		ft_printf("fork %d (%d)\n",
-				carriage->args[0].value.half[0] % IDX_MOD, (result->position - data->arena) / sizeof(t_arena));
 	return (0);
 }
 
@@ -365,11 +369,24 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 int 	op_lfork(t_data *data, t_carr *carriage)
 {
 	t_carr	*result;
+	int 	go_to;
+	int 	temp;
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	result->position = carriage->position + carriage->args[0].value.half[1];
+	go_to = carriage->args[0].value.half[0];
+	temp = (carriage->position - data->arena) / sizeof(t_arena);
+	if (data->verbose.value & 4)
+	{
+		ft_printf("lfork %d (%d)\n",
+				  go_to, temp + go_to);
+	}
+	if (temp + go_to > MEM_SIZE)
+		temp = (temp + go_to) % MEM_SIZE;
+	else if (temp + go_to < 0)
+		temp = MEM_SIZE - (temp + go_to) % MEM_SIZE;
+	result->position = data->arena + temp * sizeof(t_arena);
 	result->byte_to_next = 0;
 	push_front(data->carriage, result);
 	return (0);
@@ -382,7 +399,8 @@ int 	op_aff(t_data *data, t_carr *carriage)
 	if (data->aff_mode)
 	{
 		ch = carriage->reg[carriage->args[0].point.nbr].nbr % 256;
-		write(1, &ch, 1);
+		ft_printf("Aff: %c\n", ch);
+//		write(1, &ch, 1);
 	}
 	return (0);
 }

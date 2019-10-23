@@ -37,9 +37,11 @@ void	print_movements(t_data *data, t_carr *carriage)
 
 int 	skip(int count, t_data *data, t_carr *carriage)
 {
-	carriage->byte_to_next = count - 1;
-	if (data->verbose.value && 16)
+	if (data->verbose.value & 16 && count > 1)
+	{
+		carriage->byte_to_next = count - 1;
 		print_movements(data, carriage);
+	}
 	carriage->position += count;
 	return (count);
 }
@@ -48,6 +50,7 @@ int 	skip_invalid(t_data *data, t_carr *carriage)
 {
 	int 	skip;
 	unsigned char	mask;
+	int 			i;
 
 	skip = 1;
 	if (data->op_tab[carriage->command_id].code_type == 0)
@@ -55,26 +58,31 @@ int 	skip_invalid(t_data *data, t_carr *carriage)
 	else
 	{
 		skip++;
+		i = 0;
 		mask = 6;
 		while (mask)
 		{
 			if ((carriage->position[1].hex & (3 << mask)) == (1 << mask))
 			{
-				skip += 1;
+				if (data->op_tab[carriage->command_id].params_type[i])
+					skip += 1;
 			}
 			else if  ((carriage->position[1].hex & (3 << mask)) == (2 << mask))
 			{
-				skip += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
+				if (data->op_tab[carriage->command_id].params_type[i])
+					skip += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
 			}
 			else if  ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
 			{
-				skip += 2;
+				if (data->op_tab[carriage->command_id].params_type[i])
+					skip += 2;
 			}
+			i++;
 			mask -= 2;
 		}
 	}
 	carriage->byte_to_next = skip - 1;
-	if (data->verbose.value && 16)
+	if (data->verbose.value & 16)
 		print_movements(data, carriage);
 	carriage->position += skip;
 	return (1);
@@ -104,6 +112,11 @@ int 	check_code_type(t_data *data, t_carr *carriage)
 		if ((data->op_tab[carriage->command_id].params_type[i] ^ 4) & 4)
 		{
 			if ((carriage->position[1].hex & (3 << mask)) == (3 << mask))
+				return (1);
+		}
+		if ((data->op_tab[carriage->command_id].params_type[i]) != 0)
+		{
+			if ((carriage->position[1].hex & (3 << mask)) == 0)
 				return (1);
 		}
 		i++;
@@ -251,10 +264,10 @@ int 	do_command(t_data *data, t_carr *carriage)
 	}
 	else if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
-	if (data->verbose.value & 4)
+	if (data->verbose.value & 4 && carriage->command_id != 16)
 		ft_printf("P    %d | ", carriage->carr_id);
 	go_to_command(data, carriage);
-	if (data->verbose.value && 16)
+	if (data->verbose.value & 16)
 		print_movements(data, carriage);
 	carriage->position += (carriage->byte_to_next + 1);
 	return (0);
