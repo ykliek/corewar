@@ -67,6 +67,7 @@ void	init(t_data *data)
 	data->aff_mode = 0;
 	data->dump.flag = 0;
 	data->dump.value = 0;
+	ft_bzero(&data->dump_64, sizeof(data->dump_64));
 	data->visu_mode = 0;
 	data->s.value = 0;
 	data->s.flag = 0;

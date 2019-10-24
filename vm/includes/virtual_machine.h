@@ -144,6 +144,7 @@ typedef struct				s_data
 	t_dblist				*carriage;
 	t_arena					arena[MEM_SIZE];
 	t_flag					dump;
+	t_flag					dump_64;
 	t_flag					s;
 	t_flag					verbose;
 	t_op					op_tab[17];
