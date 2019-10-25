@@ -42,6 +42,8 @@ void    dump64(t_data *data)
 
 void    dumping(t_data *data)
 {
+	char str[2];
+
 	if (data->dump.flag)
 	{
 		if (data->dump.value == data->cycle)
@@ -51,5 +53,12 @@ void    dumping(t_data *data)
 		}
 	}
 	if (data->s.value && (data->cycle % data->s.value) == 0)
+	{
 		dump64(data);
+		while (read(0, str, 1))
+		{
+			if (str[0] == '\n')
+				break ;
+		}
+	}
 }

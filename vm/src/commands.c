@@ -193,8 +193,8 @@ int 	op_zjmp(t_data *data, t_carr *carriage)
 
 int 	op_ldi(t_data *data, t_carr *carriage)
 {
-	short			i;
-	short			j;
+	int			i;
+	int			j;
 	t_arena			*position;
 	int 			reg_number;
 
@@ -202,13 +202,13 @@ int 	op_ldi(t_data *data, t_carr *carriage)
 	if (carriage->args[0].type == T_IND)
 		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] % IDX_MOD);
 	if (carriage->args[0].type == T_REG)
-		i = carriage->reg[carriage->args[0].point.nbr].half[0];
+		i = carriage->reg[carriage->args[0].point.nbr].nbr;
 	else
-		i = carriage->args[0].value.half[0];
+		i = carriage->args[0].value.nbr;
 	if (carriage->args[1].type == T_REG)
-		j = carriage->reg[carriage->args[1].point.nbr].half[0];
+		j = carriage->reg[carriage->args[1].point.nbr].nbr;
 	else
-		j = carriage->args[1].value.half[0];
+		j = carriage->args[1].value.nbr;
 	position = get_position(data, carriage->position, (i + j) % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
@@ -228,8 +228,8 @@ int 	op_ldi(t_data *data, t_carr *carriage)
 
 int 	op_sti(t_data *data, t_carr *carriage)
 {
-	short			i;
-	short			j;
+	int			i;
+	int			j;
 	t_arena			*position;
 	int 			reg_number;
 
@@ -239,11 +239,11 @@ int 	op_sti(t_data *data, t_carr *carriage)
 	if (carriage->args[1].type == T_REG)
 		i = carriage->reg[carriage->args[1].point.nbr].nbr;
 	else
-		i = carriage->args[1].value.half[0];
+		i = carriage->args[1].value.nbr;
 	if (carriage->args[2].type == T_REG)
 		j = carriage->reg[carriage->args[2].point.nbr].nbr;
 	else
-		j = carriage->args[2].value.half[0];
+		j = carriage->args[2].value.nbr;
 	position = get_position(data, carriage->position, (i + j) % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
@@ -272,7 +272,7 @@ int 	op_fork(t_data *data, t_carr *carriage)
 	if (data->verbose.value & 4)
 	{
 		ft_printf("fork %d (%d)\n",
-				  data->pos->relative_step, data->pos->new_index);
+				  carriage->args[0].value.half[0], data->pos->old_index + data->pos->relative_step);
 	}
 	result->byte_to_next = 0;
 	push_front(data->carriage, result);
@@ -295,8 +295,8 @@ int 	op_lld(t_data *data, t_carr *carriage)
 
 int 	op_lldi(t_data *data, t_carr *carriage)
 {
-	short			i;
-	short			j;
+	int				i;
+	int				j;
 	t_arena			*position;
 	int 			reg_number;
 
@@ -304,13 +304,13 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 	if (carriage->args[0].type == T_IND)
 		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] % IDX_MOD);
 	if (carriage->args[0].type == T_REG)
-		i = carriage->reg[carriage->args[0].point.nbr].half[0];
+		i = carriage->reg[carriage->args[0].point.nbr].nbr;
 	else
-		i = carriage->args[0].value.half[0];
+		i = carriage->args[0].value.nbr;
 	if (carriage->args[1].type == T_REG)
-		j = carriage->reg[carriage->args[1].point.nbr].half[0];
+		j = carriage->reg[carriage->args[1].point.nbr].nbr;
 	else
-		j = carriage->args[1].value.half[0];
+		j = carriage->args[1].value.nbr;
 	position = get_position(data, carriage->position, (i + j));
 	if (data->verbose.value & 4)
 	{
@@ -325,6 +325,7 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 		i++;
 		position = get_position(data, position, 1);
 	}
+	carriage->carry = (carriage->reg[reg_number].nbr) ? CARRY_DONT_MOVE : CARRY_MOVE;
 	return (0);
 }
 
