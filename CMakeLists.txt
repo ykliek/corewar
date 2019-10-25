@@ -90,3 +90,5 @@ add_executable(work
         vm/src/dump.c
         vm/src/order.c
         vm/src/define.c)
+
+target_link_libraries(work ncurses)

@@ -94,9 +94,25 @@ int 	game_over(t_data *data)
 	return (0);
 }
 
+void	init_color_pairs(void)
+{
+	start_color();
+	init_pair(1,  COLOR_WHITE,     COLOR_BLACK);
+	init_pair(2,  COLOR_GREEN,   COLOR_BLACK);
+	init_pair(3,  COLOR_YELLOW,  COLOR_BLACK);
+	init_pair(4,  COLOR_BLUE,    COLOR_BLACK);
+	init_pair(5,  COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(6,  COLOR_CYAN,    COLOR_BLACK);
+}
+
 int		main(int argc, char **argv)
 {
 	t_data	data;
+	t_arena	*arena;
+	int		x;
+	int		y;
+	int		i;
+	char	*str;
 
 	init(&data);
 	define_argc(&data, argc, argv);
@@ -104,8 +120,51 @@ int		main(int argc, char **argv)
 	reader(&data);
 	introducing_players(&data);
 	create_arena(&data);
-	main_cycle(&data);
-	game_over(&data);
+
+	initscr();
+	curs_set(0);
+	refresh();
+	data.visu.win = newwin(LINES, COLS, 0, 0);
+	init_color_pairs();
+	i = 0;
+	y = 1;
+	x = 2;
+	arena = data.arena;
+	while (i < MEM_SIZE)
+	{
+		str = ft_itoa_base(arena->hex, 16, 'x');
+		if (strlen(str) < 2)
+		{
+			wattron(data.visu.win, COLOR_PAIR(arena->color + 1));
+			mvwprintw(data.visu.win, y, x++, "0");
+			mvwprintw(data.visu.win, y, x++, str);
+			wattroff(data.visu.win, COLOR_PAIR(arena->color + 1));
+		}
+		else
+		{
+			wattron(data.visu.win, COLOR_PAIR(arena->color + 1));
+			mvwprintw(data.visu.win, y, x, str);
+			wattroff(data.visu.win, COLOR_PAIR(arena->color + 1));
+			x += 2;
+		}
+		mvwprintw(data.visu.win, y, x++, " ");
+		if ((i + 1) % 64 == 0)
+		{
+			y++;
+			x = 2;
+		}
+		free(str);
+		arena++;
+		i++;
+	}
+	box(data.visu.win, 0, 0);
+	wrefresh(data.visu.win);
+	getch();
+	delwin(data.visu.win);
+	endwin();
+
+//	main_cycle(&data);
+//	game_over(&data);
 
 	return (0);
 }
