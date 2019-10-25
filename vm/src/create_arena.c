@@ -38,6 +38,7 @@ void	create_arena(t_data *data)
 		ft_memcpy(temp, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code); //test - del later
 		while (i < ((t_player *)player->data)->size_exe_code)
 		{
+			temp_pointer[i].color = ((t_player *)player->data)->id;
 			temp_pointer[i].hex = ((t_player *)player->data)->exe_code[i];
 			i++;
 		}

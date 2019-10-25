@@ -63,6 +63,7 @@ typedef enum 				e_carry
 typedef struct 				s_arena
 {
 	unsigned char			hex;
+	int						color;
 }							t_arena;
 
 typedef struct 				s_args
@@ -132,6 +133,11 @@ typedef struct				s_op
 	int						half_size_dir;
 }							t_op;
 
+typedef struct				s_vizu
+{
+	WINDOW					*win;
+}							t_visu;
+
 typedef struct				s_position
 {
 	short					old_index;
@@ -153,8 +159,10 @@ typedef struct				s_data
 	t_dblist				*carriage;
 	t_arena					arena[MEM_SIZE];
 	t_flag					dump;
+	t_flag					dump_64;
 	t_flag					s;
 	t_flag					verbose;
+	t_visu					visu;
 	t_op					op_tab[17];
 	int						cycles_to_die;
 	int						nbr_live;
