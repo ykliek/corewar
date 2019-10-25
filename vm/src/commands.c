@@ -35,23 +35,12 @@ int 	op_live(t_data *data, t_carr *carriage)
 
 int 	op_ld(t_data *data, t_carr *carriage)
 {
-	int 	i;
-	t_arena	*position;
 	int 	reg_number;
 
 	reg_number = carriage->args[1].point.nbr;
-	if (carriage->args[0].type == T_DIR)
-		carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
-	else
-	{
-		position = carriage->position + (carriage->args[0].point.nbr % IDX_MOD);
-		i = 0;
-		while (i < 4)
-		{
-			carriage->reg[reg_number].hex[3 - i] = position[i].hex;
-			i++;
-		}
-	}
+	if (carriage->args[0].type == T_IND)
+		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] % IDX_MOD);
+	carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
 	carriage->carry = (carriage->reg[reg_number].nbr) ? CARRY_DONT_MOVE : CARRY_MOVE;
 	if (data->verbose.value & 4)
 		ft_printf("ld %d r%d\n", carriage->reg[reg_number].nbr, reg_number);
@@ -68,17 +57,18 @@ int 	op_st(t_data *data, t_carr *carriage)
     reg_number_src = carriage->args[0].point.nbr;
 	if (carriage->args[1].type == T_REG)
     {
-        reg_number_dst = carriage->args[1].point.half[0];
+        reg_number_dst = carriage->args[1].point.nbr;
         carriage->reg[reg_number_dst].nbr = carriage->reg[reg_number_src].nbr;
     }
 	else
 	{
-		position = carriage->position + (carriage->args[1].point.half[0] % IDX_MOD);
+		position = get_position(data, carriage->position, carriage->args[1].point.half[0] % IDX_MOD);
 		i = 0;
 		while (i < 4)
 		{
-			position[i].hex = carriage->reg[reg_number_src].hex[3 - i];
+			position->hex = carriage->reg[reg_number_src].hex[3 - i];
 			i++;
+			position = get_position(data, position, 1);
 		}
 	}
 	if (data->verbose.value & 4)
@@ -118,28 +108,6 @@ int 	op_sub(t_data *data, t_carr *carriage)
 	return (0);
 }
 
-int 	get_indirect(t_data *data, t_carr *carriage, int arg)
-{
-	int i;
-	t_arena	*position;
-
-	i = 0;
-	position = carriage->position + (carriage->args[arg].point.half[0] % IDX_MOD);
-	while (i < 4)
-	{
-		carriage->args[arg].value.hex[3 - i] = position[i].hex;
-		i++;
-	}
-    return (0);
-}
-
-int 	get_reg_value(t_data *data, t_carr *carriage, int arg)
-{
-
-	carriage->args[arg].value.nbr = carriage->reg[carriage->args[arg].point.nbr].nbr;
-	return (0);
-}
-
 int 	op_and(t_data *data, t_carr *carriage)
 {
 	int reg_three;
@@ -149,7 +117,7 @@ int 	op_and(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-			get_indirect(data, carriage, arg);
+			get_indirect(data, carriage, arg, carriage->args[arg].point.half[0] % IDX_MOD);
 		else if(carriage->args[arg].type == T_REG)
 			get_reg_value(data, carriage, arg);
 		arg++;
@@ -171,7 +139,7 @@ int 	op_or(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-			get_indirect(data, carriage, arg);
+			get_indirect(data, carriage, arg, carriage->args[arg].point.half[0] % IDX_MOD);
 		else if(carriage->args[arg].type == T_REG)
 			get_reg_value(data, carriage, arg);
 		arg++;
@@ -193,7 +161,7 @@ int 	op_xor(t_data *data, t_carr *carriage)
 	while (arg < 2)
 	{
 		if (carriage->args[arg].type == T_IND)
-			get_indirect(data, carriage, arg);
+			get_indirect(data, carriage, arg, carriage->args[arg].point.half[0] % IDX_MOD);
 		else if(carriage->args[arg].type == T_REG)
 			get_reg_value(data, carriage, arg);
 		arg++;
@@ -208,27 +176,17 @@ int 	op_xor(t_data *data, t_carr *carriage)
 
 int 	op_zjmp(t_data *data, t_carr *carriage)
 {
-	int 	i;
-	int 	j;
-
 	if (carriage->carry == CARRY_MOVE)
 	{
-		i = carriage->args[0].value.half[0] % IDX_MOD;
-		j = (carriage->position - data->arena) / sizeof(t_arena);
-		j = (j + i) % MEM_SIZE;
-		if (j < 0)
-			j = MEM_SIZE - j;
-		carriage->position = &data->arena[j];
+		carriage->position = get_position(data, carriage->position, carriage->args[0].value.half[0] % IDX_MOD);
 		carriage->byte_to_next = -1;
 		if (data->verbose.value & 4)
 			ft_printf("zjmp %d OK\n", carriage->args[0].value.half[0]);
-//			ft_printf("zjmp %d OK\n", carriage->args[0].value.half[0] % IDX_MOD);
 	}
 	else
 	{
 		if (data->verbose.value & 4)
 			ft_printf("zjmp %d FAILED\n", carriage->args[0].value.half[0]);
-//			ft_printf("zjmp %d FAILED\n", carriage->args[0].value.half[0] % IDX_MOD);
 	}
 	return (0);
 }
@@ -240,33 +198,30 @@ int 	op_ldi(t_data *data, t_carr *carriage)
 	t_arena			*position;
 	int 			reg_number;
 
+	reg_number = carriage->args[2].point.nbr;
 	if (carriage->args[0].type == T_IND)
-		get_indirect(data, carriage, 0);
+		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] % IDX_MOD);
 	if (carriage->args[0].type == T_REG)
 		i = carriage->reg[carriage->args[0].point.nbr].half[0];
 	else
 		i = carriage->args[0].value.half[0];
 	if (carriage->args[1].type == T_REG)
-		j = i + carriage->reg[carriage->args[1].point.nbr].half[0];
+		j = carriage->reg[carriage->args[1].point.nbr].half[0];
 	else
-		j = i + carriage->args[1].value.half[0];
-	j = j % IDX_MOD;
-	reg_number = carriage->args[2].point.nbr;
+		j = carriage->args[1].value.half[0];
+	position = get_position(data, carriage->position, (i + j) % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
 		ft_printf("ldi %d %d r%d\n       | -> load from %d + %d = %d (with pc and mod %d)\n",
-				  i, j - i, reg_number,
-				  i, j - i, j, (carriage->position - data->arena) / sizeof(t_arena) + j);
+				  i, j, reg_number,
+				  i, j, i + j, data->pos->old_index + data->pos->relative_step);
 	}
-	j = ((carriage->position - data->arena) / sizeof(t_arena) + j) % MEM_SIZE;
-	if (j < 0)
-		j = MEM_SIZE - j;
-	position = &data->arena[j];
 	i = 0;
 	while (i < 4)
 	{
-		carriage->reg[reg_number].hex[3 - i] = position[i].hex;
+		carriage->reg[reg_number].hex[3 - i] = position->hex;
 		i++;
+		position = get_position(data, position, 1);
 	}
 	return (0);
 }
@@ -278,33 +233,30 @@ int 	op_sti(t_data *data, t_carr *carriage)
 	t_arena			*position;
 	int 			reg_number;
 
+	reg_number = carriage->args[0].point.nbr;
 	if (carriage->args[1].type == T_IND)
-		get_indirect(data, carriage, 1);
+		get_indirect(data, carriage, 1, carriage->args[1].point.half[0] % IDX_MOD);
 	if (carriage->args[1].type == T_REG)
 		i = carriage->reg[carriage->args[1].point.nbr].nbr;
 	else
 		i = carriage->args[1].value.half[0];
 	if (carriage->args[2].type == T_REG)
-		j = i + carriage->reg[carriage->args[2].point.nbr].nbr;
+		j = carriage->reg[carriage->args[2].point.nbr].nbr;
 	else
-		j = i + carriage->args[2].value.half[0];
-	j = j % IDX_MOD;
-	reg_number = carriage->args[0].point.nbr;
+		j = carriage->args[2].value.half[0];
+	position = get_position(data, carriage->position, (i + j) % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
 		ft_printf("sti r%d %d %d\n       | -> store to %d + %d = %d (with pc and mod %d)\n",
-				  reg_number, i, j - i,
-				  i, j - i, j, (carriage->position - data->arena) / sizeof(t_arena) + j);
+				  reg_number, i, j,
+				  i, j, i + j, data->pos->old_index + data->pos->relative_step);
 	}
-	j = ((carriage->position - data->arena) / sizeof(t_arena) + j) % MEM_SIZE;
-	if (j < 0)
-		j = MEM_SIZE - j;
-	position = &data->arena[j];
 	i = 0;
 	while (i < 4)
 	{
-		position[i].hex = carriage->reg[reg_number].hex[3 - i];
+		position->hex = carriage->reg[reg_number].hex[3 - i];
 		i++;
+		position = get_position(data, position, 1);
 	}
 	return (0);
 }
@@ -312,26 +264,16 @@ int 	op_sti(t_data *data, t_carr *carriage)
 int 	op_fork(t_data *data, t_carr *carriage)
 {
 	t_carr	*result;
-	int 	go_to;
-	int 	temp;
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	go_to = carriage->args[0].value.half[0] % IDX_MOD;
-	temp = (carriage->position - data->arena) / sizeof(t_arena);
+	result->position = get_position(data, carriage->position, carriage->args[0].value.half[0] % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
 		ft_printf("fork %d (%d)\n",
-				  go_to, temp + go_to);
+				  data->pos->relative_step, data->pos->new_index);
 	}
-	if (temp + go_to > MEM_SIZE)
-		temp = (temp + go_to) % MEM_SIZE;
-	else if (temp + go_to < 0)
-		temp = MEM_SIZE - (temp + go_to) % MEM_SIZE;
-	else
-		temp = temp + go_to;
-	result->position = &data->arena[temp];
 	result->byte_to_next = 0;
 	push_front(data->carriage, result);
 	return (0);
@@ -339,23 +281,12 @@ int 	op_fork(t_data *data, t_carr *carriage)
 
 int 	op_lld(t_data *data, t_carr *carriage)
 {
-	int 	i;
-	t_arena	*position;
 	int 	reg_number;
 
 	reg_number = carriage->args[1].point.nbr;
-	if (carriage->args[0].type == T_DIR)
-		carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
-	else
-	{
-		position = carriage->position + carriage->args[0].point.nbr;
-		i = 0;
-		while (i < 4)
-		{
-			carriage->reg[reg_number].hex[3 - i] = position[i].hex;
-			i++;
-		}
-	}
+	if (carriage->args[0].type == T_IND)
+		get_indirect(data, carriage, 0, carriage->args[0].point.half[0]);
+	carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
 	carriage->carry = (carriage->reg[reg_number].nbr) ? CARRY_DONT_MOVE : CARRY_MOVE;
 	if (data->verbose.value & 4)
 		ft_printf("lld %d r%d\n", carriage->reg[reg_number].nbr, reg_number);
@@ -369,33 +300,30 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 	t_arena			*position;
 	int 			reg_number;
 
+	reg_number = carriage->args[2].point.nbr;
 	if (carriage->args[0].type == T_IND)
-		get_indirect(data, carriage, 0);
+		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] % IDX_MOD);
 	if (carriage->args[0].type == T_REG)
 		i = carriage->reg[carriage->args[0].point.nbr].half[0];
 	else
 		i = carriage->args[0].value.half[0];
 	if (carriage->args[1].type == T_REG)
-		j = i + carriage->reg[carriage->args[1].point.nbr].half[0];
+		j = carriage->reg[carriage->args[1].point.nbr].half[0];
 	else
-		j = i + carriage->args[1].value.half[0];
-	j = j % IDX_MOD;
-	reg_number = carriage->args[2].point.nbr;
+		j = carriage->args[1].value.half[0];
+	position = get_position(data, carriage->position, (i + j));
 	if (data->verbose.value & 4)
 	{
-		ft_printf("ldi %d %d r%d\n       | -> load from %d + %d = %d (with pc and mod %d)\n",
-				  i, j - i, reg_number,
-				  i, j - i, j, (carriage->position - data->arena) / sizeof(t_arena) + j);
+		ft_printf("lldi %d %d r%d\n       | -> load from %d + %d = %d (with pc %d)\n",
+				  i, j, reg_number,
+				  i, j, i + j, data->pos->old_index + data->pos->relative_step);
 	}
-	j = ((carriage->position - data->arena) / sizeof(t_arena) + j) % MEM_SIZE;
-	if (j < 0)
-		j = MEM_SIZE - j;
-	position = &data->arena[j];
 	i = 0;
 	while (i < 4)
 	{
-		carriage->reg[reg_number].hex[3 - i] = position[i].hex;
+		carriage->reg[reg_number].hex[3 - i] = position->hex;
 		i++;
+		position = get_position(data, position, 1);
 	}
 	return (0);
 }
@@ -409,20 +337,12 @@ int 	op_lfork(t_data *data, t_carr *carriage)
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
 	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	go_to = carriage->args[0].value.half[0];
-	temp = (carriage->position - data->arena) / sizeof(t_arena);
+	result->position = get_position(data, carriage->position, carriage->args[0].value.half[0]);
 	if (data->verbose.value & 4)
 	{
 		ft_printf("lfork %d (%d)\n",
-				  go_to, temp + go_to);
+				  data->pos->relative_step, data->pos->old_index + data->pos->relative_step);
 	}
-	if (temp + go_to > MEM_SIZE)
-		temp = (temp + go_to) % MEM_SIZE;
-	else if (temp + go_to < 0)
-		temp = MEM_SIZE - (temp + go_to) % MEM_SIZE;
-	else
-		temp = temp + go_to;
-	result->position = &data->arena[temp];
 	result->byte_to_next = 0;
 	push_front(data->carriage, result);
 	return (0);
@@ -432,11 +352,10 @@ int 	op_aff(t_data *data, t_carr *carriage)
 {
 	char ch;
 
-	if (data->aff_mode)
+	if (data->aff_mode == 0)
 	{
 		ch = carriage->reg[carriage->args[0].point.nbr].nbr % 256;
 		ft_printf("Aff: %c\n", ch);
-//		write(1, &ch, 1);
 	}
 	return (0);
 }

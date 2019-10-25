@@ -58,7 +58,7 @@ void	init(t_data *data)
 	data->player = create_dblist();
 	data->fd = create_dblist();
 	data->carriage = create_dblist();
-	data->cycle = 1;
+	data->cycle = 0;
 	data->cycles_to_die = CYCLE_TO_DIE;
 	data->nbr_live = NBR_LIVE;
 	data->cycle_delta = CYCLE_DELTA;
