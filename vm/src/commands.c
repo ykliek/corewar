@@ -267,7 +267,7 @@ int 	op_fork(t_data *data, t_carr *carriage)
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
-	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
+	result->carr_id = data->carr_max_id++;
 	result->position = get_position(data, carriage->position, carriage->args[0].value.half[0] % IDX_MOD);
 	if (data->verbose.value & 4)
 	{
@@ -336,7 +336,7 @@ int 	op_lfork(t_data *data, t_carr *carriage)
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));
-	result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
+	result->carr_id = data->carr_max_id++;
 	result->position = get_position(data, carriage->position, carriage->args[0].value.half[0]);
 	if (data->verbose.value & 4)
 	{

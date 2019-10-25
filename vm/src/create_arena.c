@@ -10,10 +10,7 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_bzero(result, sizeof(t_carr));
-	if (data->carriage->head)
-		result->carr_id = ((t_carr *)data->carriage->head->data)->carr_id + 1;
-	else
-		result->carr_id = 1;
+	result->carr_id = data->carr_max_id++;
 	result->position = temp_pointer;
 	result->reg[1].nbr = ((t_player *)player->data)->id * -1;
 	data->who_last_live = ((t_player *)player->data)->id * -1;

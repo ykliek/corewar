@@ -169,6 +169,7 @@ typedef struct				s_data
 	unsigned long			cycle;
 	unsigned long			checks_counter;
 	t_position				pos[1];
+	unsigned int			carr_max_id;
 }							t_data;
 
 /*
