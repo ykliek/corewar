@@ -50,4 +50,6 @@ void    dumping(t_data *data)
 			exit (0);
 		}
 	}
+	if (data->s.value && (data->cycle % data->s.value) == 0)
+		dump64(data);
 }
