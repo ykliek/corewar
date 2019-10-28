@@ -236,7 +236,7 @@ int							op_live(t_data *data, t_carr *carriage);
 
 int							op_ld(t_data *data, t_carr *carriage);
 
-int							op_st(t_data *data, t_carr *carriage);
+int							op_st(t_data *data, t_carr *carriage, int i);
 
 int							op_add(t_data *data, t_carr *carriage);
 
