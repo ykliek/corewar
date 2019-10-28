@@ -136,6 +136,15 @@ typedef struct				s_vizu
 	WINDOW					*win;
 }							t_visu;
 
+typedef struct				s_position
+{
+	short					old_index;
+	short					new_index;
+	short 					relative_step;
+	t_arena					*old_position;
+	t_arena					*new_position;
+}							t_position;
+
 typedef struct				s_data
 {
 	union
@@ -165,6 +174,8 @@ typedef struct				s_data
 	unsigned long			lives_from_check;
 	unsigned long			cycle;
 	unsigned long			checks_counter;
+	t_position				pos[1];
+	unsigned int			carr_max_id;
 }							t_data;
 
 /*
@@ -210,6 +221,12 @@ void						create_arena(t_data *data);
 int							main_cycle(t_data *data);
 
 void 						get_command_id(t_data *data, t_carr *carriage);
+
+t_arena						*get_position(t_data *data, t_arena	*old_position, short relative_step);
+
+int 						get_indirect(t_data *data, t_carr *carriage, int arg, short relative_step);
+
+int 						get_reg_value(t_data *data, t_carr *carriage, int arg);
 
 /*
 ** commands.c
@@ -258,6 +275,7 @@ int							check(t_data *data);
 */
 
 void						dumping(t_data *data);
+void   						dump64(t_data *data);
 
 /*
 ** error_management.c
