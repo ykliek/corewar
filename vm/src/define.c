@@ -42,17 +42,13 @@ void	define_flags(t_data *data, char **argv)
 	else if (ft_strequ(argv[data->count], "-dump"))
 		define_values(&data->dump.flag, &data->dump.value, &data->count, argv);
 	else if (ft_strequ(argv[data->count], "-d"))
-		define_values(&data->dump_64.flag, &data->dump_64.value, &data->count, argv);
+		define_values(&data->dump_64.flag, &data->dump_64.value, &data->count,
+				argv);
 	else if (ft_strequ(argv[data->count], "-s"))
 		define_values(&data->s.flag, &data->s.value, &data->count, argv);
 	else if (ft_strequ(argv[data->count], "-v"))
 		define_values(&data->verbose.flag, &data->verbose.value, &data->count,
-					  argv);
-	else if (ft_strequ(argv[data->count], "-visu"))
-	{
-		data->count++;
-		data->visu_mode = 1;
-	}
+				argv);
 	else
 		print_usage();
 }

@@ -23,58 +23,18 @@ t_dblist	*create_dblist(void)
 	return (tmp);
 }
 
-t_ldata	*create_list(void *data)
-{
-	t_ldata	*tmp;
-
-	tmp = (t_ldata*)malloc(sizeof(t_ldata));
-	tmp->data = data;
-	tmp->next = NULL;
-	tmp->prev = NULL;
-	return (tmp);
-}
-
-void		delete_dblist(t_dblist **list)
-{
-	t_ldata	*tmp;
-	t_ldata	*next;
-
-	tmp = (*list)->head;
-	next = NULL;
-	while (tmp)
-	{
-		next = tmp->next;
-		free(tmp);
-		tmp = next;
-	}
-	free(*list);
-	(*list) = NULL;
-}
-
-void		delete_list(t_ldata **list)
-{
-	t_ldata	*to_free;
-
-	while (*list)
-	{
-		to_free = *list;
-		*list = (*list)->next;
-		free(to_free);
-	}
-}
-
 void		delete_one_ldata(t_ldata **ldata)
 {
-    t_ldata *to_del;
+	t_ldata	*to_del;
 
-    if (ldata && *ldata)
-    {
-        to_del = (*ldata);
-        *ldata = (*ldata)->next;
-        if (*ldata)
-            (*ldata)->prev = to_del->prev;
-        free(to_del);
-    }
+	if (ldata && *ldata)
+	{
+		to_del = (*ldata);
+		*ldata = (*ldata)->next;
+		if (*ldata)
+			(*ldata)->prev = to_del->prev;
+		free(to_del);
+	}
 }
 
 void		push_back(t_dblist *list, void *data)
@@ -111,46 +71,4 @@ void		push_front(t_dblist *list, void *data)
 	if (list->tail == NULL)
 		list->tail = tmp;
 	list->size++;
-}
-
-
-void		insert_before(t_dblist *list, t_ldata* elm, void *value)
-{
-	t_ldata *ins;
-
-	ins = NULL;
-	if (elm == NULL)
-		exit(6);
-	if (!elm->prev)
-	{
-		push_front(list, value);
-		return ;
-	}
-	ins = (t_ldata*) malloc(sizeof(t_ldata));
-	ins->data = value;
-	ins->prev = elm->prev;
-	elm->prev->next = ins;
-	ins->next = elm;
-	elm->prev = ins;
-	list->size++;
-}
-
-
-void		*pop_front(t_dblist *list)
-{
-	t_ldata		*prev;
-	void		*tmp;
-
-	if (list->head == NULL)
-		exit(2);
-	prev = list->head;
-	list->head = list->head->next;
-	if (list->head)
-		list->head->prev = NULL;
-	if (prev == list->tail)
-		list->tail = NULL;
-	tmp = prev->data;
-	free(prev);
-	list->size--;
-	return (tmp);
 }

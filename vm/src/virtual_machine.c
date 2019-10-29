@@ -68,33 +68,28 @@ void	init(t_data *data)
 	data->dump.flag = 0;
 	data->dump.value = 0;
 	ft_bzero(&data->dump_64, sizeof(data->dump_64));
-	data->visu_mode = 0;
 	data->s.value = 0;
 	data->s.flag = 0;
 	data->verbose.value = 0;
 	data->verbose.flag = 0;
-    data->lives_from_check = 0;
-    data->carr_max_id = 1;
+	data->lives_from_check = 0;
+	data->carr_max_id = 1;
 }
 
-int 	game_over(t_data *data)
+int		game_over(t_data *data)
 {
-	t_ldata 	*pl;
-	int 		pl_id;
+	t_ldata		*pl;
+	int			pl_id;
 
 	pl = (t_ldata *)data->player->head;
 	pl_id = data->who_last_live * -1;
 	while (pl && ((t_player *)pl->data)->id != pl_id)
 		pl = pl->next;
 	if (pl)
-	{
 		ft_printf("Contestant %d, \"%s\", has won !\n",
-				  pl_id,
-				  ((t_player *)pl->data)->name);
-	}
+				pl_id, ((t_player *)pl->data)->name);
 	return (0);
 }
-
 
 int		main(int argc, char **argv)
 {
@@ -103,55 +98,11 @@ int		main(int argc, char **argv)
 	init(&data);
 	define_argc(&data, argc, argv);
 	insertion_sort(&data.fd);
-	reader(&data);
+	reader(&data, 0, 1);
 	introducing_players(&data);
 	create_arena(&data);
-
-	initscr();
-	curs_set(0);
-	refresh();
-	data.visu.win = newwin(LINES, COLS, 0, 0);
-	init_color_pairs();
-	i = 0;
-	y = 1;
-	x = 2;
-	arena = data.arena;
-	while (i < MEM_SIZE)
-	{
-		str = ft_itoa_base(arena->hex, 16, 'x');
-		if (strlen(str) < 2)
-		{
-			wattron(data.visu.win, COLOR_PAIR(arena->color + 1));
-			mvwprintw(data.visu.win, y, x++, "0");
-			mvwprintw(data.visu.win, y, x++, str);
-			wattroff(data.visu.win, COLOR_PAIR(arena->color + 1));
-		}
-		else
-		{
-			wattron(data.visu.win, COLOR_PAIR(arena->color + 1));
-			mvwprintw(data.visu.win, y, x, str);
-			wattroff(data.visu.win, COLOR_PAIR(arena->color + 1));
-			x += 2;
-		}
-		mvwprintw(data.visu.win, y, x++, " ");
-		if ((i + 1) % 64 == 0)
-		{
-			y++;
-			x = 2;
-		}
-		free(str);
-		arena++;
-		i++;
-	}
-	box(data.visu.win, 0, 0);
-	wrefresh(data.visu.win);
-	getch();
-	delwin(data.visu.win);
-	endwin();
-
-//	main_cycle(&data);
-//	game_over(&data);
-
-//	system("leaks corewar");
+	main_cycle(&data);
+	game_over(&data);
+	system("leaks corewar");
 	return (0);
 }
