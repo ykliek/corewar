@@ -83,7 +83,8 @@ SRC = ft_atoi.c \
 		modifiers.c \
 		parser.c \
 		precision.c \
-		weigth_n_flags.c
+		weigth_n_flags.c \
+		ft_atoi_base.c
 
 FILE_FOR_LIB = $(SRC:.c=.o)
 

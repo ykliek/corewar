@@ -10,41 +10,98 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm/virtual_machine.h"
+#include "../includes/virtual_machine.h"
 
-/*
-** TODO: create flags handler
-** BODY: flag [-n [number]] Add serial number to players that have this flag and
-** 			add a serial number that are not used to another players.
-*/
+void	print_usage(void)
+{
+	ft_printf("%k", "yellow");
+	ft_printf("Usage: ./resources/vm_champs/corewar [-d N -s N -v N -n N]");
+	ft_printf(" [-a] [-visu] <champion1.cor> <...>\n");
+	ft_printf("   -a   : Prints output from \"aff\" (Default is to hide it)\n");
+	ft_printf("#### TEXT OUTPUT MODE ######################################\n");
+	ft_printf("   -d N : Dumps memory after N cycles then exits\n");
+	ft_printf("   -s N : Runs N cycles, dumps memory, pauses, then repeats\n");
+	ft_printf("   -v N : Verbosity levels, can be added together to");
+	ft_printf(" enable several\n");
+	ft_printf("          - 0 : Show only essentials\n");
+	ft_printf("          - 1 : Show lives\n");
+	ft_printf("          - 2 : Show cycles\n");
+	ft_printf("          - 4 : Show operations (Params are NOT literal ...)\n");
+	ft_printf("          - 8 : Show deaths\n");
+	ft_printf("          - 16 : Show PC movements (Except for jumps)\n");
+	ft_printf("#### GRAPHIC OUTPUT MODE ###################################\n");
+	ft_printf("   -visu : Run COREWAR with graphic visualization\n");
+	ft_printf("    %k                  ENJOY THE GAME\n", "red");
+	exit(0);
+}
 
-/*
-** TODO: validation: serial numbers
-** BODY: players must have unique serial number.
-*/
+void	introducing_players(t_data *data)
+{
+	t_ldata		*tmp;
 
-/*
-** TODO: validation: size of executable code
-** BODY: Size of executable code must be less than 682 bytes if file didn't send
- * 			CHAMP_MAX_SIZE.
-*/
+	ft_printf("Introducing contestants...\n");
+	tmp = data->player->head;
+	while (data->player->head)
+	{
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+				((t_player *)data->player->head->data)->id,
+				((t_player *)data->player->head->data)->size_exe_code,
+				((t_player *)data->player->head->data)->name,
+				((t_player *)data->player->head->data)->comment);
+		data->player->head = data->player->head->next;
+	}
+	data->player->head = tmp;
+}
 
-/*
-** TODO: parse values from champion .cor file
-** BODY: - unique identification number;
-** 		 - name of champion;
-** 		 - comment of champion;
-** 		 - size of executable code in bytes;
-** 		 - executable code.
-*/
+void	init(t_data *data)
+{
+	data->player = create_dblist();
+	data->fd = create_dblist();
+	data->carriage = create_dblist();
+	data->cycle = 0;
+	data->cycles_to_die = CYCLE_TO_DIE;
+	data->nbr_live = NBR_LIVE;
+	data->cycle_delta = CYCLE_DELTA;
+	data->max_checks = MAX_CHECKS;
+	data->checks_counter = 0;
+	data->aff_mode = 0;
+	data->dump.flag = 0;
+	data->dump.value = 0;
+	ft_bzero(&data->dump_64, sizeof(data->dump_64));
+	data->s.value = 0;
+	data->s.flag = 0;
+	data->verbose.value = 0;
+	data->verbose.flag = 0;
+	data->lives_from_check = 0;
+	data->carr_max_id = 1;
+}
 
-/*
-** TODO: init arena
-** BODY: Size of arena = MEM_SIZE. To define where would be our players we need
-** 		 MEM_SIZE davide on number of players.
-*/
+int		game_over(t_data *data)
+{
+	t_ldata		*pl;
+	int			pl_id;
+
+	pl = (t_ldata *)data->player->head;
+	pl_id = data->who_last_live * -1;
+	while (pl && ((t_player *)pl->data)->id != pl_id)
+		pl = pl->next;
+	if (pl)
+		ft_printf("Contestant %d, \"%s\", has won !\n",
+				pl_id, ((t_player *)pl->data)->name);
+	return (0);
+}
 
 int		main(int argc, char **argv)
 {
+	t_data	data;
 
+	init(&data);
+	define_argc(&data, argc, argv);
+	insertion_sort(&data.fd);
+	reader(&data, 0, 1);
+	introducing_players(&data);
+	create_arena(&data);
+	main_cycle(&data);
+	game_over(&data);
+	return (0);
 }
