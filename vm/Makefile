@@ -72,6 +72,8 @@ fcleanlib:
 relib:
 	make -C $(LIBFT_DIR) re
 
+re: fclean all
+
 deb :
 	$(CC) -lncurses -o $(NAME) $(SRCS) -I $(INC_COREWAR) $(LIBFT)
 

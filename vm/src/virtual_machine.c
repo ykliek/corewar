@@ -103,6 +103,5 @@ int		main(int argc, char **argv)
 	create_arena(&data);
 	main_cycle(&data);
 	game_over(&data);
-	system("leaks corewar");
 	return (0);
 }

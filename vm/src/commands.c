@@ -59,14 +59,14 @@ int		op_ld(t_data *data, t_carr *carriage)
 int		op_st(t_data *data, t_carr *carriage, int i)
 {
 	t_arena	*position;
-	int		reg_number_src;
-	int		reg_number_dst;
+	int		reg_num_src;
+	int		reg_num_dst;
 
-	reg_number_src = carriage->args[0].point.nbr;
+	reg_num_src = carriage->args[0].point.nbr;
 	if (carriage->args[1].type == T_REG)
 	{
-		reg_number_dst = carriage->args[1].point.nbr;
-		carriage->reg[reg_number_dst].u.nbr = carriage->reg[reg_number_src].u.nbr;
+		reg_num_dst = carriage->args[1].point.nbr;
+		carriage->reg[reg_num_dst].u.nbr = carriage->reg[reg_num_src].u.nbr;
 	}
 	else
 	{
@@ -74,13 +74,13 @@ int		op_st(t_data *data, t_carr *carriage, int i)
 				carriage->args[1].point.half[0] % IDX_MOD);
 		while (i < 4)
 		{
-			position->hex = carriage->reg[reg_number_src].u.hex[3 - i];
+			position->hex = carriage->reg[reg_num_src].u.hex[3 - i];
 			i++;
 			position = get_position(data, position, 1);
 		}
 	}
 	if (data->verbose.value & 4)
-		ft_printf("st r%d %d\n", reg_number_src,
+		ft_printf("st r%d %d\n", reg_num_src,
 				carriage->args[1].point.half[0]);
 	return (0);
 }
