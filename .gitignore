@@ -53,4 +53,3 @@ dkms.conf
 
 # Custom .gitignore
 cmake-build-debug/
-.idea/
