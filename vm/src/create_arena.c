@@ -20,7 +20,7 @@ void	create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	ft_bzero(result, sizeof(t_carr));
 	result->carr_id = data->carr_max_id++;
 	result->position = temp_pointer;
-	result->reg[1].nbr = ((t_player *)player->data)->id * -1;
+	result->reg[1].u.nbr = ((t_player *)player->data)->id * -1;
 	data->who_last_live = ((t_player *)player->data)->id * -1;
 	result->carry = CARRY_DONT_MOVE;
 	push_front(data->carriage, result);

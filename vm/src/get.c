@@ -56,7 +56,7 @@ void	get_command_id(t_data *data, t_carr *carriage)
 int		get_reg_value(t_data *data, t_carr *carriage, int arg)
 {
 	carriage->args[arg].value.nbr =
-						carriage->reg[carriage->args[arg].point.nbr].nbr;
+						carriage->reg[carriage->args[arg].point.nbr].u.nbr;
 	(void)data;
 	return (0);
 }

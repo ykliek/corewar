@@ -18,11 +18,11 @@ void	op_sti_i_j(t_carr *carriage, t_data *data, int *i, int *j)
 		get_indirect(data, carriage, 1, carriage->args[1].point.half[0] %
 										IDX_MOD);
 	if (carriage->args[1].type == T_REG)
-		*i = carriage->reg[carriage->args[1].point.nbr].nbr;
+		*i = carriage->reg[carriage->args[1].point.nbr].u.nbr;
 	else
 		*i = carriage->args[1].value.nbr;
 	if (carriage->args[2].type == T_REG)
-		*j = carriage->reg[carriage->args[2].point.nbr].nbr;
+		*j = carriage->reg[carriage->args[2].point.nbr].u.nbr;
 	else
 		*j = carriage->args[2].value.nbr;
 }
@@ -46,7 +46,7 @@ int		op_sti(t_data *data, t_carr *carriage)
 	i = 0;
 	while (i < 4)
 	{
-		position->hex = carriage->reg[reg_number].hex[3 - i];
+		position->hex = carriage->reg[reg_number].u.hex[3 - i];
 		i++;
 		position = get_position(data, position, 1);
 	}
@@ -87,9 +87,9 @@ int		op_and(t_data *data, t_carr *carriage)
 		arg++;
 	}
 	reg_three = carriage->args[2].point.nbr;
-	carriage->reg[reg_three].nbr = carriage->args[0].value.nbr &
+	carriage->reg[reg_three].u.nbr = carriage->args[0].value.nbr &
 			carriage->args[1].value.nbr;
-	carriage->carry = (carriage->reg[reg_three].nbr) ? CARRY_DONT_MOVE :
+	carriage->carry = (carriage->reg[reg_three].u.nbr) ? CARRY_DONT_MOVE :
 			CARRY_MOVE;
 	if (data->verbose.value & 4)
 		ft_printf("and %d %d r%d\n", carriage->args[0].value.nbr,

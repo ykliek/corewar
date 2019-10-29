@@ -91,6 +91,12 @@ add_executable(work
         vm/src/dump.c
         vm/src/order.c
         vm/src/define.c
-        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c vm/src/check_code_type.c
-        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c vm/src/commands_2.c vm/src/commands_3.c vm/src/commands_4.c)
+        vm/src/get.c
+        vm/src/get_arg.c
+        vm/src/pars_args.c
+        vm/src/skip.c
+        vm/src/check_code_type.c
+        vm/src/commands_2.c
+        vm/src/commands_3.c
+        vm/src/commands_4.c)
 

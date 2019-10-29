@@ -48,11 +48,11 @@ int		op_ld(t_data *data, t_carr *carriage)
 	if (carriage->args[0].type == T_IND)
 		get_indirect(data, carriage, 0, carriage->args[0].point.half[0] %
 		IDX_MOD);
-	carriage->reg[reg_number].nbr = carriage->args[0].value.nbr;
-	carriage->carry = (carriage->reg[reg_number].nbr) ? CARRY_DONT_MOVE :
+	carriage->reg[reg_number].u.nbr = carriage->args[0].value.nbr;
+	carriage->carry = (carriage->reg[reg_number].u.nbr) ? CARRY_DONT_MOVE :
 			CARRY_MOVE;
 	if (data->verbose.value & 4)
-		ft_printf("ld %d r%d\n", carriage->reg[reg_number].nbr, reg_number);
+		ft_printf("ld %d r%d\n", carriage->reg[reg_number].u.nbr, reg_number);
 	return (0);
 }
 
@@ -66,7 +66,7 @@ int		op_st(t_data *data, t_carr *carriage, int i)
 	if (carriage->args[1].type == T_REG)
 	{
 		reg_number_dst = carriage->args[1].point.nbr;
-		carriage->reg[reg_number_dst].nbr = carriage->reg[reg_number_src].nbr;
+		carriage->reg[reg_number_dst].u.nbr = carriage->reg[reg_number_src].u.nbr;
 	}
 	else
 	{
@@ -74,7 +74,7 @@ int		op_st(t_data *data, t_carr *carriage, int i)
 				carriage->args[1].point.half[0] % IDX_MOD);
 		while (i < 4)
 		{
-			position->hex = carriage->reg[reg_number_src].hex[3 - i];
+			position->hex = carriage->reg[reg_number_src].u.hex[3 - i];
 			i++;
 			position = get_position(data, position, 1);
 		}
@@ -94,9 +94,9 @@ int		op_add(t_data *data, t_carr *carriage)
 	reg_one = carriage->args[0].point.nbr;
 	reg_two = carriage->args[1].point.nbr;
 	reg_three = carriage->args[2].point.nbr;
-	carriage->reg[reg_three].nbr = carriage->reg[reg_one].nbr +
-			carriage->reg[reg_two].nbr;
-	carriage->carry = (carriage->reg[reg_three].nbr) ? CARRY_DONT_MOVE :
+	carriage->reg[reg_three].u.nbr = carriage->reg[reg_one].u.nbr +
+			carriage->reg[reg_two].u.nbr;
+	carriage->carry = (carriage->reg[reg_three].u.nbr) ? CARRY_DONT_MOVE :
 			CARRY_MOVE;
 	if (data->verbose.value & 4)
 		ft_printf("add r%d r%d r%d\n", reg_one, reg_two, reg_three);
@@ -112,9 +112,9 @@ int		op_sub(t_data *data, t_carr *carriage)
 	reg_one = carriage->args[0].point.nbr;
 	reg_two = carriage->args[1].point.nbr;
 	reg_three = carriage->args[2].point.nbr;
-	carriage->reg[reg_three].nbr = carriage->reg[reg_one].nbr -
-			carriage->reg[reg_two].nbr;
-	carriage->carry = (carriage->reg[reg_three].nbr) ? CARRY_DONT_MOVE :
+	carriage->reg[reg_three].u.nbr = carriage->reg[reg_one].u.nbr -
+			carriage->reg[reg_two].u.nbr;
+	carriage->carry = (carriage->reg[reg_three].u.nbr) ? CARRY_DONT_MOVE :
 			CARRY_MOVE;
 	if (data->verbose.value & 4)
 		ft_printf("sub r%d r%d r%d\n", reg_one, reg_two, reg_three);

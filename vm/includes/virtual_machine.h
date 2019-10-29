@@ -13,8 +13,8 @@
 #ifndef VIRTUAL_MACHINE_H
 # define VIRTUAL_MACHINE_H
 
-#include "../../libft/libft.h"
-#include "../../resources/op.h"
+# include "../../libft/libft.h"
+# include "../../resources/op.h"
 
 enum
 {
@@ -58,7 +58,7 @@ typedef struct				s_arena
 
 typedef struct				s_args
 {
-	char 					type;
+	char					type;
 	union
 	{
 		int					nbr;
@@ -80,7 +80,7 @@ typedef struct				s_reg
 		int					nbr;
 		short				half[2];
 		char				hex[4];
-	};
+	}						u;
 }							t_reg;
 
 typedef struct				s_carr
@@ -220,9 +220,9 @@ int							skip(int count, t_data *data, t_carr *carriage);
 void						check_skip(t_data *data, t_carr *carriage,
 							t_arena *next_position, int *skip);
 
-int 						check_code_type(t_data *data, t_carr *carriage);
+int							check_code_type(t_data *data, t_carr *carriage);
 
-int 						pars_args(t_data *data, t_carr *carriage);
+int							pars_args(t_data *data, t_carr *carriage);
 
 int							pars_without_type(t_data *data, t_carr *carriage);
 
