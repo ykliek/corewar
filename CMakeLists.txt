@@ -77,6 +77,7 @@ add_executable(work
         libft/parser.c
         libft/precision.c
         libft/weigth_n_flags.c
+        libft/ft_atoi_base.c
         resources/op.h
         resources/op.c
         vm/src/virtual_machine.c
@@ -90,4 +91,6 @@ add_executable(work
         vm/src/dump.c
         vm/src/order.c
         vm/src/define.c
-        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c vm/src/check_code_type.c)
+        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c vm/src/check_code_type.c
+        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c vm/src/commands_2.c vm/src/commands_3.c vm/src/commands_4.c)
+

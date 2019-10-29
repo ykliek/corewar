@@ -12,6 +12,20 @@
 
 #include "../includes/virtual_machine.h"
 
+void	check_order(t_dblist *list)
+{
+	t_ldata	*tmp;
+
+	tmp = list->head;
+	while (list->head)
+	{
+		if (((t_fd *)list->head->data)->order > list->size)
+			err_massage("Not valid order");
+		list->head = list->head->next;
+	}
+	list->head = tmp;
+}
+
 void	insertion_sort(t_dblist **list)
 {
 	t_dblist	*tmp;
@@ -23,6 +37,7 @@ void	insertion_sort(t_dblist **list)
 	count = 0;
 	while (tmp->head->next)
 	{
+		check_order((*list));
 		if (((t_fd *)tmp->head->data)->order >
 			((t_fd *)tmp->head->next->data)->order)
 		{
@@ -36,6 +51,7 @@ void	insertion_sort(t_dblist **list)
 		if (count > 0)
 			tmp->head = tmp->head->next;
 	}
+	free(tmp);
 }
 
 int		find_order(t_data *data)

@@ -40,41 +40,46 @@ void	checker(int fd, t_player *tmp, int type, int val)
 	}
 }
 
-void	reader(t_data *data)
+void	check_value(t_data *data, int check)
 {
-	int			count;
-	int			fd;
-	int			id;
+	if ((int)data->check.value != check)
+		err_massage("Error");
+}
+
+void	cycle(t_data *data, int fd, int *id, t_player *tmp)
+{
+	int	count;
+
+	fd = ((t_fd *)data->fd->head->data)->fd;
+	tmp = (t_player *)malloc(sizeof(t_player));
+	count = 3;
+	while (count >= 0)
+		read(fd, &data->check.convert[count--], 1);
+	check_value(data, COREWAR_EXEC_MAGIC);
+	checker(fd, tmp, NAME, 0);
+	read(fd, data->check.convert, 4);
+	check_value(data, 0);
+	count = 3;
+	while (count >= 0)
+		read(fd, &data->check.convert[count--], 1);
+	tmp->size_exe_code = data->check.value;
+	checker(fd, tmp, COMMENT, 0);
+	read(fd, data->check.convert, 4);
+	check_value(data, 0);
+	tmp->exe_code = (unsigned char *)
+			malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
+	checker(fd, tmp, EXE_CODE, 0);
+	tmp->id = (*id)++;
+	push_back(data->player, tmp);
+	checker(fd, tmp, FINAL_CHECK, 0);
+	data->fd->head = data->fd->head->next;
+}
+
+void	reader(t_data *data, int fd, int id)
+{
 	t_player	*tmp;
 
-	id = 1;
+	tmp = NULL;
 	while (data->fd->head)
-	{
-		fd = ((t_fd *)data->fd->head->data)->fd;
-		tmp = (t_player *)malloc(sizeof(t_player));
-		count = 3;
-		while (count >= 0)
-			read(fd, &data->check.convert[count--], 1);
-		if (data->check.value != COREWAR_EXEC_MAGIC)
-			err_massage("Not valid magic header");
-		checker(fd, tmp, NAME, 0);
-		read(fd, data->check.convert, 4);
-		if (data->check.value != 0)
-			err_massage("You have problem with NULL");
-		count = 3;
-		while (count >= 0)
-			read(fd, &data->check.convert[count--], 1);
-		tmp->size_exe_code = data->check.value;
-		checker(fd, tmp, COMMENT, 0);
-		read(fd, data->check.convert, 4);
-		if (data->check.value != 0)
-			err_massage("You have problem with NULL");
-		tmp->exe_code = (unsigned char *)
-				malloc(sizeof(unsigned char) * tmp->size_exe_code + 1);
-		checker(fd, tmp, EXE_CODE, 0);
-		tmp->id = id++;
-		push_back(data->player, tmp);
-		checker(fd, tmp, FINAL_CHECK, 0);
-		data->fd->head = data->fd->head->next;
-	}
+		cycle(data, fd, &id, tmp);
 }

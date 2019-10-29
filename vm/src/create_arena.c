@@ -31,18 +31,19 @@ void	create_arena(t_data *data)
 	t_arena			*temp_pointer;
 	t_ldata			*player;
 	int				player_nbr;
-	int 			i;
+	int				i;
 
-	ft_bzero(data->arena, MEM_SIZE * sizeof(t_arena));
+	i = MEM_SIZE;
+	ft_bzero(data->arena, i * sizeof(t_arena));
 	player_nbr = 0;
 	player = data->player->head;
 	while (player_nbr < data->player->size)
 	{
-		temp_pointer = &data->arena[(MEM_SIZE / data->player->size) * player_nbr];
+		temp_pointer = &data->arena[(MEM_SIZE / data->player->size) *
+							player_nbr];
 		i = 0;
 		while (i < ((t_player *)player->data)->size_exe_code)
 		{
-			temp_pointer[i].color = ((t_player *)player->data)->id;
 			temp_pointer[i].hex = ((t_player *)player->data)->exe_code[i];
 			i++;
 		}

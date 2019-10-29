@@ -64,7 +64,7 @@ int		go_to_command(t_data *data, t_carr *carriage)
 	else if (carriage->command_id == 2)
 		op_ld(data, carriage);
 	else if (carriage->command_id == 3)
-		op_st(data, carriage);
+		op_st(data, carriage, 0);
 	else if (carriage->command_id == 4)
 		op_add(data, carriage);
 	else if (carriage->command_id == 5)

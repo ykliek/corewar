@@ -15,7 +15,6 @@
 
 #include "../../libft/libft.h"
 #include "../../resources/op.h"
-#include <ncurses.h>
 
 enum
 {
@@ -24,8 +23,6 @@ enum
 	EXE_CODE,
 	FINAL_CHECK
 };
-
-typedef struct				s_dblist	t_dblist;
 
 typedef struct				s_flag
 {
@@ -39,34 +36,27 @@ typedef struct				s_fd
 	int						order;
 }							t_fd;
 
-typedef struct				s_arg
-{
-	char					*type;
-	int						value;
-}							t_arg;
-
 typedef struct				s_player
 {
 	int						id;
 	int						size_exe_code;
-    unsigned char			name[PROG_NAME_LENGTH];
-    unsigned char			comment[COMMENT_LENGTH];
-    unsigned char			*exe_code;
+	unsigned char			name[PROG_NAME_LENGTH];
+	unsigned char			comment[COMMENT_LENGTH];
+	unsigned char			*exe_code;
 }							t_player;
 
-typedef enum 				e_carry
+typedef enum				e_carry
 {
 	CARRY_DONT_MOVE,
 	CARRY_MOVE,
 }							t_carry;
 
-typedef struct 				s_arena
+typedef struct				s_arena
 {
 	unsigned char			hex;
-	int						color;
 }							t_arena;
 
-typedef struct 				s_args
+typedef struct				s_args
 {
 	char 					type;
 	union
@@ -83,7 +73,7 @@ typedef struct 				s_args
 	}						value;
 }							t_args;
 
-typedef struct 				s_reg
+typedef struct				s_reg
 {
 	union
 	{
@@ -103,7 +93,7 @@ typedef struct				s_carr
 	unsigned char			command_id;
 	int						wait;
 	t_args					args[3];
-	int			last_alive;
+	int						last_alive;
 }							t_carr;
 
 typedef struct				s_ldata
@@ -132,18 +122,13 @@ typedef struct				s_op
 	int						half_size_dir;
 }							t_op;
 
-typedef struct				s_vizu
-{
-	WINDOW					*win;
-}							t_visu;
-
 typedef struct				s_position
 {
-	int 					old_index;
-    int 					new_index;
-    int  					relative_step;
-	t_arena					*old_position;
+	int						old_index;
+	int						new_index;
+	int						relative_step;
 	t_arena					*new_position;
+	t_arena					*old_position;
 }							t_position;
 
 typedef struct				s_data
@@ -161,20 +146,18 @@ typedef struct				s_data
 	t_flag					dump_64;
 	t_flag					s;
 	t_flag					verbose;
-	t_visu					visu;
 	t_op					op_tab[17];
 	int						cycles_to_die;
 	int						nbr_live;
 	int						aff_mode;
-	int						visu_mode;
 	int						tmp;
 	int						count;
 	int						cycle_delta;
 	int						max_checks;
 	char					who_last_live;
-	int			lives_from_check;
-	int			cycle;
-	int			checks_counter;
+	int						lives_from_check;
+	int						cycle;
+	int						checks_counter;
 	t_position				pos[1];
 	unsigned int			carr_max_id;
 }							t_data;
@@ -185,27 +168,17 @@ typedef struct				s_data
 
 t_dblist					*create_dblist(void);
 
-t_ldata						*create_list(void *data);
-
-void						delete_dblist(t_dblist **list);
-
-void						delete_list(t_ldata **list);
-
 void						push_back(t_dblist *list, void *data);
 
 void						push_front(t_dblist *list, void *data);
 
-void						insert_before(t_dblist *list, t_ldata* elm,
-		void *value);
-
-void						*pop_front(t_dblist *list);
-void		                delete_one_ldata(t_ldata **ldata);
+void						delete_one_ldata(t_ldata **ldata);
 
 /*
 ** reader.c
 */
 
-void						reader(t_data *data);
+void						reader(t_data *data, int fd, int id);
 
 /*
 ** op.c
@@ -221,33 +194,39 @@ void						create_arena(t_data *data);
 
 int							main_cycle(t_data *data);
 
-void 						get_command_id(t_data *data, t_carr *carriage);
+void						get_command_id(t_data *data, t_carr *carriage);
 
-t_arena						*get_position(t_data *data, t_arena	*old_position, short relative_step);
+t_arena						*get_position(t_data *data, t_arena	*old_position,
+							short relative_step);
 
-int 						get_indirect(t_data *data, t_carr *carriage, int arg, short relative_step);
+int							get_indirect(t_data *data, t_carr *carriage,
+							int arg, short relative_step);
 
-int 						get_reg_value(t_data *data, t_carr *carriage, int arg);
+int							get_reg_value(t_data *data, t_carr *carriage,
+							int arg);
 
-int							get_direct(t_data *data, t_carr *carriage, int count);
+int							get_direct(t_data *data, t_carr *carriage,
+							int count);
 
-int 	                    get_arg(t_data *data, t_carr *carriage, int count);
+int							get_arg(t_data *data, t_carr *carriage, int count);
 
-int							get_ind_position(t_data *data, t_carr *carriage, int count);
+int							get_ind_position(t_data *data, t_carr *carriage,
+							int count);
 
-int 						skip_invalid(t_data *data, t_carr *carriage);
+int							skip_invalid(t_data *data, t_carr *carriage);
 
-int 						skip(int count, t_data *data, t_carr *carriage);
+int							skip(int count, t_data *data, t_carr *carriage);
 
-void						check_skip(t_data *data, t_carr *carriage, t_arena *next_position, int *skip);
+void						check_skip(t_data *data, t_carr *carriage,
+							t_arena *next_position, int *skip);
 
 int 						check_code_type(t_data *data, t_carr *carriage);
 
 int 						pars_args(t_data *data, t_carr *carriage);
 
-int 						pars_without_type(t_data *data, t_carr *carriage);
+int							pars_without_type(t_data *data, t_carr *carriage);
 
-void	print_movements(t_data *data, t_carr *carriage);
+void						print_movements(t_data *data, t_carr *carriage);
 
 /*
 ** commands.c
@@ -257,7 +236,7 @@ int							op_live(t_data *data, t_carr *carriage);
 
 int							op_ld(t_data *data, t_carr *carriage);
 
-int							op_st(t_data *data, t_carr *carriage);
+int							op_st(t_data *data, t_carr *carriage, int i);
 
 int							op_add(t_data *data, t_carr *carriage);
 
@@ -296,7 +275,8 @@ int							check(t_data *data);
 */
 
 void						dumping(t_data *data);
-void   						dump64(t_data *data);
+
+void						dump64(t_data *data);
 
 /*
 ** error_management.c
