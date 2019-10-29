@@ -55,7 +55,7 @@ Usage: ./corewar [-a (-dump|-d) <num> (-shed|-s) <num> -l <num>] [-v] [-n <num>]
     -a          : Print output from "aff" (Default is off)
     -dump <num> : Dump memory (32 octets per line) after <num> cycles and exit
     -d    <num> : Dump memory (64 octets per line) after <num> cycles and exit
-    -show <num> : Run <num> cycles, dump memory (32 octets per line), pause and repeat
+    -show <num> : Run <num> cycles, dump memory (32` octets per line), pause and repeat
     -s    <num> : Run <num> cycles, dump memory (64 octets per line), pause and repeat
     -l    <num> : Log levels
                    1  : Show lives

@@ -221,4 +221,6 @@ char			*colors(char *color);
 
 char			*ft_utoa(unsigned long long n);
 
+int				ft_atoi_base(char *str, int base);
+
 #endif
