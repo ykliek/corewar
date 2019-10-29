@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:14:44 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 14:41:14 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:01:45 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,73 +75,50 @@ void	champput(char *s, int fd, int a)
 	}
 }
 
+void	codelenin(t_asm *asem, int fd, int i, int j)
+{
+	int		nol;
+
+	nol = 0;
+	while (i > 0)
+	{
+		write(fd, &nol, 1);
+		i--;
+	}
+	while (j >= 0)
+	{
+		write(fd, &asem->check.convert[j], 1);
+		j--;
+	}
+}
+
 void	codelenput(int fd, t_asm *asem, t_lab *lab)
 {
-	// int				l1;
-	// int				l2;
-	unsigned int	nol;
 	int				i;
-	//unsigned int	r;
-	
-	nol = 0;
+	int				j;
+
 	asem->check.value = champcodesize(asem, lab);
 	if (asem->check.value < 256)
 	{
 		i = 3;
-		while (i > 0)
-		{
-			write(fd, &nol, 1);
-			i--;
-		}
-		write(fd, &asem->check.convert[0], 1);
+		j = 0;
 	}
 	else if (asem->check.value < 65535)
 	{
 		i = 2;
-		while (i > 0)
-		{
-			write(fd, &nol, 1);
-			i--;
-		}
-		write(fd, &asem->check.convert[1], 1);
-		write(fd, &asem->check.convert[0], 1);
+		j = 1;
 	}
 	else if (asem->check.value < 16777215)
 	{
 		i = 1;
-		while (i > 0)
-		{
-			write(fd, &nol, 1);
-			i--;
-		}
-		write(fd, &asem->check.convert[2], 1);
-		write(fd, &asem->check.convert[1], 1);
-		write(fd, &asem->check.convert[0], 1);
+		j = 2;
 	}
 	else
 	{
-		write(fd, &asem->check.convert[3], 1);
-		write(fd, &asem->check.convert[2], 1);
-		write(fd, &asem->check.convert[1], 1);
-		write(fd, &asem->check.convert[0], 1);
+		i = 0;
+		j = 3;
 	}
-	
-
-
-	// 
-	// l1 = champcodesize(asem, lab);
-	// l2 = conlen(l1, 16);
-	// i = (8 - l2) / 2;
-	// while (i > 0)
-	// {
-	// 	write(fd, &nol, 1);
-	// 	i--;
-	// }
-	// if (l2 % 2 == 1)
-	// 	l2++;
-	// write(fd, &l1, (l2 / 2));
-	//r = brev2(l1);
-	//write(fd, &r, (l2 / 2));
+	codelenin(asem, fd, i, j);
 }
 
 void	convert(t_asm *asem, t_lab *lab)

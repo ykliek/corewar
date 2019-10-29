@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 14:56:47 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 15:59:22 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	flags2(char **s, t_asm *asem, int i)
 			asem->rev = 1;
 			asem->rs = i;
 		}
-		if (s[i][j] == 'h')
+		else if (s[i][j] == 'h')
 		{
 			asem->hs = i;
 			asem->help = 1;

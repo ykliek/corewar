@@ -6,7 +6,7 @@
 #    By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/07 16:23:08 by ddodukal          #+#    #+#              #
-#    Updated: 2019/10/22 16:06:29 by ddodukal         ###   ########.fr        #
+#    Updated: 2019/10/29 17:12:18 by ddodukal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HEAD = asm.h
 
 SRC = asm.c bonus.c checkfile.c comname.c labelch.c valid.c \
 gnl/get_next_line.c addcheckfile.c convert.c usefull.c codecon.c dlc1.c \
-block5.c dlc2.c cortos.c corconval.c corcode.c corcode2.c
+block5.c dlc2.c cortos.c corconval.c corcode.c corcode2.c errman.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -31,7 +31,7 @@ MLX := -lmlx -framework OpenGL -framework AppKit
 all: $(NAME) $(OBJ)
 
 $(NAME): libft
-	@gcc -o $(NAME) -Wall -Werror -Wextra $(SRC) -I $(HEAD) $(LIB) -g
+	@gcc -g -o $(NAME) -Wall -Werror -Wextra $(SRC) -I $(HEAD) $(LIB)
 	printf '\033[1;32m[ ✔ ] %s\n\033[0m' "Create binary asm"
 
 libft:

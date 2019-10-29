@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 14:22:47 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:15:23 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ void					ft_gettype(int n, int s[3]);
 int						convbyte(t_asm *asem, int fd1, int fd2, int l);
 int						corinit(t_asm *asem, unsigned char c, int fd2);
 unsigned short			brev2(unsigned short n);
+void					errman(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 14:41:23 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 16:54:12 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 			i = block32(file, i, asem);
 			f++;
 		}
-		else if (file[i])
+		else if (file[i] != '\n')
 		{
-			if (f < 2)
+			if (f != 2)
 				errors(9, 0, asem);
 			i = block31(file, i, asem, lab);
 		}

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:37:15 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 14:03:59 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 16:54:35 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ int		opercheck(char *file, int i, t_asm *asem, t_lab *page)
 	int		j;
 
 	j = 0;
+	page->ln = asem->ln;
 	while (j < 16)
 	{
-		page->ln = asem->ln;
-		if (ft_strncmp(&file[i], asem->opers[j], ft_strlen(asem->opers[j])) == 0)
+		if (ft_strncmp(&file[i], asem->opers[j],
+		ft_strlen(asem->opers[j])) == 0)
 		{
 			page->oper = asem->opers[j];
 			break ;

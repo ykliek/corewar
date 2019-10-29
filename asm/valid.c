@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:13:59 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 15:36:05 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:24:21 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*getfile(int fd, t_asm *asem)
 	buff = ft_strnew(5);
 	file = ft_read(fd, asem, file, buff);
 	ft_strdel(&buff);
-	if (ft_strlen(file) == 0)
+	if (!file || !file[0] || ft_strlen(file) == 0)
 		errors(3, 0, asem);
 	return (file);
 }
@@ -65,13 +65,13 @@ void	checknen(char *s, t_asm *asem)
 		while (s[i] != '\n' && i >= 0)
 			i--;
 		if (i == 0)
-			errors(2, 0, asem);
+			errors(7, 0, asem);
 		i++;
 		while (s[i] && s[i] == ' ' | s[i] == '	'
 		&& s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR)
 			i++;
 		if (s[i] != COMMENT_CHAR && s[i] != ALT_COMMENT_CHAR && s[i] != '\0')
-			errors(2, 0, asem);
+			errors(7, 0, asem);
 	}
 }
 
