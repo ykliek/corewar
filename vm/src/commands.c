@@ -316,7 +316,7 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 	{
 		ft_printf("lldi %d %d r%d\n       | -> load from %d + %d = %d (with pc %d)\n",
 				  i, j, reg_number,
-				  i, j, i + j, data->pos->old_index + data->pos->relative_step);
+				  i, j, i + j, data->pos->old_index + i + j);
 	}
 	i = 0;
 	while (i < 4)
@@ -332,8 +332,6 @@ int 	op_lldi(t_data *data, t_carr *carriage)
 int 	op_lfork(t_data *data, t_carr *carriage)
 {
 	t_carr	*result;
-	int 	go_to;
-	int 	temp;
 
 	result = (t_carr *)malloc(sizeof(t_carr));
 	ft_memcpy(result, carriage, sizeof(t_carr));

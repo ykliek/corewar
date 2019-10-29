@@ -7,7 +7,6 @@
 int 	check_carriages(t_data *data)
 {
 	t_ldata	**tmp_carriage;
-	t_ldata	**temp;
 	int 	game_over;
 
 	game_over = 1;
@@ -23,12 +22,10 @@ int 	check_carriages(t_data *data)
 						  ((t_carr *)(*tmp_carriage)->data)->carr_id, data->cycle - ((t_carr *)(*tmp_carriage)->data)->last_alive, data->cycles_to_die);
 			}
 			free((*tmp_carriage)->data);
-//			temp = &(*tmp_carriage)->next;
             delete_one_ldata(tmp_carriage);
 		}
 		else
             tmp_carriage = &(*tmp_carriage)->next;
-//		tmp_carriage = temp;
 	}
 	return (game_over) ? 1 : 0;
 }

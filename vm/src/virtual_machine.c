@@ -95,25 +95,10 @@ int 	game_over(t_data *data)
 	return (0);
 }
 
-void	init_color_pairs(void)
-{
-	start_color();
-	init_pair(1,  COLOR_WHITE,     COLOR_BLACK);
-	init_pair(2,  COLOR_GREEN,   COLOR_BLACK);
-	init_pair(3,  COLOR_YELLOW,  COLOR_BLACK);
-	init_pair(4,  COLOR_BLUE,    COLOR_BLACK);
-	init_pair(5,  COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(6,  COLOR_CYAN,    COLOR_BLACK);
-}
 
 int		main(int argc, char **argv)
 {
 	t_data	data;
-	t_arena	*arena;
-	int		x;
-	int		y;
-	int		i;
-	char	*str;
 
 	init(&data);
 	define_argc(&data, argc, argv);
@@ -124,5 +109,6 @@ int		main(int argc, char **argv)
 	main_cycle(&data);
 	game_over(&data);
 
+//	system("leaks corewar");
 	return (0);
 }

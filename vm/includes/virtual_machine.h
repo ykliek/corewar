@@ -103,8 +103,7 @@ typedef struct				s_carr
 	unsigned char			command_id;
 	int						wait;
 	t_args					args[3];
-	unsigned long			last_alive;
-	unsigned char			test[CHAMP_MAX_SIZE];
+	int			last_alive;
 }							t_carr;
 
 typedef struct				s_ldata
@@ -140,9 +139,9 @@ typedef struct				s_vizu
 
 typedef struct				s_position
 {
-	short					old_index;
-	short					new_index;
-	short 					relative_step;
+	int 					old_index;
+    int 					new_index;
+    int  					relative_step;
 	t_arena					*old_position;
 	t_arena					*new_position;
 }							t_position;
@@ -173,9 +172,9 @@ typedef struct				s_data
 	int						cycle_delta;
 	int						max_checks;
 	char					who_last_live;
-	unsigned long			lives_from_check;
-	unsigned long			cycle;
-	unsigned long			checks_counter;
+	int			lives_from_check;
+	int			cycle;
+	int			checks_counter;
 	t_position				pos[1];
 	unsigned int			carr_max_id;
 }							t_data;
@@ -229,6 +228,24 @@ t_arena						*get_position(t_data *data, t_arena	*old_position, short relative_s
 int 						get_indirect(t_data *data, t_carr *carriage, int arg, short relative_step);
 
 int 						get_reg_value(t_data *data, t_carr *carriage, int arg);
+
+int							get_direct(t_data *data, t_carr *carriage, int count);
+
+int 	                    get_arg(t_data *data, t_carr *carriage, int count);
+
+int							get_ind_position(t_data *data, t_carr *carriage, int count);
+
+int 						skip_invalid(t_data *data, t_carr *carriage);
+
+int 						skip(int count, t_data *data, t_carr *carriage);
+
+void						check_skip(t_data *data, t_carr *carriage, t_arena *next_position, int *skip);
+
+int 						pars_args(t_data *data, t_carr *carriage);
+
+int 						pars_without_type(t_data *data, t_carr *carriage);
+
+void	print_movements(t_data *data, t_carr *carriage);
 
 /*
 ** commands.c

@@ -1,10 +1,18 @@
-//
-// Created by Eduard AMIELIN on 2019-10-17.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_arena.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eamielin <eamielin@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/27 21:32:51 by eamielin          #+#    #+#             */
+/*   Updated: 2019/10/27 21:32:54 by eamielin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/virtual_machine.h"
 
-void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
+void	create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 {
 	t_carr	*result;
 
@@ -15,17 +23,15 @@ void		create_carry(t_data *data, t_arena *temp_pointer, t_ldata *player)
 	result->reg[1].nbr = ((t_player *)player->data)->id * -1;
 	data->who_last_live = ((t_player *)player->data)->id * -1;
 	result->carry = CARRY_DONT_MOVE;
-	ft_memcpy(result->test, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code); // test - del later
 	push_front(data->carriage, result);
 }
 
 void	create_arena(t_data *data)
 {
 	t_arena			*temp_pointer;
-	int				player_nbr;
 	t_ldata			*player;
+	int				player_nbr;
 	int 			i;
-	unsigned char	temp[CHAMP_MAX_SIZE]; //test - del later
 
 	ft_bzero(data->arena, MEM_SIZE * sizeof(t_arena));
 	player_nbr = 0;
@@ -34,8 +40,6 @@ void	create_arena(t_data *data)
 	{
 		temp_pointer = &data->arena[(MEM_SIZE / data->player->size) * player_nbr];
 		i = 0;
-		ft_bzero(temp, CHAMP_MAX_SIZE); //test - del later
-		ft_memcpy(temp, ((t_player *)player->data)->exe_code, ((t_player *)player->data)->size_exe_code); //test - del later
 		while (i < ((t_player *)player->data)->size_exe_code)
 		{
 			temp_pointer[i].color = ((t_player *)player->data)->id;
