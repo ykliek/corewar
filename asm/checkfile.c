@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/08 17:09:34 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:41:23 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@ void	initlab(t_lab *page)
 	page->art[1] = 0;
 	page->art[2] = 0;
 	page->args = ft_memalloc(sizeof(char*) * 3);
+	page->len = 0;
+	page->ln = 0;
+	page->code = NULL;
 	page->next = NULL;
 	page->prev = NULL;
+	page->opc = 0;
 }
 
 int		block32(char *file, int i, t_asm *asem)
@@ -82,9 +86,9 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 	f = 0;
 	while (file[++i])
 	{
-		while (file[i] == ' ' || file[i] == '	')
-			i++;
 		i = ft_comment(file, i);
+		if (ft_strlen(&file[i]) == 0)
+			break ;
 		if (file[i] == '.')
 		{
 			i = block32(file, i, asem);
