@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 17:03:25 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 17:28:19 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:17:06 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	errman2(int n)
 		write(2, "ARGS NUMM ERROR! LINE: ", 23);
 	else if (n == 13)
 		write(2, "FLAG ERROR!\n", 12);
+	else if (n == 14)
+		write(2, "ARG ERROR! LINE: ", 17);
+	else if (n == 15)
+		write(2, "OPER ERROR! LINE: ", 18);
+	else if (n == 16)
+		write(2, "WRONG CHAR IN FILE! LINE: ", 26);
 }
 
 void	errman(int n)

@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 18:26:50 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:27:35 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,8 @@ int						corinit(t_asm *asem, unsigned char c, int fd2);
 unsigned short			brev2(unsigned short n);
 void					errman(int n);
 void					champput(char *s, int fd, int a);
+void					extrarg(t_asm *asem, char *s, int n);
+int						chifoper(t_asm *asem, char *file, int i);
+void					argch2(char *file, int i, t_lab *page, int k);
 
 #endif

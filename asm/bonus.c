@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 17:15:25 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:47:38 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	errors(int n, int ln, t_asm *asem)
 	errman(n);
 	if (ln)
 	{
-		write(2, lns, 1);
+		write(2, lns, ft_strlen(lns));
 		write(2, "!\n", 2);
 	}
 	if (n != 0)

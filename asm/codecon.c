@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 21:54:17 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/18 16:57:27 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:00:51 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,12 @@ void	codecon(int fd, t_lab *lab)
 		lab = lab->prev;
 	while (lab->next)
 	{
-		block5(lab, fd);
+		if (lab->oper)
+			block5(lab, fd);
 		lab = lab->next;
 	}
-	block5(lab, fd);
+	if (lab->oper)
+		block5(lab, fd);
 	while (lab->prev)
 		lab = lab->prev;
 }

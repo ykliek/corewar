@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:36:35 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 16:54:12 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:16:41 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 	int		i;
 	int		f;
 
-	i = -1;
+	i = 0;
 	f = 0;
-	while (file[++i])
+	while (file[i])
 	{
 		i = ft_comment(file, i);
 		if (ft_strlen(&file[i]) == 0)
@@ -96,12 +96,17 @@ void	checkfile(char *file, t_asm *asem, t_lab **lab)
 		}
 		else if (file[i] != '\n')
 		{
+			if (file[i] != 9 & file[i] != 32 & file[i] != 35 & file[i] < 65 || file[i] > 90 & file[i] < 97 || file[i] > 122)
+				errors(16, asem->ln, asem);
 			if (f != 2)
 				errors(9, 0, asem);
 			i = block31(file, i, asem, lab);
 		}
 		if (file[i] == '\n')
+		{
 			asem->ln++;
+			i++;
+		}
 	}
 	ft_strdel(&file);
 }

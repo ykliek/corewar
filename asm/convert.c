@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:14:44 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 18:26:36 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 20:59:50 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,21 @@ void	checkargnum(t_asm *asem, t_lab *lab, int n)
 int		champcodesize(t_asm *asem, t_lab *lab)
 {
 	int		r;
+	t_lab	*page;
 
 	r = 0;
-	while (lab->next)
+	page = lab;
+	while (page)
 	{
-		optype(lab, asem);
-		checkargnum(asem, lab, lab->opc);
-		lab->len = codelen(lab);
-		r += lab->len;
-		lab = lab->next;
+		if (page->oper)
+		{
+			optype(page, asem);
+			checkargnum(asem, page, page->opc);
+			page->len = codelen(page);
+			r += page->len;
+		}
+		page = page->next;
 	}
-	optype(lab, asem);
-	checkargnum(asem, lab, lab->opc);
-	lab->len = codelen(lab);
-	r += lab->len;
-	while (lab->prev)
-		lab = lab->prev;
 	return (r);
 }
 
