@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 20:14:44 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 17:01:45 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:26:36 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,6 @@ int		champcodesize(t_asm *asem, t_lab *lab)
 	while (lab->prev)
 		lab = lab->prev;
 	return (r);
-}
-
-void	champput(char *s, int fd, int a)
-{
-	int					n;
-	unsigned char		l;
-	int					i;
-
-	i = 0;
-	l = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	n = 4;
-	n += a - ft_strlen(s);
-	while (n > 0)
-	{
-		write(fd, &l, 1);
-		n--;
-	}
 }
 
 void	codelenin(t_asm *asem, int fd, int i, int j)

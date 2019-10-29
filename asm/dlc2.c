@@ -6,11 +6,33 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 15:59:22 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/29 18:26:38 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+void	champput(char *s, int fd, int a)
+{
+	int					n;
+	unsigned char		l;
+	int					i;
+
+	i = 0;
+	l = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	n = 4;
+	n += a - ft_strlen(s);
+	while (n > 0)
+	{
+		write(fd, &l, 1);
+		n--;
+	}
+}
 
 void	init2(t_asm *asem)
 {
