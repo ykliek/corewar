@@ -62,7 +62,7 @@ void	print_movements(t_data *data, t_carr *carriage)
 	ft_printf("ADV %d (0x%04x -> 0x%04x) ",
 			  data->pos->relative_step,
 			  data->pos->old_index,
-			  data->pos->new_index);
+			  data->pos->old_index + data->pos->relative_step);
 	i = 0;
 	position = carriage->position;
 	while (i < (carriage->byte_to_next + 1))
@@ -199,6 +199,8 @@ int 	get_direct(t_data *data, t_carr *carriage, int count)
 		i++;
 		position = get_position(data, position, 1);
 	}
+	if (data->op_tab[carriage->command_id].half_size_dir)
+		carriage->args[count].value.nbr = (int)carriage->args[count].value.half[0];
 	carriage->byte_to_next += (data->op_tab[carriage->command_id].half_size_dir) ? 2 : 4;
 	carriage->args[count].type = T_DIR;
 	return (0);
@@ -261,7 +263,7 @@ int 	go_to_command(t_data *data, t_carr *carriage)
 	else if (carriage->command_id == 2)
 		op_ld(data, carriage);
 	else if (carriage->command_id == 3)
-		op_st(data, carriage);
+		op_st(data, carriage, 0);
 	else if (carriage->command_id == 4)
 		op_add(data, carriage);
 	else if (carriage->command_id == 5)
@@ -305,7 +307,7 @@ int 	do_command(t_data *data, t_carr *carriage)
 	else if (pars_args(data, carriage))
 		return (skip_invalid(data, carriage));
 	if (data->verbose.value & 4 && carriage->command_id != 16)
-		ft_printf("P%5d | ", carriage->carr_id);
+		ft_printf("P %4d | ", carriage->carr_id);
 	go_to_command(data, carriage);
 	skip(carriage->byte_to_next + 1, data, carriage);
 	return (0);

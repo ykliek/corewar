@@ -74,6 +74,7 @@ void	init(t_data *data)
 	data->verbose.value = 0;
 	data->verbose.flag = 0;
     data->lives_from_check = 0;
+    data->carr_max_id = 1;
 }
 
 int 	game_over(t_data *data)

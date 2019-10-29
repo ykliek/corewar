@@ -175,6 +175,7 @@ typedef struct				s_data
 	unsigned long			cycle;
 	unsigned long			checks_counter;
 	t_position				pos[1];
+	unsigned int			carr_max_id;
 }							t_data;
 
 /*
@@ -235,7 +236,7 @@ int							op_live(t_data *data, t_carr *carriage);
 
 int							op_ld(t_data *data, t_carr *carriage);
 
-int							op_st(t_data *data, t_carr *carriage);
+int							op_st(t_data *data, t_carr *carriage, int i);
 
 int							op_add(t_data *data, t_carr *carriage);
 
