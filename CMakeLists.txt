@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(work C)
+project(corewar_dev C)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -7,7 +7,7 @@ include_directories(libft)
 include_directories(resources)
 include_directories(vm)
 
-add_executable(work
+add_executable(corewar_dev
         libft/colors.c
         libft/free_mem.c
         libft/ft_atoi.c
@@ -89,6 +89,6 @@ add_executable(work
         vm/src/checker.c
         vm/src/dump.c
         vm/src/order.c
-        vm/src/define.c)
+        vm/src/define.c
+        vm/src/get.c vm/src/get_arg.c vm/src/pars_args.c vm/src/skip.c)
 
-target_link_libraries(work ncurses)

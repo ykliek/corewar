@@ -31,6 +31,10 @@ SRCS = src/checker.c \
 		src/order.c \
 		src/reader.c \
 		src/virtual_machine.c \
+		src/get.c \
+		src/get_arg.c \
+		src/pars_args.c \
+		src/skip.c \
 		../resources/op.c
 
 OBJ := $(SRC:.c=.o)
