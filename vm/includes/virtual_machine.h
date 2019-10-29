@@ -241,6 +241,8 @@ int 						skip(int count, t_data *data, t_carr *carriage);
 
 void						check_skip(t_data *data, t_carr *carriage, t_arena *next_position, int *skip);
 
+int 						check_code_type(t_data *data, t_carr *carriage);
+
 int 						pars_args(t_data *data, t_carr *carriage);
 
 int 						pars_without_type(t_data *data, t_carr *carriage);

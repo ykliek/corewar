@@ -35,6 +35,7 @@ SRCS = src/checker.c \
 		src/get_arg.c \
 		src/pars_args.c \
 		src/skip.c \
+		src/check_code_type.c \
 		../resources/op.c
 
 OBJ := $(SRC:.c=.o)

@@ -14,16 +14,17 @@
 
 void	print_movements(t_data *data, t_carr *carriage)
 {
-	int	i;
+	int		i;
 	t_arena	*position;
 
 	if (carriage->command_id == 9 && carriage->byte_to_next == -1)
 		return ;
-	position = get_position(data, carriage->position, carriage->byte_to_next + 1);
+	position = get_position(data,
+			carriage->position, carriage->byte_to_next + 1);
 	ft_printf("ADV %d (0x%04x -> 0x%04x) ",
-			  data->pos->relative_step,
-			  data->pos->old_index,
-			  data->pos->old_index + data->pos->relative_step);
+				data->pos->relative_step,
+				data->pos->old_index,
+				data->pos->old_index + data->pos->relative_step);
 	i = 0;
 	position = carriage->position;
 	while (i < (carriage->byte_to_next + 1))
@@ -35,64 +36,9 @@ void	print_movements(t_data *data, t_carr *carriage)
 	ft_printf("\n");
 }
 
-int 	check_code_type(t_data *data, t_carr *carriage)
+int		go_to_command_next(t_data *data, t_carr *carriage)
 {
-	int 			i;
-	unsigned char	mask;
-	t_arena			*next_position;
-
-	next_position = get_position(data, carriage->position, 1);
-	if (next_position->hex & 3)
-		return (1);
-	i = 0;
-	mask = 6;
-	while (i < 3)
-	{
-		if ((data->op_tab[carriage->command_id].params_type[i] ^ 1) & 1)
-		{
-			if ((next_position->hex & (3 << mask)) == (1 << mask))
-				return (1);
-		}
-		if ((data->op_tab[carriage->command_id].params_type[i] ^ 2) & 2)
-		{
-			if ((next_position->hex & (3 << mask)) == (2 << mask))
-				return (1);
-		}
-		if ((data->op_tab[carriage->command_id].params_type[i] ^ 4) & 4)
-		{
-			if ((next_position->hex & (3 << mask)) == (3 << mask))
-				return (1);
-		}
-		if ((data->op_tab[carriage->command_id].params_type[i]) != 0)
-		{
-			if ((next_position->hex & (3 << mask)) == 0)
-				return (1);
-		}
-		i++;
-		mask -= 2;
-	}
-	return (0);
-}
-
-int 	go_to_command(t_data *data, t_carr *carriage)
-{
-	if (carriage->command_id == 1)
-		op_live(data, carriage);
-	else if (carriage->command_id == 2)
-		op_ld(data, carriage);
-	else if (carriage->command_id == 3)
-		op_st(data, carriage);
-	else if (carriage->command_id == 4)
-		op_add(data, carriage);
-	else if (carriage->command_id == 5)
-		op_sub(data, carriage);
-	else if (carriage->command_id == 6)
-		op_and(data, carriage);
-	else if (carriage->command_id == 7)
-		op_or(data, carriage);
-	else if (carriage->command_id == 8)
-		op_xor(data, carriage);
-	else if (carriage->command_id == 9)
+	if (carriage->command_id == 9)
 		op_zjmp(data, carriage);
 	else if (carriage->command_id == 10)
 		op_ldi(data, carriage);
@@ -111,7 +57,30 @@ int 	go_to_command(t_data *data, t_carr *carriage)
 	return (0);
 }
 
-int 	do_command(t_data *data, t_carr *carriage)
+int		go_to_command(t_data *data, t_carr *carriage)
+{
+	if (carriage->command_id == 1)
+		op_live(data, carriage);
+	else if (carriage->command_id == 2)
+		op_ld(data, carriage);
+	else if (carriage->command_id == 3)
+		op_st(data, carriage);
+	else if (carriage->command_id == 4)
+		op_add(data, carriage);
+	else if (carriage->command_id == 5)
+		op_sub(data, carriage);
+	else if (carriage->command_id == 6)
+		op_and(data, carriage);
+	else if (carriage->command_id == 7)
+		op_or(data, carriage);
+	else if (carriage->command_id == 8)
+		op_xor(data, carriage);
+	else
+		go_to_command_next(data, carriage);
+	return (0);
+}
+
+int		do_command(t_data *data, t_carr *carriage)
 {
 	if (carriage->command_id < 1 || carriage->command_id > 16)
 		return (skip(1, data, carriage));
@@ -131,7 +100,7 @@ int 	do_command(t_data *data, t_carr *carriage)
 	return (0);
 }
 
-int 	main_cycle(t_data *data)
+int		main_cycle(t_data *data)
 {
 	t_ldata *current_carriage;
 
