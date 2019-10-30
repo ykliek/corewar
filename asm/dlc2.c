@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:15:18 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 20:22:15 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:38:46 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	champput(char *s, int fd, int a)
 
 void	init2(t_asm *asem)
 {
-	asem->opers[0] = "ldi\0";
+	asem->opers[0] = "lldi\0";
 	asem->opers[1] = "sti\0";
 	asem->opers[2] = "fork\0";
-	asem->opers[3] = "lld\0";
-	asem->opers[4] = "lldi\0";
+	asem->opers[3] = "ldi\0";
+	asem->opers[4] = "lld\0";
 	asem->opers[5] = "lfork\0";
 	asem->opers[6] = "aff\0";
 	asem->opers[7] = "live\0";

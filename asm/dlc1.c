@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 19:27:19 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 13:18:12 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:37:43 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,13 @@ void			optype(t_lab *lab, t_asm *asem)
 			break ;
 		j++;
 	}
-	if (j <= 6)
+	if (j == 3)
+		lab->opc = 10;
+	else if (j == 0)
+		lab->opc = 14;
+	else if (j == 4)
+		lab->opc = 13;
+	else if (j <= 6)
 		lab->opc = j + 10;
 	else
 		lab->opc = j - 6;

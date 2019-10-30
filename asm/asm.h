@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:43:37 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 21:27:35 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:34:27 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ void					champput(char *s, int fd, int a);
 void					extrarg(t_asm *asem, char *s, int n);
 int						chifoper(t_asm *asem, char *file, int i);
 void					argch2(char *file, int i, t_lab *page, int k);
+void					chforerr(char *file, int i, t_asm *asem, int f);
+int						gendalf(char *file, int i, t_asm *asem);
 
 #endif

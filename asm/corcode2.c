@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:05:19 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/22 16:32:31 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:36:35 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,13 @@ int		corinit(t_asm *asem, unsigned char c, int fd2)
 	asem->n[1] = 0;
 	asem->n[2] = 0;
 	j = c;
-	if (c >= 11)
+	if (c == 10)
+		j = 3;
+	else if (c == 14)
+		j = 0;
+	else if (c == 13)
+		j = 4;
+	else if (c >= 11)
 		j -= 10;
 	else
 		j += 6;

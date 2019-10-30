@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 18:50:42 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 21:27:11 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:38:53 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,23 @@ void	argch2(char *file, int i, t_lab *page, int k)
 		page->art[k] = 2;
 	else
 		page->art[k] = 3;
+}
+
+void	chforerr(char *file, int i, t_asm *asem, int f)
+{
+	if (file[i] != 9 & file[i] != 32 & file[i] != 35 & file[i] < 65
+	|| file[i] > 90 & file[i] < 97 || file[i] > 122)
+		errors(16, asem->ln, asem);
+	if (f != 2)
+		errors(9, 0, asem);
+}
+
+int		gendalf(char *file, int i, t_asm *asem)
+{
+	if (file[i] == '\n')
+	{
+		asem->ln++;
+		i++;
+	}
+	return (i);
 }

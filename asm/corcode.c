@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 15:07:14 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 18:25:42 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:36:18 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int		corarg2(t_asm *asem, int i, int j)
 	l = 0;
 	if (asem->n[i] == 2)
 	{
-		write(asem->fd2, " %", 2);
-		if (j == 15 || j == 0 || j == 1 || j == 4 || j == 5)
+		write(asem->fd2, "%", 1);
+		if (j == 15 || j >= 0 & j <= 3 || j == 5)
 			l += convbyte(asem, asem->fd1, asem->fd2, 1);
 		else
 			l += convbyte(asem, asem->fd1, asem->fd2, 3);
@@ -44,7 +44,7 @@ int		corarg1(t_asm *asem, int i, int j)
 	l = 0;
 	if (asem->n[i] == 1)
 	{
-		write(asem->fd2, " r", 2);
+		write(asem->fd2, "r", 1);
 		r = read(asem->fd1, &c, 1);
 		l += r;
 		s = ft_itoa(c);
@@ -70,6 +70,7 @@ int		corargs(t_asm *asem, int j)
 			break ;
 		if (asem->ln > 0)
 			write(asem->fd2, ",", 1);
+		write(asem->fd2, " ", 1);
 		l += corarg1(asem, i, j);
 		i++;
 	}
