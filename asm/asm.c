@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:58 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 17:54:10 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 14:51:31 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int		main(int ac, char **av)
 		asem = ft_memalloc(sizeof(t_asm));
 		init(asem);
 		flags(av, asem, ac);
+		if (ac >= 2 && asem->rs == 0)
+			errors(17, 0, asem);
 		if (asem->rev == 0 && asem->help == 0)
 			stocor(asem, lab, av);
 		else if (asem->rev == 1)

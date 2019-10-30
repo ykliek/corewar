@@ -6,7 +6,7 @@
 /*   By: ddodukal <ddodukal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 17:03:25 by ddodukal          #+#    #+#             */
-/*   Updated: 2019/10/29 21:17:06 by ddodukal         ###   ########.fr       */
+/*   Updated: 2019/10/30 14:51:43 by ddodukal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	errman(int n)
 		write(2, "WRONG COMMAND INPUT! LINE: ", 27);
 	else if (n == 6)
 		write(2, "DOUBLE COMMAND! LINE: ", 22);
+	else if (n == 17)
+		write(2, "WRONG INPUT! CHECK USAGE!\n", 26);
 	else
 		errman2(n);
 }
